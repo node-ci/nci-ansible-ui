@@ -1,0 +1,30 @@
+h1.page-header.clearfix
+	.pull-right
+
+		- var scmRev = this.props.project.scm ? this.props.project.scm.rev : '';
+		.form-inline
+			select.form-control(
+				style="width: 250px;",
+				onChange=this.onScmBranchChange
+			)
+				option(value=scmRev)= scmRev
+				option(value=-1) Custom revision
+
+			if this.state.scmBranch === '-1'
+				| 
+				input.form-control(
+					value= this.state.scmRev,
+					onChange=this.onScmRevChange,
+					style="width: 250px;"
+				)
+
+			if this.props.project.name
+				| 
+				button.btn.btn-sm.btn-success(onClick=this.onBuildProject)
+					i.fa.fa-fw.fa-play
+					| 
+					span Build
+
+	div
+		Scm(scm=this.props.project.scm ? this.props.project.scm.type : '')
+		span= this.props.project.name

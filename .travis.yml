@@ -1,0 +1,12 @@
+
+language: node_js
+
+node_js:
+  # - "stable"
+  # - "4.4"
+  # - "0.12"
+  - "0.10"
+
+script:
+  - npm run lint
+  # - npm test

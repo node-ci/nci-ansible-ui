@@ -1,0 +1,6 @@
+node_modules
+static/css/**/*.css
+static/fonts
+static/js/*.js
+static/index.html
+views/index.js

@@ -1,0 +1,184 @@
+mixin statusBadge(build)
+	if build.status === 'in-progress'
+		span.label.label-info in progress
+
+	if build.status === 'queued'
+		span.label.label-default queued
+
+	if build.status === 'done'
+		span.label.label.sm.label-success done
+
+	if build.status === 'error'
+		span.label.label-danger error
+
+	if build.status === 'canceled'
+		- var canceledBy = this.state.build.canceledBy;
+		span.label.label-warning(title="canceled by #{canceledBy.type}") canceled
+
+if this.state.build
+	.row
+		.col-md-12
+			ProjectHeader(project=this.state.project)
+	.row
+		.col-sm-3.hidden-xs
+			BuildSidebar(projectName=this.state.build.project.name, currentBuild=this.state.build)
+
+		.col-sm-9
+			h1.page-header
+				.pull-right(style={fontSize: '22px'})
+					mixin statusBadge(this.state.build)
+				span Execution #
+				span= this.state.build.number
+
+				span.small 
+					Link(to="project", params={name: this.state.build.project.name})
+						span= this.state.build.project.name
+
+				.small.text-muted
+					- var node = this.state.build.node;
+					if node
+						| On
+						| 
+						span= node.type
+						| 
+						| node
+						if node.type !== node.name
+							| 
+							| "
+							span= node.name
+							| "
+						- var env = this.state.build.env;
+						if env
+							| , within "
+							span= env.name
+							| " environment
+						| , initiated by
+						| 
+					else
+						| Initiated by
+						| 
+
+					- var initiator = this.state.build.initiator;
+					if initiator.type === 'build'
+						Link(to="project", params={name: initiator.project.name})
+							span= initiator.project.name
+						| 
+						| during the 
+						| 
+						Link(to="build", params={id: initiator.id})
+							span execution #
+							span= initiator.number
+					else
+						span= initiator.type
+
+			.build-view_info
+				.row
+					.col-md-12
+						p
+							i.fa.fa-fw.fa-clock-o
+							span 
+							if this.state.build.startDate
+								span Started 
+								DateTime(value=this.state.build.startDate)
+							else
+								span Queued 
+								DateTime(value=this.state.build.createDate)
+
+							if this.state.build.endDate
+								- var durationTitle = _(this.state.build.stepTimings).map(function(stepTiming) {
+								-	return stepTiming.name + ': ' + (stepTiming.duration / 1000).toFixed(1) + ' sec';
+								- }).join('\n');
+								| , finished
+								| 
+								DateTime(value=this.state.build.endDate)
+								| , took
+								| 
+								Duration(value=(this.state.build.endDate - this.state.build.startDate), title=durationTitle)
+
+				- var scm = this.state.build.scm;
+				- var rev = scm && scm.rev;
+				- var changes = scm && scm.changes;
+				- var targetScmRev = this.state.build.project.scm.rev;
+				.row
+					.col-md-12
+						p
+							i.fa.fa-fw.fa-code-fork
+							| Scm target is
+							| 
+							span= targetScmRev
+							| ,
+							| 
+							if changes
+								if changes.length
+									| changes:
+								else
+									| no changes, current revision is
+									| 
+									| "
+									RevisionsItem(revision=rev)
+									| " by
+									| 
+									= rev.author
+							else if this.state.build.status === 'in-progress'
+								| pulling scm changes...
+							else
+								| changes are not received
+
+				if changes && changes.length
+					RevisionsList(revisions=changes)
+
+			if this.state.build.error
+				if this.state.build.error.message
+					h2
+						| Build
+						| 
+						if this.state.build.currentStep
+							| step "
+							span= this.state.build.currentStep
+							| "
+							| 
+						| failed with error:
+					.alert= this.state.build.error.message
+
+				if this.state.build.error.stderr
+					h2 stderr:
+					.alert(style="whiteSpace: pre-wrap;")!= ansiUp.ansi_to_html(this.state.build.error.stderr)
+			else if this.state.build.status === 'canceled'
+				h2
+					| Build canceled
+					| 
+					if this.state.build.currentStep
+						| during step "
+						span= this.state.build.currentStep
+						| "
+
+			.build-view_terminal
+				if this.state.showConsole
+					h2
+						i.fa.fa-fw.fa-terminal
+						| 
+						| Console output
+					Terminal(build=this.state.build.id, showPreloader=true)
+
+					if this.state.build.completed
+						if this.state.build.status === 'error'
+							.text-center.alert.alert-danger
+								| Build ended with error, took
+								| 
+								Duration(value=(this.state.build.endDate - this.state.build.startDate))
+						else if this.state.build.status === 'canceled'
+							.text-center.alert.alert-warning
+								| Build canceled, took
+								| 
+								Duration(value=(this.state.build.endDate - this.state.build.startDate))
+						else if this.state.build.status === 'done'
+							.text-center.alert.alert-success
+								| Build successfully completed, took
+								|  
+								Duration(value=(this.state.build.endDate - this.state.build.startDate))
+				else
+					.text-center
+						button.btn.btn-primary(onClick=this.toggleConsole)
+							i.fa.fa-fw.fa-terminal
+							| 
+							| Show console output

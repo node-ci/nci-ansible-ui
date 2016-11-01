@@ -1,0 +1,75 @@
+{
+  "name": "nci-ansible-ui",
+  "version": "0.1.0-alpha",
+  "description": "First ui for nci",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-less": "lessc app/styles/index.less > static/css/index.css",
+    "build-js": "browserify  app/app.js -t ./transforms/jade.js | uglifyjs -mc > static/js/app.build.js",
+    "watch-less": "chokidar --initial --silent app/styles/**/*.less app/styles/index.less -c 'npm run build-less'",
+    "watch-js": "watchify app/app.js -t ./transforms/jade.js -o static/js/app.build.js -dv",
+    "_init-dev": "touch static/js/app.build.js && touch static/css/index.css",
+    "dev": "test -z $NODE_ENV && export NODE_ENV=development; nrun _init-dev && parallelshell 'nrun build-fonts' 'nrun watch-less' 'nrun watch-js' 'nrun build-html'",
+    "sync": "npm install && npm prune",
+    "lint": "jshint ./",
+    "build-fonts": "parallelshell 'cp ./node_modules/bootstrap/fonts/* ./static/fonts/' 'cp ./node_modules/font-awesome/fonts/* ./static/fonts/' 'cp ./node_modules/scmicons/fonts/* ./static/fonts/'",
+    "build-clean": "rm static/index.html",
+    "build-html": "jade views/index.jade --obj \"{'env': '$NODE_ENV'}\" -o static/",
+    "build": "test -z $NODE_ENV && export NODE_ENV=production; nrun build-fonts && nrun build-js && nrun build-less && nrun build-html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/node-ci/nci-ansible-ui.git"
+  },
+  "keywords": [
+    "nciplugin",
+    "ui",
+    "interface",
+    "ansible",
+    "playbook"
+  ],
+  "contributors": [
+    {
+      "name": "Oleg Korobenko",
+      "email": "oleg.korobenko@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/node-ci/nci-ansible-ui/issues"
+  },
+  "homepage": "https://github.com/node-ci/nci-ansible-ui",
+  "dependencies": {
+    "data.io": "0.3.0",
+    "socket.io": "1.3.5",
+    "twostep": "0.4.1",
+    "underscore": "1.8.3"
+  },
+  "devDependencies": {
+    "ansi_up": "1.3.0",
+    "bootstrap": "3.3.4",
+    "browserify": "13.0.0",
+    "chokidar-cli": "1.2.0",
+    "font-awesome": "4.3.0",
+    "jade": "1.11.0",
+    "jshint": "2.4.4",
+    "less": "2.5.3",
+    "moment": "2.10.6",
+    "nrun": "0.1.4",
+    "parallelshell": "2.0.0",
+    "react": "0.14.3",
+    "react-dom": "0.14.3",
+    "react-jade": "2.5.0",
+    "react-router": "0.13.5",
+    "reflux": "0.2.7",
+    "scmicons": "1.3.0",
+    "socket.io-client": "1.4.5",
+    "through": "2.3.8",
+    "uglifyjs": "2.4.10",
+    "watchify": "3.6.1"
+  },
+  "peerDependencies": {
+    "nci": ">=1.0.1 <1.1.0"
+  }
+}

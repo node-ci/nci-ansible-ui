@@ -1,0 +1,29 @@
+
+- var limit = this.state.limit;
+- var allRevisions = this.props.revisions;
+- var revisions = allRevisions.slice(0, limit);
+
+each revision, index in revisions
+	- var number = index + 1; 
+	.row(key= 'scm-revision-' + number)
+		.col-md-offset-4.col-md-8
+			p
+				span= String(number) + '. '
+				| 
+				RevisionsItem(revision=revision)
+
+if revisions.length < allRevisions.length
+	.row
+		.col-md-offset-4.col-md-8
+			a(href="javascript:void(0);", onClick=this.onShowMoreRevisions(null))
+				i.fa.fa-fw.fa-refresh(title="Show more builds")
+				| show more revisions
+				| 
+				| (
+				span= revisions.length
+				| 
+				| from
+				| 
+				span= allRevisions.length
+				| 
+				| are shown)

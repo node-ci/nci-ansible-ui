@@ -1,0 +1,15 @@
+- var itemsCount = this.state.items.length;
+
+if itemsCount
+	.builds.builds__timeline.builds__timeline-large(class="builds__timeline-#{itemsCount % 2 ? 'left' : 'right'}")
+		each build, index in this.state.items
+			Item(build=build, key=build.id)
+else
+	p Build history is empty
+
+if itemsCount && itemsCount % 20 === 0
+	.text-center
+		a.btn.btn-sm.btn-default(href="javascript:void(0);", onClick=this.onShowMoreBuilds(this.props.projectName))
+			i.fa.fa-fw.fa-refresh(title="Show more builds")
+			| 
+			| Show more builds

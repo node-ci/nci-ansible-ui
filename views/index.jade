@@ -1,0 +1,21 @@
+doctype html
+html
+	head
+		meta(charset="utf-8")
+
+		title nci - flexible, open source continuous integration server written in node.js
+
+		if env === 'development'
+			link(href="/css/index.css", rel="stylesheet", type="text/css")
+		else
+			style
+				include ../static/css/index.css
+
+	body
+		#content
+
+		if env === 'development'
+			script(type="text/javascript", src="/js/app.build.js")
+		else
+			script
+				include ../static/js/app.build.js

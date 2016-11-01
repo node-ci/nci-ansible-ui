@@ -1,0 +1,5 @@
+- var completedPercent = Math.round(this.state.duration / this.state.avgDuration * 100);
+- var remainingTime = Math.round((this.state.avgDuration - this.state.duration) / 1000);
+- remainingTime = remainingTime > 0 ? remainingTime : 0;
+.progress(title= remainingTime ? 'Estimated remaining time: ' + remainingTime + ' sec' : '')
+	.progress-bar.progress-bar-success.progress-bar-striped.active(style={width: completedPercent + '%'})

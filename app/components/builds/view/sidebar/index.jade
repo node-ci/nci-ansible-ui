@@ -1,0 +1,27 @@
+.builds.builds__timeline.builds__timeline-small
+	each item in this.state.items
+		- var buildItemClasses = ['builds_item__' + item.status];
+		- if (item.id === this.props.currentBuild.id) buildItemClasses.push('builds_item__current');
+		.builds_item(key=item.id, class=buildItemClasses)
+			.builds_inner
+				.row
+					.builds_header
+						Link(to="build", params={id: item.id})
+							span Execution #
+							span= item.number
+						div
+							span= item.project.name
+
+					.builds_controls
+						if item.status === 'in-progress'
+							.builds_progress
+								if item.project.avgBuildDuration
+									Progress(build=item)
+
+						if item.endDate
+							div
+								DateTime(value=item.endDate)
+							div
+								| took
+								| 
+								Duration(value=(item.endDate - item.startDate))

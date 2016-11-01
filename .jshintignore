@@ -1,0 +1,3 @@
+node_modules
+views/index.js
+static/js/app.build.js

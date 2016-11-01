@@ -1,0 +1,24 @@
+.projects-selector(href="javascript:void(0);")
+	if !this.state.showSearch
+		span.projects-selector_preview(onClick=this.onSearchProject)
+			i.fa.fa-fw.fa-bars
+			span.projects-selector_preview_text Select a project...
+	else
+		input.projects-selector_input(
+			type="text",
+			value=this.state.searchQuery,
+			onChange=this.onSearchChange,
+			ref=this.onInputMount,
+			onBlur=this.onBlurSearch
+		)
+		ul.projects-selector_items
+			each project in this.state.projects
+				li.projects-selector_item(key=project.name)
+					Link.projects-selector_item_link(to="project", params={name: project.name}, onMouseDown=this.onSelectProject(project.name))
+						Scm(scm=project.scm.type)
+						span 
+						span= project.name
+					a.projects-selector_item_run(href="javascript:void(0);", onMouseDown=this.onRunProject(project.name))
+						i.fa.fa-fw.fa-play
+
+
