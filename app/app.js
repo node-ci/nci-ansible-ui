@@ -4,6 +4,7 @@ var React = require('react'),
 	ReactDOM = require('react-dom'),
 	App = require('./components/app'),
 	ProjectView = require('./components/projects/view'),
+	ProjectRunForm = require('./components/projects/runForm'),
 	BuildView = require('./components/builds/view'),
 	connect = require('./connect'),
 	Router = require('react-router'),
@@ -12,6 +13,11 @@ var React = require('react'),
 var routes = (
 	Route(
 		{handler: App},
+		Route({
+		name: 'projectRunForm',
+		path: 'projects/run',
+		handler: ProjectRunForm
+	}),
 		Route({name: 'project', path: 'projects/:name', handler: ProjectView}),
 		Route({name: 'build', path: 'builds/:id', handler: BuildView})
 	)
