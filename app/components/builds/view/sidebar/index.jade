@@ -8,9 +8,13 @@
 					.builds_header
 						div
 							span= item.project.name
-						Link(to="build", params={id: item.id})
-							span execution #
-							span= item.number
+
+						if item.status === 'queued'
+							span(title='wait reason: ' + item.waitReason) queued
+						else
+							Link(to="build", params={id: item.id})
+								span execution #
+								span= item.number
 
 					.builds_controls
 						if item.status === 'in-progress'
