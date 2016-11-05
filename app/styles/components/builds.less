@@ -94,13 +94,13 @@
 
 				&__in-progress {
 					&:after {
-						background: @brand-info;
+						background: @label-info-bg;
 					}
 				}
 
 				&__done {
 					&:after {
-						background: @link-color;
+						background: @brand-success;
 					}
 				}
 
@@ -112,7 +112,7 @@
 
 				&__queued {
 					&:after {
-						background: @brand-primary;
+						background: @label-default-bg;
 					}
 				}
 
@@ -139,12 +139,6 @@
 				&_item {
 					padding-left: 40px;
 
-					&__in-progress {
-						&:after {
-							background: white url("/images/build/progress.gif") center center no-repeat;
-						}
-					}
-
 					&:after {
 						width: 24px;
 						height: 24px;
@@ -168,12 +162,6 @@
 			.builds {
 				&_item {
 					padding-left: 30px;
-
-					&__in-progress {
-						&:after {
-							background: white url("/images/build/progress-small.gif") center center no-repeat;
-						}
-					}
 
 					&:after {
 						top: 16px;
