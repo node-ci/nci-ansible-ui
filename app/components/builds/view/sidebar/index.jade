@@ -6,11 +6,11 @@
 			.builds_inner
 				.row
 					.builds_header
-						Link(to="build", params={id: item.id})
-							span Execution #
-							span= item.number
 						div
 							span= item.project.name
+						Link(to="build", params={id: item.id})
+							span execution #
+							span= item.number
 
 					.builds_controls
 						if item.status === 'in-progress'

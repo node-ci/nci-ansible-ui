@@ -24,12 +24,12 @@ if this.state.build
 			h1.page-header
 				.pull-right(style={fontSize: '22px'})
 					mixin statusBadge(this.state.build)
-				span Execution #
+				span= this.state.build.project.name
+				| 
+				span execution #
 				span= this.state.build.number
 
-				span.small 
-					Link(to="project", params={name: this.state.build.project.name})
-						span= this.state.build.project.name
+				p
 
 				.small.text-muted
 					- var node = this.state.build.node;
