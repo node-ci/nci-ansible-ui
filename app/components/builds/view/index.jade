@@ -17,9 +17,6 @@ mixin statusBadge(build)
 
 if this.state.build
 	.row
-		.col-md-12
-			ProjectHeader(project=this.state.project)
-	.row
 		.col-sm-3.hidden-xs
 			BuildSidebar(projectName=this.state.build.project.name, currentBuild=this.state.build)
 
