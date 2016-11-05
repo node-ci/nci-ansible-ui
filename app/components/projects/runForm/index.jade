@@ -53,20 +53,36 @@ div
 
 			if playbookName
 				- inventoryNames = this.state.inventoryNames;
+				- var checkedInventoriesCount = 0;
 				.form-group
 					label.col-md-offset-2.col-md-2.control-label Inventories
 					.col-md-4
-						each inventory in playbook.inventories
-							label(key= 'label-for-' + inventory.name)
-								- var checked = _(inventoryNames).contains(inventory.name);
-								input(
-									type="checkbox",
-									value= inventory.name,
-									key= inventory.name,
-									onClick=this.onInventoryNamesChange,
-									checked= checked
-								)
-								= inventory.name
+						.row
+							each inventory in playbook.inventories
+								.col-md-3(key= 'column-for-' + inventory.name)
+									label(key= 'label-for-' + inventory.name)
+										- var checked = _(inventoryNames).contains(inventory.name);
+										- if (checked) checkedInventoriesCount++;
+										input(
+											type="checkbox",
+											value= inventory.name,
+											key= inventory.name,
+											onClick=this.onInventoryNamesChange,
+											checked= checked
+										)
+										= inventory.name
+						.row
+							.col-md-12.text-right
+								if checkedInventoriesCount === playbook.inventories.length
+									a(
+										href="javascript:void(0);",
+										onClick=this.onUnselectAllInventoryNames
+									) Unselect all inventories
+								else
+									a(
+										href="javascript:void(0);",
+										onClick=this.onSelectAllInventoryNames
+									) select all inventories
 
 		.form-group
 			.col-md-offset-4.col-md-2

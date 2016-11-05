@@ -53,6 +53,18 @@ module.exports = React.createClass({
 
 		this.setState({inventoryNames: inventoryNames});
 	},
+	onUnselectAllInventoryNames: function() {
+		this.setState({inventoryNames: []});
+	},
+	onSelectAllInventoryNames: function() {
+		var project = _(this.state.projects).findWhere({
+			name: this.state.projectName
+		});
+		var playbook = _(project.playbooks).findWhere({
+			name: this.state.playbookName
+		});
+		this.setState({inventoryNames: _(playbook.inventories).pluck('name')});
+	},
 	onCancel: function() {
 		this.transitionTo('root');
 	},
