@@ -19,6 +19,8 @@ var Component = React.createClass({
 	statics: {
 		willTransitionTo: function(transition, params) {
 			BuildActions.read(Number(params.id));
+			// load builds for sidebar
+			BuildActions.readAll();
 		}
 	},
 
@@ -35,9 +37,6 @@ var Component = React.createClass({
 	},
 
 	updateBuild: function(build) {
-		if (build) {
-			BuildActions.readAll();
-		}
 		this.setState({build: build});
 	},
 
