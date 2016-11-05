@@ -4,9 +4,100 @@ var Steppy = require('twostep').Steppy,
 	_ = require('underscore'),
 	helpers = require('./helpers');
 
+var makeProject = function(project, buildParams) {
+	var newProject = _(project).clone();
+
+	var playbookName = buildParams.playbookName;
+	if (playbookName) {
+
+		if (!project.playbooks) {
+			throw new Error(
+				'No playbooks in the project ' + project.name + ' but ' +
+				'playbookName is specified'
+			);
+		}
+
+		var playbook = _(project.playbooks).findWhere({name: playbookName});
+
+		if (!playbook) {
+			throw new Error(
+				'No playbook ' + playbookName + ' in ' +
+				project.name + ' project'
+			);
+		}
+
+		var inventoryNames = buildParams.inventoryNames;
+
+		if (!inventoryNames || !inventoryNames.length) {
+			throw new Error(
+				'Inventory not specified for playbook ' + playbook.name +
+				' (project ' + project.name + ')'
+			);
+		}
+
+		var inventories = _(inventoryNames).map(function(inventoryName) {
+			var inventory = _(playbook.inventories).findWhere({
+				name: inventoryName
+			});
+
+			if (!inventory) {
+				throw new Error(
+					'No Inventory ' + inventoryName + ' in ' + playbook.name +
+					' (project ' + project.name + ')'
+				);
+
+			}
+
+			return inventory;
+		});
+
+		var playbookSteps = _(inventories).map(function(inventory) {
+			var args = [
+				project.playbookCommand,
+				playbook.path,
+				'--inventory',
+				inventory.path
+			];
+
+			return {
+				type: 'shell',
+				name: playbook.name + ' to ' + inventory.name,
+				cmd: args.join(' ')
+			};
+		});
+
+		newProject.steps = newProject.steps.concat(playbookSteps);
+	}
+
+	return newProject;
+};
+
+var patchDirstributor = function(distributor) {
+	var originalMakeProjet = distributor._makeProject;
+	distributor._makeProject = function(project, buildParams) {
+		var newProject = originalMakeProjet(project, buildParams);
+		newProject = makeProject(newProject, buildParams);
+		return newProject;
+	};
+};
+
+var extendProject = function(project) {
+	_(project).defaults({
+		playbookCommand: 'ansible-playbook'
+	});
+
+	return project;
+};
+
 module.exports = function(app) {
 	var logger = app.lib.logger('projects resource'),
 		resource = app.dataio.resource('projects');
+
+	patchDirstributor(app.builds.distributor);
+
+	app.projects.on('projectLoaded', function(project) {
+		extendProject(project);
+	});
 
 	resource.use('createBuildDataResource', function(req, res) {
 		helpers.createBuildDataResource(app, req.data.buildId);
@@ -88,7 +179,11 @@ module.exports = function(app) {
 		var projectName = req.data.projectName,
 			buildParams = req.data.buildParams;
 
-		logger.log('Run the project: "%s"', projectName);
+		logger.log(
+			'Run the project: "%s" with params: %j',
+			projectName,
+			buildParams
+		);
 
 		app.builds.create({
 			projectName: projectName,

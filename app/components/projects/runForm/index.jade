@@ -2,47 +2,93 @@ div
 
 	.form-horizontal
 		- var projects = this.state.projects;
-		.form-group
-			label.col-md-offset-2.col-md-2.control-label(for="project-name") Playbook
-			.col-md-4
-				select#project-name.form-control(
-					onChange=this.onProjectChange
-				)
-					if projects
+		- var projectName = this.state.projectName;
+		- var project, playbook, inventoryNames;
+
+		if projects
+			.form-group
+				label.col-md-offset-2.col-md-2.control-label(for="project-name") Project
+				.col-md-4
+					select#project-name.form-control(
+						onChange=this.onProjectNameChange,
+						value= projectName
+					)
+						option(value="", key="notSet") - select project -
 						each project in projects
 							option(value= project.name, key= project.name)= project.name
 
-		- var project;
+			- project = _(projects).findWhere({name: projectName});
+
+		//- .form-group
+		//- 	label.col-md-offset-2.col-md-2.control-label(for="scmBranch") Branch
+		//- 	.col-md-4
+
+		//- 		- var scmRev = project && project.scm ? project.scm.rev : '';
+		//- 		select#scmBranch.form-control(
+		//- 			onChange=this.onScmBranchChange
+		//- 		)
+		//- 			option(value=scmRev)= scmRev
+		//- 			option(value=-1) Custom revision
+
+		//- 		- var scmBranch = this.state.scmBranch;
+		//- 		if scmBranch === '-1'
+		//- 			| 
+		//- 			input.form-control(
+		//- 				value= this.state.scmRev,
+		//- 				onChange=this.onScmRevChange
+		//- 			)
+
+		if project && project.playbooks && project.playbooks.length
+			.form-group
+				label.col-md-offset-2.col-md-2.control-label(for="playbook-name") Playbook
+				.col-md-4
+					select#playbook-name.form-control(onChange=this.onPlaybookNameChange)
+						option(value="", key="notSet") - select playbook -
+						each playbook in project.playbooks
+							option(value= playbook.name, key= playbook.name)= playbook.name
+
+
+			- var playbookName = this.state.playbookName;
+			- playbook = _(project.playbooks).findWhere({name: playbookName});
+
+			if playbookName
+				- inventoryNames = this.state.inventoryNames;
+				.form-group
+					label.col-md-offset-2.col-md-2.control-label Inventories
+					.col-md-4
+						each inventory in playbook.inventories
+							label(key= 'label-for-' + inventory.name)
+								- var checked = _(inventoryNames).contains(inventory.name);
+								input(
+									type="checkbox",
+									value= inventory.name,
+									key= inventory.name,
+									onClick=this.onInventoryNamesChange,
+									checked= checked
+								)
+								= inventory.name
+
 		.form-group
-			- var projectName = this.state.projectName;
-			- project = _(projects).find(function(project) {
-			-	return project.name === projectName;
-			- });
-
-			label.col-md-offset-2.col-md-2.control-label(for="scmBranch") Branch
-			.col-md-4
-
-				- var scmRev = project && project.scm ? project.scm.rev : '';
-				select#scmBranch.form-control(
-					onChange=this.onScmBranchChange
-				)
-					option(value=scmRev)= scmRev
-					option(value=-1) Custom revision
-
-				- var scmBranch = this.state.scmBranch;
-				if scmBranch === '-1'
-					| 
-					input.form-control(
-						value= this.state.scmRev,
-						onChange=this.onScmRevChange
-					)
-
-		.form-group
-
-
 			.col-md-offset-4.col-md-2
-				button.btn.btn-md.btn-success.btn-block(onClick=this.onRunProject)
+				button.btn.btn-md.btn-default.btn-block(onClick=this.onCancel)
+					i.fa.fa-fw.fa-ban
+					| 
+					span Cancel
+
+			.col-md-2
+				- var buttonClasses = [];
+
+				- var isValidForm;
+				- if (project && !project.playbooks) {
+				- 	isValidForm = true;
+				- } else if (project && project.playbooks) {
+				- 	isValidForm = playbook && inventoryNames && inventoryNames.length;
+				- }
+
+				- if (!isValidForm) buttonClasses.push('disabled');
+
+				button.btn.btn-md.btn-success.btn-block(onClick=this.onRunProject, class= buttonClasses)
 					i.fa.fa-fw.fa-play
 					| 
-					span(style="width: 250px;") Run
+					span Run
 
