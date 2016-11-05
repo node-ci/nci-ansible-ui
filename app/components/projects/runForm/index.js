@@ -2,6 +2,7 @@
 
 var React = require('react'),
 	Reflux = require('reflux'),
+	Router = require('react-router'),
 	ProjectActions = require('../../../actions/project'),
 	projectsStore = require('../../../stores/projects'),
 	template = require('./index.jade'),
@@ -11,7 +12,8 @@ require('../../../stores/projects');
 
 module.exports = React.createClass({
 	mixins: [
-		Reflux.connect(projectsStore, 'projects')
+		Reflux.connect(projectsStore, 'projects'),
+		Router.Navigation
 	],
 	statics: {
 		willTransitionTo: function() {
@@ -51,6 +53,9 @@ module.exports = React.createClass({
 
 		this.setState({inventoryNames: inventoryNames});
 	},
+	onCancel: function() {
+		this.transitionTo('root');
+	},
 	onRunProject: function() {
 		var buildParams = {};
 		if (this.state.playbookName) {
@@ -58,6 +63,12 @@ module.exports = React.createClass({
 			buildParams.inventoryNames = this.state.inventoryNames;
 		}
 		ProjectActions.run(this.state.projectName, buildParams);
+
+		// TODO: go to last build in a durable way
+		var self = this;
+		setTimeout(function() {
+			self.transitionTo('root');
+		}, 500);
 	},
 	render: template.locals({
 		_: _

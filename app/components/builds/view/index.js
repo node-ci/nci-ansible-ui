@@ -18,7 +18,7 @@ var _ = require('underscore'),
 	ansiUp = require('ansi_up');
 
 var Component = React.createClass({
-	mixins: [Reflux.ListenerMixin],
+	mixins: [Reflux.ListenerMixin, Router.Navigation],
 	statics: {
 		willTransitionTo: function(transition, params) {
 			BuildActions.read(Number(params.id));
@@ -72,6 +72,10 @@ var Component = React.createClass({
 			BuildActions.readTerminalOutput(this.state.build);
 		}
 		this.setState({showConsole: consoleState});
+	},
+
+	onRunProjectClick: function() {
+		this.transitionTo('projectRunForm');
 	},
 
 	render: template.locals(_({
