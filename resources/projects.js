@@ -55,14 +55,27 @@ var makeProject = function(project, buildParams) {
 			var args = [
 				project.playbookCommand,
 				playbook.path,
-				'--inventory',
-				inventory.path
+				'--inventory-file=' + inventory.path
 			];
+
+			var stepName = (
+				'run playbook \\"' + playbook.name + '\\" with \\"' + inventory.name +
+				'\\" inventory'
+			).toUpperCase();
+
+			var yellow ='\\033[0;33m',
+				noColor='\\033[0m';
+
+			var echoCommand = (
+				'echo "******************";' +
+				'echo "********* ' + yellow + stepName + noColor + ' *********";' +
+				'echo "******************";'
+			);
 
 			return {
 				type: 'shell',
-				name: playbook.name + ' to ' + inventory.name,
-				cmd: args.join(' ')
+				name: stepName,
+				cmd: echoCommand + args.join(' ')
 			};
 		});
 
