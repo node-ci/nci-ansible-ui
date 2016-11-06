@@ -1,6 +1,6 @@
 {
   "name": "nci-ansible-ui",
-  "version": "0.1.0-alpha",
+  "version": "0.1.0",
   "description": "First ui for nci",
   "main": "app.js",
   "scripts": {
