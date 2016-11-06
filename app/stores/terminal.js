@@ -37,7 +37,11 @@ var Store = Reflux.createStore({
 					buildId: build.id,
 					buildCompleted: build.completed,
 					name: 'Console for build #' + build.id,
-					data: _(self.lines).pluck('text')
+					data: _(self.lines).chain().pluck('text').map(function(text) {
+						// TODO: this can break output of non-ansible projects
+						// prettify ansible output - unescape linebreaks and quotes
+						return text.replace(/\\n/g, '\n').replace(/\\"/g, '');
+					}).value()
 				});
 			});
 		};
