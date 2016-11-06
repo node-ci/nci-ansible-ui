@@ -7,7 +7,7 @@ var Steppy = require('twostep').Steppy,
 var makeProject = function(project, buildParams) {
 	var newProject = _(project).clone();
 
-	var playbookName = buildParams.playbookName;
+	var playbookName = buildParams.playbook && buildParams.playbook.name;
 	if (playbookName) {
 
 		if (!project.playbooks) {
@@ -26,7 +26,8 @@ var makeProject = function(project, buildParams) {
 			);
 		}
 
-		var inventoryNames = buildParams.inventoryNames;
+		var inventoryNames = buildParams.playbook.inventoryNames,
+			limit = buildParams.playbook.limit;
 
 		if (!inventoryNames || !inventoryNames.length) {
 			throw new Error(
@@ -58,9 +59,13 @@ var makeProject = function(project, buildParams) {
 				'--inventory-file=' + inventory.path
 			];
 
+			if (limit) {
+				args.push('--limit=' + limit);
+			}
+
 			var stepName = (
-				'run playbook \\"' + playbook.name + '\\" with \\"' + inventory.name +
-				'\\" inventory'
+				'run playbook ' + playbook.name + ' with ' + inventory.name +
+				' inventory'
 			).toUpperCase();
 
 			var yellow ='\\033[0;33m',

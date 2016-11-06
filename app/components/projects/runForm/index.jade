@@ -84,6 +84,18 @@ div
 										onClick=this.onSelectAllInventoryNames
 									) select all inventories
 
+				.form-group
+					label.col-md-offset-2.col-md-2.control-label(
+						for="limit",
+						title="further limit selected hosts to an additional pattern"
+					) Limit
+					.col-md-4
+						input#limit.form-control(
+							type="text",
+							value= this.state.limit
+							onChange=this.onLimitChange
+						)
+
 		.form-group
 			.col-md-offset-4.col-md-2
 				button.btn.btn-md.btn-default.btn-block(onClick=this.onCancel)

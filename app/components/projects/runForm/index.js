@@ -24,7 +24,8 @@ module.exports = React.createClass({
 		this.setState({
 			projectName: event.target.value,
 			playbookName: '',
-			inventoryNames: []
+			inventoryNames: [],
+			limit: ''
 		});
 	},
 	onScmBranchChange: function(event) {
@@ -33,7 +34,8 @@ module.exports = React.createClass({
 	onPlaybookNameChange: function(event) {
 		this.setState({
 			playbookName: event.target.value,
-			inventoryNames: []
+			inventoryNames: [],
+			limit: ''
 		});
 	},
 	onInventoryNamesChange: function(event) {
@@ -65,14 +67,23 @@ module.exports = React.createClass({
 		});
 		this.setState({inventoryNames: _(playbook.inventories).pluck('name')});
 	},
+	onLimitChange: function(event) {
+		this.setState({limit: event.target.value});
+	},
 	onCancel: function() {
 		this.transitionTo('root');
 	},
 	onRunProject: function() {
 		var buildParams = {};
 		if (this.state.playbookName) {
-			buildParams.playbookName = this.state.playbookName;
-			buildParams.inventoryNames = this.state.inventoryNames;
+			buildParams.playbook = {
+				name: this.state.playbookName,
+				inventoryNames: this.state.inventoryNames
+			};
+
+			if (this.state.limit) {
+				buildParams.playbook.limit = this.state.limit;
+			}
 		}
 		ProjectActions.run(this.state.projectName, buildParams);
 
