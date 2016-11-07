@@ -73,7 +73,7 @@ var makeProject = function(project, buildParams) {
 
 			var echoCommand = (
 				'echo "******************";' +
-				'echo "********* ' + yellow + stepName + noColor + ' *********";' +
+				'echo -e "********* ' + yellow + stepName + noColor + ' *********";' +
 				'echo "******************";'
 			);
 
