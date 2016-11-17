@@ -29,3 +29,10 @@
 								| took
 								| 
 								Duration(value=(item.endDate - item.startDate))
+
+						if item.status === 'queued' || item.status === 'in-progress'
+							.builds_buttons
+								a.btn.btn-sm.btn-default(href="javascript:void(0);", onClick=this.onCancelBuild(item.id))
+									i.fa.fa-fw.fa-times(title="Cancel execution")
+									| 
+									| Cancel
