@@ -173,6 +173,12 @@ if this.state.build
 								| Build successfully completed, took
 								|  
 								Duration(value=(this.state.build.endDate - this.state.build.startDate))
+
+					.text-center
+						button.btn.btn-primary(onClick=this.toggleConsole)
+							i.fa.fa-fw.fa-terminal
+							| 
+							| Hide console output
 				else
 					.text-center
 						button.btn.btn-primary(onClick=this.toggleConsole)

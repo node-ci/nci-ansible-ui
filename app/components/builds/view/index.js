@@ -48,12 +48,22 @@ var Component = React.createClass({
 		};
 	},
 
+	getBody: function() {
+		return document.getElementsByTagName('body')[0];
+	},
+
 	toggleConsole: function() {
 		var consoleState = !this.state.showConsole;
 		if (consoleState) {
 			BuildActions.readTerminalOutput(this.state.build);
 		}
+
 		this.setState({showConsole: consoleState});
+
+		// scroll to page top after hiding console
+		if (!consoleState) {
+			this.getBody().scrollTop = 0;
+		}
 	},
 
 	onRunProjectClick: function() {
