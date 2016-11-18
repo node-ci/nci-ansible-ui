@@ -5,6 +5,7 @@ var _ = require('underscore'),
 	Router = require('react-router'),
 	Reflux = require('reflux'),
 	BuildActions = require('../../../actions/build'),
+	ProjectActions = require('../../../actions/project'),
 	buildStore = require('../../../stores/build'),
 	Terminal = require('../../terminal'),
 	BuildSidebar = require('./sidebar'),
@@ -66,7 +67,12 @@ var Component = React.createClass({
 		}
 	},
 
-	onRunProjectClick: function() {
+	onRunAgain: function() {
+		var build = this.state.build;
+		ProjectActions.run(build.project.name, build.params);
+	},
+
+	onRunProject: function() {
 		this.transitionTo('projectRunForm');
 	},
 

@@ -155,24 +155,45 @@ if this.state.build
 					- playbook = buildParams.playbook;
 
 					if playbook
-						h3.text-center
+						h3
 							i.fa.fa-fw.fa-sliders
 							| 
 							| Execution parameters
 
 						.row
-							.col-md-3 Playbook:
-							.col-md-9
+							.col-sm-3 Playbook:
+							.col-sm-9
 								span= playbook.name
 						.row
-							.col-md-3 Inventories:
-							.col-md-9
+							.col-sm-3 Inventories:
+							.col-sm-9
 								span= playbook.inventoryNames.join(', ')
 						if playbook.limit
 							.row
-								.col-md-3 Limit:
-								.col-md-9
+								.col-sm-3 Limit:
+								.col-sm-9
 									span= playbook.limit.split(',').join(', ')
+
+						p
+
+						.row
+							.col-sm-6
+								button.btn.btn-default.btn-block(
+									title= "Run again with same parameters",
+									onClick=this.onRunAgain
+								)
+									i.fa.fa-fw.fa-play
+									| 
+									| Run again
+
+							.col-sm-6
+								button.btn.btn-success.btn-block(
+									title="Run another project/playbook",
+									onClick=this.onRunProject
+								)
+									i.fa.fa-fw.fa-play
+									| 
+									| Run another
 
 
 			.build-view_terminal
@@ -211,11 +232,3 @@ if this.state.build
 							i.fa.fa-fw.fa-terminal
 							| 
 							| Show console output
-
-				p
-
-				.text-center
-					button.btn.btn-success(onClick=this.onRunProjectClick)
-						i.fa.fa-fw.fa-play
-						| 
-						| Run another project/playbook
