@@ -149,6 +149,32 @@ if this.state.build
 						span= this.state.build.currentStep
 						| "
 
+			.row
+				.col-md-6
+					- var buildParams = this.state.build.params || {};
+					- playbook = buildParams.playbook;
+
+					if playbook
+						h3.text-center
+							i.fa.fa-fw.fa-sliders
+							| 
+							| Execution parameters
+
+						.row
+							.col-md-3 Playbook:
+							.col-md-9
+								span= playbook.name
+						.row
+							.col-md-3 Inventories:
+							.col-md-9
+								span= playbook.inventoryNames.join(', ')
+						if playbook.limit
+							.row
+								.col-md-3 Limit:
+								.col-md-9
+									span= playbook.limit.split(',').join(', ')
+
+
 			.build-view_terminal
 				if this.state.showConsole
 					h2
