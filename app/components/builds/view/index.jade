@@ -149,76 +149,71 @@ if this.state.build
 						span= this.state.build.currentStep
 						| "
 
-			.row
-				.col-md-6
-					- var buildParams = this.state.build.params || {};
-					- playbook = buildParams.playbook;
+			- var buildParams = this.state.build.params || {};
+			- playbook = buildParams.playbook;
 
-					if playbook
-						h3
-							i.fa.fa-fw.fa-sliders
-							| 
-							| Execution parameters
+			if playbook
+				h3
+					i.fa.fa-fw.fa-sliders
+					| 
+					| Execution parameters
 
-						.row
-							.col-sm-3 Playbook:
-							.col-sm-9
-								span= playbook.name
-						.row
-							.col-sm-3 Inventories:
-							.col-sm-9
-								span= playbook.inventoryNames.join(', ')
-						if playbook.limit
-							.row
-								.col-sm-3 Limit:
-								.col-sm-9
-									span= playbook.limit.split(',').join(', ')
-
-						p
-
-						.row
-							.col-sm-6
-								button.btn.btn-default.btn-block(
-									title= "Run again with same parameters",
-									onClick=this.onRunAgain
-								)
-									i.fa.fa-fw.fa-repeat
-									| 
-									| Run again
-
-							.col-sm-6
-								button.btn.btn-success.btn-block(
-									title="Run another project/playbook",
-									onClick=this.onRunProject
-								)
-									i.fa.fa-fw.fa-play
-									| 
-									| Run another
-
-
-				.col-md-6
-					h3
-						i.fa.fa-fw.fa-tasks
-						| 
-						| Execution steps
-
-					- var stepTimings = this.state.build.stepTimings || [];
-
-					each stepTiming, index in stepTimings
-						div(key='step' + index)
-							span= (index + 1) + '. ' + stepTiming.name
-
-					p
-
+				.row
+					.col-sm-3 Playbook:
+					.col-sm-9
+						span= playbook.name
+				.row
+					.col-sm-3 Inventories:
+					.col-sm-9
+						span= playbook.inventoryNames.join(', ')
+				if playbook.limit
 					.row
-						.col-sm-12
+						.col-sm-3 Limit:
+						.col-sm-9
+							span= playbook.limit.split(',').join(', ')
+
+				p
+
+				.row
+					.col-sm-3
+						button.btn.btn-default.btn-block(
+							title= "Run again with same parameters",
+							onClick=this.onRunAgain
+						)
+							i.fa.fa-fw.fa-repeat
+							| 
+							| Run again
+
+					.col-sm-3
+						button.btn.btn-success.btn-block(
+							title="Run another project/playbook",
+							onClick=this.onRunProject
+						)
+							i.fa.fa-fw.fa-play
+							| 
+							| Run another
+
+
+				h3
+					i.fa.fa-fw.fa-tasks
+					| 
+					| Execution steps
+
+				- var stepTimings = this.state.build.stepTimings || [];
+
+				each stepTiming, index in stepTimings
+					div(key='step' + index)
+						span= (index + 1) + '. ' + stepTiming.name
+
+				p
+
+				if !this.state.showConsole
+					.row
+						.col-sm-6
 							button.btn.btn-default.btn-block(onClick=this.toggleConsole)
 								i.fa.fa-fw.fa-terminal
 								| 
-								if this.state.showConsole
-									| Hide console output
-								else
-									| Show console output
+								| Show console output
 
 			.build-view_terminal
 				if this.state.showConsole
@@ -246,7 +241,7 @@ if this.state.build
 								Duration(value=(this.state.build.endDate - this.state.build.startDate))
 
 					.text-center
-						button.btn.btn-primary(onClick=this.toggleConsole)
+						button.btn.btn-default(onClick=this.toggleConsole)
 							i.fa.fa-fw.fa-terminal
 							| 
 							| Hide console output
