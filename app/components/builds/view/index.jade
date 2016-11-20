@@ -126,7 +126,7 @@ if this.state.build
 
 			if this.state.build.error
 				if this.state.build.error.message
-					h2
+					h3
 						| Build
 						| 
 						if this.state.build.currentStep
@@ -138,10 +138,10 @@ if this.state.build
 					.alert= this.state.build.error.message
 
 				if this.state.build.error.stderr
-					h2 stderr:
+					h3 stderr:
 					.alert(style="whiteSpace: pre-wrap;")!= ansiUp.ansi_to_html(this.state.build.error.stderr)
 			else if this.state.build.status === 'canceled'
-				h2
+				h3
 					| Build canceled
 					| 
 					if this.state.build.currentStep
@@ -232,7 +232,7 @@ if this.state.build
 
 			.build-view_terminal
 				if this.state.showConsole
-					h2
+					h3
 						i.fa.fa-fw.fa-terminal
 						| 
 						| Console output
