@@ -201,9 +201,24 @@ if this.state.build
 
 				- var stepTimings = this.state.build.stepTimings || [];
 
-				each stepTiming, index in stepTimings
-					div(key='step' + index)
-						span= (index + 1) + '. ' + stepTiming.name
+				- var currentStep = this.state.build.currentStep;
+				if !this.state.build.completed && currentStep
+					//- prevent duplication of the same step
+					- var lastStepTiming = stepTimings[stepTimings.length - 1];
+					if !lastStepTiming || lastStepTiming.name !== currentStep
+						- stepTimings.push({name: currentStep});
+
+				if stepTimings
+					each stepTiming, index in stepTimings
+						div(key='step' + index)
+							span= '* ' + stepTiming.name
+
+							if !this.state.build.completed && stepTiming.name === currentStep
+								| 
+								img(src="/images/preloader.gif", width="24", height="24")
+
+				else if !this.state.build.completed
+					img(src="/images/preloader.gif", width="32", height="32")
 
 				p
 
