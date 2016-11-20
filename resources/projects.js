@@ -66,14 +66,15 @@ var makeProject = function(project, buildParams) {
 			var stepName = (
 				'run playbook ' + playbook.name + ' with ' + inventory.name +
 				' inventory'
-			).toUpperCase();
+			);
 
 			var yellow ='\\033[0;33m',
 				noColor='\\033[0m';
 
 			var echoCommand = (
 				'echo "******************";' +
-				'echo -e "********* ' + yellow + stepName + noColor + ' *********";' +
+				'echo -e "********* ' + yellow + stepName.toUpperCase() +
+				noColor + ' *********";' +
 				'echo "******************";'
 			);
 
