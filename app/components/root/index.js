@@ -13,7 +13,11 @@ module.exports = React.createClass({
 		BuildActions.readAll({limit: 1});
 	},
 	navigateToBuild: function(builds) {
-		this.transitionTo('build', {id: builds[0].id});
+		if (builds.length) {
+			this.transitionTo('build', {id: builds[0].id});
+		} else {
+			this.transitionTo('projectRunForm');
+		}
 	},
 	// dummy render method, coz no view needed
 	render: function() {
