@@ -230,6 +230,24 @@ if this.state.build
 								| 
 								| Show console output
 
+			else
+				if !this.state.showConsole
+					p
+
+					.text-center
+						button.btn.btn-default(onClick=this.toggleConsole)
+							i.fa.fa-fw.fa-terminal
+							| 
+							| Show console output
+
+					p
+
+					.text-center
+						button.btn.btn-success(onClick=this.onRunProject)
+							i.fa.fa-fw.fa-play
+							| 
+							| Run another project/playbook
+
 			.build-view_terminal
 				if this.state.showConsole
 					h3
