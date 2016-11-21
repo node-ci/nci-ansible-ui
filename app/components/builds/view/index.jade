@@ -158,19 +158,21 @@ if this.state.build
 					| 
 					| Execution parameters
 
-				.row
-					.col-sm-3 Playbook:
-					.col-sm-9
-						span= playbook.name
-				.row
-					.col-sm-3 Inventories:
-					.col-sm-9
-						span= playbook.inventoryNames.join(', ')
+				div
+					| Playbook:
+					| 
+					span= playbook.name
+
+				div
+					| Inventories:
+					| 
+					span= playbook.inventoryNames.join(', ')
+
 				if playbook.limit
-					.row
-						.col-sm-3 Limit:
-						.col-sm-9
-							span!= playbook.limit
+					div
+						| Limit:
+						| 
+						span(style="wordBreak: break-all;")= playbook.limit
 
 				p
 
