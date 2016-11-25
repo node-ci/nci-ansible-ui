@@ -70,6 +70,12 @@ var Component = React.createClass({
 	onRunAgain: function() {
 		var build = this.state.build;
 		ProjectActions.run(build.project.name, build.params);
+
+		// TODO: go to last build in a durable way
+		var self = this;
+		setTimeout(function() {
+			self.transitionTo('root');
+		}, 500);
 	},
 
 	onRunProject: function() {
