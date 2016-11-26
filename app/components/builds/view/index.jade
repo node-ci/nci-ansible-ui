@@ -124,30 +124,32 @@ if this.state.build
 				if changes && changes.length
 					RevisionsList(revisions=changes)
 
-			if this.state.build.error
-				if this.state.build.error.message
+			//- some wrapper for error block to prevent collapsing of terminal
+			div
+				if this.state.build.error
+					if this.state.build.error.message
+						h3
+							| Build
+							| 
+							if this.state.build.currentStep
+								| step "
+								span= this.state.build.currentStep
+								| "
+								| 
+							| failed with error:
+						.alert= this.state.build.error.message
+
+					if this.state.build.error.stderr
+						h3 stderr:
+						.alert(style="whiteSpace: pre-wrap;")!= ansiUp.ansi_to_html(this.state.build.error.stderr)
+				else if this.state.build.status === 'canceled'
 					h3
-						| Build
+						| Build canceled
 						| 
 						if this.state.build.currentStep
-							| step "
+							| during step "
 							span= this.state.build.currentStep
 							| "
-							| 
-						| failed with error:
-					.alert= this.state.build.error.message
-
-				if this.state.build.error.stderr
-					h3 stderr:
-					.alert(style="whiteSpace: pre-wrap;")!= ansiUp.ansi_to_html(this.state.build.error.stderr)
-			else if this.state.build.status === 'canceled'
-				h3
-					| Build canceled
-					| 
-					if this.state.build.currentStep
-						| during step "
-						span= this.state.build.currentStep
-						| "
 
 			- var buildParams = this.state.build.params || {};
 			- playbook = buildParams.playbook;
