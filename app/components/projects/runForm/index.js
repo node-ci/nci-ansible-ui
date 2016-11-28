@@ -23,6 +23,7 @@ module.exports = React.createClass({
 	onProjectNameChange: function(event) {
 		this.setState({
 			projectName: event.target.value,
+			scmRev: '',
 			playbookName: '',
 			inventoryNames: [],
 			limit: ''
@@ -30,6 +31,9 @@ module.exports = React.createClass({
 	},
 	onScmBranchChange: function(event) {
 		this.setState({scmBranch: event.target.value});
+	},
+	onScmRevChange: function(event) {
+		this.setState({scmRev: event.target.value});
 	},
 	onPlaybookNameChange: function(event) {
 		this.setState({
@@ -75,6 +79,7 @@ module.exports = React.createClass({
 	},
 	onRunProject: function() {
 		var buildParams = {};
+
 		if (this.state.playbookName) {
 			buildParams.playbook = {
 				name: this.state.playbookName,
@@ -85,7 +90,20 @@ module.exports = React.createClass({
 				buildParams.playbook.limit = this.state.limit;
 			}
 		}
-		ProjectActions.run(this.state.projectName, buildParams);
+
+		var project = _(this.state.projects).findWhere({
+			name: this.state.projectName
+		});
+
+		var scmBranch = this.state.scmBranch,
+			scmRev = scmBranch === '-1' ? this.state.scmRev : scmBranch,
+			projectScmRev = project.scm ? project.scm.rev : '';
+
+		if (scmRev && scmRev !== projectScmRev) {
+			buildParams.scmRev = scmRev;
+		}
+
+		ProjectActions.run(project.name, buildParams);
 
 		// TODO: go to last build in a durable way
 		var self = this;

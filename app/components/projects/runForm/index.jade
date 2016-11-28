@@ -19,24 +19,25 @@ div
 
 			- project = _(projects).findWhere({name: projectName});
 
-		//- .form-group
-		//- 	label.col-md-offset-2.col-md-2.control-label(for="scmBranch") Branch
-		//- 	.col-md-4
+		if project
+			.form-group
+				label.col-md-offset-2.col-md-2.control-label(for="scm-branch") Branch
+				.col-md-4
 
-		//- 		- var scmRev = project && project.scm ? project.scm.rev : '';
-		//- 		select#scmBranch.form-control(
-		//- 			onChange=this.onScmBranchChange
-		//- 		)
-		//- 			option(value=scmRev)= scmRev
-		//- 			option(value=-1) Custom revision
+					- var scmRev = project && project.scm ? project.scm.rev : '';
+					select#scm-branch.form-control(
+						onChange=this.onScmBranchChange
+					)
+						option(value=scmRev)= scmRev
+						option(value=-1) Custom revision
 
-		//- 		- var scmBranch = this.state.scmBranch;
-		//- 		if scmBranch === '-1'
-		//- 			| 
-		//- 			input.form-control(
-		//- 				value= this.state.scmRev,
-		//- 				onChange=this.onScmRevChange
-		//- 			)
+					- var scmBranch = this.state.scmBranch;
+					if scmBranch === '-1'
+						| 
+						input.form-control(
+							value= this.state.scmRev,
+							onChange=this.onScmRevChange
+						)
 
 		if project && project.playbooks && project.playbooks.length
 			.form-group
