@@ -18,16 +18,23 @@ var Store = Reflux.createStore({
 		var self = this,
 			resourceName = 'build' + build.id;
 
+		// disconnect from all previously connected resources
+		_(self.connectedResourcesHash).each(function(resource) {
+			resource.disconnect();
+		});
+
 		var connectToBuildDataResource = function() {
+			var resource = self.connectedResourcesHash[resourceName];
 			// reconnect for get data below (at subscribe), coz
 			// data emitted only once during connect
-			if (self.connectedResourcesHash[resourceName]) {
-				connect.resource(resourceName).reconnect();
+			if (resource) {
+				resource.reconnect();
 			} else {
-				self.connectedResourcesHash[resourceName] = 1;
+				resource = connect.resource(resourceName);
+				self.connectedResourcesHash[resourceName] = resource;
 			}
 
-			connect.resource(resourceName).subscribe('data', function(data) {
+			resource.subscribe('data', function(data) {
 				var lastLine = _(self.lines).last();
 				if (lastLine && (_(data.lines).first().number === lastLine.number)) {
 					self.lines = _(self.lines).initial();
