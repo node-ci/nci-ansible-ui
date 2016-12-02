@@ -13,7 +13,8 @@ var _ = require('underscore'),
 	RevisionsItem = require('../../revisions/item'),
 	RevisionsList = require('../../revisions/list'),
 	template = require('./index.jade'),
-	ansiUp = require('ansi_up');
+	ansiUp = require('ansi_up'),
+	scrollTop = require('simple-scrolltop');
 
 var Component = React.createClass({
 	mixins: [Reflux.ListenerMixin, Router.Navigation],
@@ -49,10 +50,6 @@ var Component = React.createClass({
 		};
 	},
 
-	getBody: function() {
-		return document.getElementsByTagName('body')[0];
-	},
-
 	toggleConsole: function() {
 		var consoleState = !this.state.showConsole;
 		if (consoleState) {
@@ -63,7 +60,7 @@ var Component = React.createClass({
 
 		// scroll to page top after hiding console
 		if (!consoleState) {
-			this.getBody().scrollTop = 0;
+			scrollTop(0);
 		}
 	},
 

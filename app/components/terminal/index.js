@@ -7,7 +7,8 @@ var _ = require('underscore'),
 	terminalStore = require('../../stores/terminal'),
 	ansiUp = require('ansi_up'),
 	utils = require('../../utils'),
-	template = require('./index.jade');
+	template = require('./index.jade'),
+	scrollTop = require('simple-scrolltop');
 
 var Component = React.createClass({
 	mixins: [Reflux.ListenerMixin],
@@ -55,22 +56,17 @@ var Component = React.createClass({
 	getTerminal: function() {
 		return document.getElementsByClassName('terminal')[0];
 	},
-	getBody: function() {
-		return document.getElementsByTagName('body')[0];
-	},
 	onScroll: function() {
-		var node = this.getTerminal(),
-			body = this.getBody();
+		var node = this.getTerminal();
 
-		this.shouldScrollBottom = window.innerHeight + body.scrollTop >=
+		this.shouldScrollBottom = window.innerHeight + scrollTop() >=
 			node.offsetHeight + this.initialScrollPosition;
 	},
 	ensureScrollPosition: function() {
 		if (this.shouldScrollBottom) {
-			var node = this.getTerminal(),
-				body = this.getBody();
+			var node = this.getTerminal();
 
-			body.scrollTop = this.initialScrollPosition + node.offsetHeight;
+			scrollTop(this.initialScrollPosition + node.offsetHeight);
 		}
 	},
 	makeCodeLineContent: function(line) {
