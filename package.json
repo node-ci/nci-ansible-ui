@@ -1,6 +1,6 @@
 {
   "name": "nci-ansible-ui",
-  "version": "0.1.6",
+  "version": "0.5.0",
   "description": "Simple ansible playbook runner",
   "main": "app.js",
   "scripts": {
