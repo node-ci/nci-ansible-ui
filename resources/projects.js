@@ -102,7 +102,7 @@ var patchDirstributor = function(distributor) {
 
 var extendProject = function(project) {
 	_(project).defaults({
-		playbookCommand: 'ansible-playbook'
+		playbookCommand: 'ANSIBLE_FORCE_COLOR=true ansible-playbook'
 	});
 
 	return project;
