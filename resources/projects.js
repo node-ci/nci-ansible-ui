@@ -101,9 +101,11 @@ var patchDirstributor = function(distributor) {
 };
 
 var extendProject = function(project) {
-	_(project).defaults({
-		playbookCommand: 'ANSIBLE_FORCE_COLOR=true ansible-playbook'
-	});
+	if (project.playbooks) {
+		_(project).defaults({
+			playbookCommand: 'ANSIBLE_FORCE_COLOR=true ansible-playbook'
+		});
+	}
 
 	return project;
 };
