@@ -22,14 +22,13 @@ which nci server is running without password e.g. by ssh key)
 
 ## Quick setting up
 
-This repo contains sample configuration for setup
-[nci-ansible-ui](https://github.com/node-ci/nci-ansible-ui) quickly.
-
 Clone quick setup repo, go into it and install dependencies:
 
 ```sh
 
-git clone https://github.com/node-ci/nci-ansible-ui-quick-setup && cd nci-ansible-ui-quick-setup && npm install
+git clone https://github.com/node-ci/nci-ansible-ui-quick-setup && \
+cd nci-ansible-ui-quick-setup && \
+npm install
 
 ```
 
@@ -43,8 +42,20 @@ node_modules/.bin/nci
 ```
 
 that's all, now you can experiment with it by adding/changing projects,
-use web interface (on http://127.0.0.1:3000 by default) for run playbooks,
-etc.
+use web interface (on http://127.0.0.1:3000 by default) for run playbooks.
+
+Sample project works with
+[repository](https://github.com/node-ci/nci-ansible-ui-sample-playbook)
+which contains sample playbooks (some ping, ps ax and other read commands) and
+inventory. Inventory defines localhost as target host with following
+settings:
+
+```yaml
+ansible_host: 127.0.0.1
+ansible_user: ansible
+```
+
+you should provide such access in order to run sample project.
 
 
 ## License
