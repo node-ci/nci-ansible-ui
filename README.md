@@ -53,10 +53,12 @@ settings:
 ```yaml
 ansible_host: 127.0.0.1
 ansible_user: ansible
+ansible_ssh_private_key_file: ~/.ssh/id_rsa_test
 ```
 
-you should provide such access in order to run sample project.
-
+you should provide such access in order to run sample project. Localhost
+also should be in your known hosts file (you can try this access manually
+to get prompt which can add it).
 
 ## License
 
