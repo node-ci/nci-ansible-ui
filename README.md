@@ -18,7 +18,8 @@ user interaction. This app doesn't use http api, it's built using socket.io
 github, bitbucket or private server, all you need is authenticate user from
 which nci server is running without password e.g. by ssh key)
 * minimal dependencies (only nodejs, scm client and ansible are required)
-
+* built on top of [nci](https://github.com/node-ci/nci), can extend
+functionality by notification and other plugins
 
 ## Quick setting up
 
