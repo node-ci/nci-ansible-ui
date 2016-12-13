@@ -7,6 +7,7 @@ config (it defines repository path, playbook and inventory directories inside
 repository, etc) and allows you to run playbooks with invetories via single
 page web interface (with live updates and pretty terminal output).
 
+![nci-ansible-ui-execution](https://cloud.githubusercontent.com/assets/465522/21159795/e281871a-c19b-11e6-9dea-aac57440dffe.png)
 
 ## Features
 
