@@ -7,8 +7,6 @@ config (it defines repository path, playbook and inventory directories inside
 repository, etc) and allows you to run playbooks with invetories via single
 page web interface (with live updates and pretty terminal output).
 
-![nci-ansible-ui-execution](https://cloud.githubusercontent.com/assets/465522/21159795/e281871a-c19b-11e6-9dea-aac57440dffe.png)
-
 ## Features
 
 * single page web application which immediately responds on any
@@ -21,6 +19,8 @@ which nci server is running without password e.g. by ssh key)
 * minimal dependencies (only nodejs, scm client and ansible are required)
 * built on top of [nci](https://github.com/node-ci/nci), can extend
 functionality by notification and other plugins
+
+![nci-ansible-ui-execution](https://cloud.githubusercontent.com/assets/465522/21159795/e281871a-c19b-11e6-9dea-aac57440dffe.png)
 
 ## Quick setting up
 
