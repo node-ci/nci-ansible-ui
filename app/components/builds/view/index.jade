@@ -235,6 +235,14 @@ if this.state.build
 								| Show console output
 
 			else
+				p
+
+				.text-center
+					button.btn.btn-success(onClick=this.onRunProject)
+						i.fa.fa-fw.fa-play
+						| 
+						| Run another project/playbook
+
 				if !this.state.showConsole
 					p
 
@@ -244,13 +252,6 @@ if this.state.build
 							| 
 							| Show console output
 
-					p
-
-					.text-center
-						button.btn.btn-success(onClick=this.onRunProject)
-							i.fa.fa-fw.fa-play
-							| 
-							| Run another project/playbook
 
 			.build-view_terminal
 				if this.state.showConsole
