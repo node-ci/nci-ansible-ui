@@ -19,7 +19,6 @@ var Component = React.createClass({
 
 	componentDidMount: function() {
 		this.listenTo(terminalStore, this.updateItems);
-		var node = document.getElementsByClassName('terminal')[0];
 		this.initialScrollPosition = 120;
 		if (this.props.showPreloader) {
 			this.setPreloaderDisplay(true);
