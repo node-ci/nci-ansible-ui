@@ -58,7 +58,8 @@ ansible_user: ansible
 ansible_ssh_private_key_file: ~/.ssh/id_rsa_test
 ```
 
-you should provide such access in order to run sample project. Localhost
+you should provide such access (ansible will be run by user which started nci
+server) in order to run sample project. Localhost
 also should be in your known hosts file (you can try this access manually
 to get prompt which can add it).
 
