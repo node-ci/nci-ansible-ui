@@ -144,7 +144,7 @@ if this.state.build
 						.alert(style="whiteSpace: pre-wrap;")!= ansiUp.ansi_to_html(this.state.build.error.stderr)
 				else if this.state.build.status === 'canceled'
 					h3
-						| Build canceled
+						| Execution canceled
 						| 
 						if this.state.build.currentStep
 							| during step "
@@ -264,17 +264,17 @@ if this.state.build
 					if this.state.build.completed
 						if this.state.build.status === 'error'
 							.text-center.alert.alert-danger
-								| Build ended with error, took
+								| Execution ended with error, took
 								| 
 								Duration(value=(this.state.build.endDate - this.state.build.startDate))
 						else if this.state.build.status === 'canceled'
 							.text-center.alert.alert-warning
-								| Build canceled, took
+								| Execution canceled, took
 								| 
 								Duration(value=(this.state.build.endDate - this.state.build.startDate))
 						else if this.state.build.status === 'done'
 							.text-center.alert.alert-success
-								| Build successfully completed, took
+								| Execution successfully completed, took
 								|  
 								Duration(value=(this.state.build.endDate - this.state.build.startDate))
 
