@@ -1,6 +1,6 @@
 # nci ansible ui
 
-Simple ansible playbook runner.
+Simple web interface for run ansible playbooks.
 
 It pulls your repository with playbooks and inventories according to project
 config (it defines repository path, playbook and inventory directories inside

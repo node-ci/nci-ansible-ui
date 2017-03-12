@@ -1,7 +1,7 @@
 {
   "name": "nci-ansible-ui",
   "version": "1.0.0",
-  "description": "Simple ansible playbook runner",
+  "description": "Simple web interface for run ansible playbooks",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
