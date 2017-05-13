@@ -129,8 +129,12 @@ module.exports = function(app) {
 		var filteredProjects = app.projects.getAll(),
 			nameQuery = req.data && req.data.nameQuery;
 
+		filteredProjects = app.projects.filter(function(project) {
+			return !project.archived;
+		});
+
 		if (nameQuery) {
-			filteredProjects = app.projects.filter(function(project) {
+			filteredProjects = _(filteredProjects).filter(function(project) {
 				return project.name.indexOf(nameQuery) !== -1;
 			});
 		}

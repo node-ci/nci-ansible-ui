@@ -2,10 +2,17 @@ h1.page-header.clearfix
 	.pull-right
 
 		- var scmRev = this.props.project.scm ? this.props.project.scm.rev : '';
-		.form-inline
+
+		- var formTitle;
+		- if (this.props.project.archived) {
+		-	formTitle = 'Archived project can not be run';
+		- }
+
+		.form-inline(title=formTitle)
 			select.form-control(
 				style="width: 250px;",
-				onChange=this.onScmBranchChange
+				onChange=this.onScmBranchChange,
+				disabled=this.props.project.archived
 			)
 				option(value=scmRev)= scmRev
 				option(value=-1) Custom revision
@@ -18,13 +25,24 @@ h1.page-header.clearfix
 					style="width: 250px;"
 				)
 
+			- var buildButtonClasses = [];
+			- if (this.props.project.archived) {
+			-	buildButtonClasses.push('disabled');
+			- }
+
 			if this.props.project.name
 				| 
-				button.btn.btn-sm.btn-success(onClick=this.onBuildProject)
+				button.btn.btn-sm.btn-success(
+					onClick=this.onBuildProject,
+					class=buildButtonClasses
+				)
 					i.fa.fa-fw.fa-play
 					| 
 					span Build
 
 	div
-		Scm(scm=this.props.project.scm ? this.props.project.scm.type : '')
+		if this.props.project.archived
+			i(title="Project is archived").fa.fa-fw.fa-archive
+		else
+			Scm(scm=this.props.project.scm ? this.props.project.scm.type : '')
 		span= this.props.project.name
