@@ -7,6 +7,7 @@ var _ = require('underscore'),
 	BuildActions = require('../../../actions/build'),
 	ProjectActions = require('../../../actions/project'),
 	buildStore = require('../../../stores/build'),
+	projectStore = require('../../../stores/project'),
 	Terminal = require('../../terminal'),
 	BuildSidebar = require('./sidebar'),
 	CommonComponents = require('../../common'),
@@ -28,6 +29,7 @@ var Component = React.createClass({
 
 	componentDidMount: function() {
 		this.listenTo(buildStore, this.updateBuild);
+		this.listenTo(projectStore, this.updateProject);
 	},
 
 	componentWillReceiveProps: function(nextProps) {
@@ -39,7 +41,22 @@ var Component = React.createClass({
 	},
 
 	updateBuild: function(build) {
+		if (build) {
+			// load project config
+			if (
+				_(this.state.project.name).isEmpty() ||
+				this.state.project.name !== build.project.name
+			) {
+				ProjectActions.read({name: build.project.name});
+			}
+		}
 		this.setState({build: build});
+	},
+
+	updateProject: function(project) {
+		if (project.name === this.state.build.project.name) {
+			this.setState({project: project});
+		}
 	},
 
 	getInitialState: function() {

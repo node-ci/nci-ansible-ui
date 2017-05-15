@@ -24,7 +24,12 @@ if this.state.build
 			h1.page-header
 				.pull-right(style={fontSize: '22px'})
 					mixin statusBadge(this.state.build)
-				Scm(scm=this.state.build.project.scm.type)
+
+				if this.state.project.archived
+					i(title="Project is archived").fa.fa-fw.fa-archive
+				else
+					Scm(scm=this.state.build.project.scm.type)
+
 				span= this.state.build.project.name
 				| 
 				span execution #
@@ -181,8 +186,14 @@ if this.state.build
 
 				.row
 					.col-sm-3
+						- var runButtonClasses = [];
+						- if (this.state.project.archived) {
+						-	runButtonClasses.push('disabled');
+						- }
+
 						button.btn.btn-default.btn-block(
-							title= "Run again with same parameters",
+							title="Run again with same parameters",
+							class=runButtonClasses,
 							onClick=this.onRunAgain
 						)
 							i.fa.fa-fw.fa-repeat
