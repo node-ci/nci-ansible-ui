@@ -52,7 +52,13 @@ node_modules/.bin/nci
 
 ```
 
-that's all, now you can experiment with it by adding/changing projects,
+Alternatively you can run it within docker, e.g. by running (see [image page](https://hub.docker.com/r/jc21/nci-ansible-ui/) for details):
+
+```sh
+docker run -p 3000:3000 jc21/nci-ansible-ui
+```
+
+That's all, now you can experiment with it by adding/changing projects,
 use web interface (on http://127.0.0.1:3000 by default) for run playbooks.
 
 Sample project works with
