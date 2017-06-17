@@ -22,9 +22,18 @@ functionality by notification and other plugins
 
 ![nci-ansible-ui-execution](https://cloud.githubusercontent.com/assets/465522/21159795/e281871a-c19b-11e6-9dea-aac57440dffe.png)
 
+## System requirements
+
+* unix-like operating system, not tested on windows
+* node.js >= 0.10
+* git client >= 1.9 (only for building git projects)
+* mercurial client >= 2.8 (only for building mercurial projects)
+* ansible
+
 ## Quick setting up
 
-Clone quick setup repo, go into it and install dependencies:
+On the system with satisfied [requirements](#system-requirements) clone
+quick setup repo, go into it and install dependencies:
 
 ```sh
 
