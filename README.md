@@ -29,6 +29,7 @@ functionality by notification and other plugins
 * git client >= 1.9 (only for building git projects)
 * mercurial client >= 2.8 (only for building mercurial projects)
 * ansible
+* build tools - gcc, make, etc (for building [LevelDB](https://github.com/level/leveldown) if binary is not provided for your platform). E.g. ubuntu ```build-essential``` package provides such tools.
 
 ## Quick setting up
 
