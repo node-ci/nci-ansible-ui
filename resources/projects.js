@@ -4,6 +4,10 @@ var Steppy = require('twostep').Steppy,
 	_ = require('underscore'),
 	helpers = require('./helpers');
 
+var stringifyArgValue = function(value) {
+	return '"' + value + '"';
+};
+
 var makeProject = function(project, buildParams) {
 	var newProject = _(project).clone();
 
@@ -65,7 +69,7 @@ var makeProject = function(project, buildParams) {
 			}
 
 			if (extraVars) {
-				args.push('--extra-vars=' + extraVars);
+				args.push('--extra-vars=' + stringifyArgValue(extraVars));
 			}
 
 			var stepName = (
