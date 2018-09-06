@@ -26,7 +26,8 @@ module.exports = React.createClass({
 			scmRev: '',
 			playbookName: '',
 			inventoryNames: [],
-			limit: ''
+			limit: '',
+			extraVars: ''
 		});
 	},
 	onScmBranchChange: function(event) {
@@ -39,7 +40,8 @@ module.exports = React.createClass({
 		this.setState({
 			playbookName: event.target.value,
 			inventoryNames: [],
-			limit: ''
+			limit: '',
+			extraVars: ''
 		});
 	},
 	onInventoryNamesChange: function(event) {
@@ -74,6 +76,9 @@ module.exports = React.createClass({
 	onLimitChange: function(event) {
 		this.setState({limit: event.target.value});
 	},
+	onExtraVarsChange: function(event) {
+		this.setState({extraVars: event.target.value});
+	},
 	onCancel: function() {
 		this.transitionTo('root');
 	},
@@ -88,6 +93,10 @@ module.exports = React.createClass({
 
 			if (this.state.limit) {
 				buildParams.playbook.limit = this.state.limit;
+			}
+
+			if (this.state.extraVars) {
+				buildParams.playbook.extraVars = this.state.extraVars;
 			}
 		}
 

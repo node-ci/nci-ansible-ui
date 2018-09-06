@@ -27,7 +27,8 @@ var makeProject = function(project, buildParams) {
 		}
 
 		var inventoryNames = buildParams.playbook.inventoryNames,
-			limit = buildParams.playbook.limit;
+			limit = buildParams.playbook.limit,
+			extraVars = buildParams.playbook.extraVars;
 
 		if (!inventoryNames || !inventoryNames.length) {
 			throw new Error(
@@ -61,6 +62,10 @@ var makeProject = function(project, buildParams) {
 
 			if (limit) {
 				args.push('--limit=' + limit);
+			}
+
+			if (extraVars) {
+				args.push('--extra-vars=' + extraVars);
 			}
 
 			var stepName = (
