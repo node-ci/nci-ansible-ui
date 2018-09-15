@@ -5,7 +5,7 @@ var Steppy = require('twostep').Steppy,
 	helpers = require('./helpers');
 
 var stringifyArgValue = function(value) {
-	return '"' + value + '"';
+	return '"' + value.replace(/"/g, '\\"') + '"';
 };
 
 var makeProject = function(project, buildParams) {
