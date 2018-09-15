@@ -4,6 +4,10 @@ var Steppy = require('twostep').Steppy,
 	_ = require('underscore'),
 	helpers = require('./helpers');
 
+var stringifyArgValue = function(value) {
+	return '"' + value.replace(/"/g, '\\"') + '"';
+};
+
 var makeProject = function(project, buildParams) {
 	var newProject = _(project).clone();
 
@@ -27,7 +31,8 @@ var makeProject = function(project, buildParams) {
 		}
 
 		var inventoryNames = buildParams.playbook.inventoryNames,
-			limit = buildParams.playbook.limit;
+			limit = buildParams.playbook.limit,
+			extraVars = buildParams.playbook.extraVars;
 
 		if (!inventoryNames || !inventoryNames.length) {
 			throw new Error(
@@ -61,6 +66,10 @@ var makeProject = function(project, buildParams) {
 
 			if (limit) {
 				args.push('--limit=' + limit);
+			}
+
+			if (extraVars) {
+				args.push('--extra-vars=' + stringifyArgValue(extraVars));
 			}
 
 			var stepName = (

@@ -182,6 +182,12 @@ if this.state.build
 						| 
 						span(style="wordBreak: break-all;")= playbook.limit
 
+				if playbook.extraVars
+					div
+						| Extra vars:
+						| 
+						span(style="wordBreak: break-all;")= playbook.extraVars
+
 				p
 
 				.row
