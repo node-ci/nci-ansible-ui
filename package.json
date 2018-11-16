@@ -1,6 +1,6 @@
 {
   "name": "nci-ansible-ui",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Simple web interface for run ansible playbooks",
   "main": "app.js",
   "scripts": {
@@ -54,10 +54,10 @@
     "font-awesome": "4.3.0",
     "jade": "1.11.0",
     "jshint": "2.4.4",
-    "less": "2.5.3",
+    "less": "3.8.1",
     "moment": "2.10.6",
     "nrun": "0.1.4",
-    "parallelshell": "2.0.0",
+    "parallelshell": "3.0.1",
     "react": "0.14.3",
     "react-dom": "0.14.3",
     "react-jade": "2.5.0",
