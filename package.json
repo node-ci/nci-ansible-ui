@@ -57,7 +57,7 @@
     "less": "3.7.1",
     "moment": "2.10.6",
     "nrun": "0.1.4",
-    "parallelshell": "3.0.1",
+    "parallelshell": "3.0.2",
     "react": "0.14.3",
     "react-dom": "0.14.3",
     "react-jade": "2.5.0",
