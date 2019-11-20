@@ -7,3 +7,5 @@ transforms
 views
 .jshintrc
 *.tgz
+.npmrc
+
