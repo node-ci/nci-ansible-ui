@@ -55,7 +55,7 @@
     "jade": "1.11.0",
     "jshint": "2.4.4",
     "less": "3.7.1",
-    "moment": "2.10.6",
+    "moment": "2.24.0",
     "nrun": "0.1.4",
     "parallelshell": "3.0.2",
     "react": "0.14.3",
