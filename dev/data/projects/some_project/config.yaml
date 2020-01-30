@@ -1,0 +1,23 @@
+
+scm:
+    type: git
+    repository: https://github.com/node-ci/nci-ansible-ui-sample-playbook
+    rev: master
+
+#some shell steps before run playbook with inventories
+steps:
+    - name: Some action before playbooks
+      cmd: echo "do something"
+
+playbooks:
+    - name: sample_shell_calls
+      path: projects/some_project/playbooks/shell/main.yaml
+      inventories:
+          - name: sample
+            path: projects/some_project/inventories/sample/hosts
+
+    - name: check_host_availability
+      path: projects/some_project/playbooks/ping/main.yaml
+      inventories:
+          - name: sample
+            path: projects/some_project/inventories/sample/hosts

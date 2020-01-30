@@ -4,3 +4,4 @@ static/fonts
 static/js/*.js
 static/index.html
 views/index.js
+dev/data/projects/**/workspace
