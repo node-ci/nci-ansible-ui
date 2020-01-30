@@ -25,7 +25,7 @@ functionality by notification and other plugins
 ## System requirements
 
 * unix-like operating system, not tested on windows
-* node.js >= 0.10
+* node.js >= 8
 * git client >= 1.9 (only for building git projects)
 * mercurial client >= 2.8 (only for building mercurial projects)
 * ansible
