@@ -20,4 +20,4 @@ cache:
 
 script:
     - npm run lint
-    - npm run dev-server-and-test
+    - npm run dev-server-and-test-ui
