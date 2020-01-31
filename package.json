@@ -15,7 +15,7 @@
     "dev": "test -z $NODE_ENV && export NODE_ENV=development; nrun _init-dev && parallelshell 'nrun build-fonts' 'nrun watch-less' 'nrun watch-js' 'nrun build-html' 'nrun dev-nci'",
     "sync": "npm install && npm prune",
     "lint": "jshint ./",
-    "build-fonts": "mkdir -p static/fonts/ && parallelshell 'cp ./node_modules/bootstrap/fonts/* ./static/fonts/' 'cp ./node_modules/font-awesome/fonts/* ./static/fonts/' 'cp ./node_modules/scmicons/fonts/* ./static/fonts/'",
+    "build-fonts": "mkdir -p static/fonts/ && cp ./node_modules/bootstrap/fonts/* ./static/fonts/ && cp ./node_modules/font-awesome/fonts/* ./static/fonts/ && cp ./node_modules/scmicons/fonts/* ./static/fonts/",
     "build-clean": "rm static/index.html",
     "build-html": "jade views/index.jade --obj \"{'env': '$NODE_ENV'}\" -o static/",
     "build": "test -z $NODE_ENV && export NODE_ENV=production; nrun build-fonts && nrun build-js && nrun build-less && nrun build-html"
