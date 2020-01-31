@@ -52,6 +52,7 @@
     "bootstrap": "3.3.4",
     "browserify": "13.0.0",
     "chokidar-cli": "1.2.0",
+    "cypress": "3.8.3",
     "font-awesome": "4.3.0",
     "jade": "1.11.0",
     "jshint": "2.4.4",
@@ -73,6 +74,7 @@
     "socket.io-client": "1.7.2",
     "through": "2.3.8",
     "uglifyjs": "2.4.10",
+    "url-join": "4.0.1",
     "watchify": "3.6.1"
   },
   "peerDependencies": {
