@@ -82,7 +82,8 @@ Cypress.Commands.add('expectBuildPageInfo', ({
 	playbookName,
 	inventories,
 	limit,
-	extraVar
+	extraVar,
+	selectedBuildItemIndex
 }) => {
 	if (projectName) {
 		cy.contains('.page-header', projectName);
@@ -102,5 +103,8 @@ Cypress.Commands.add('expectBuildPageInfo', ({
 	}
 	if (extraVar) {
 		cy.contains(`Extra vars: ${extraVar}`);
+	}
+	if (_(selectedBuildItemIndex).isNumber()) {
+		cy.get(`.builds_item__current.builds_item:eq(${selectedBuildItemIndex})`);
 	}
 });

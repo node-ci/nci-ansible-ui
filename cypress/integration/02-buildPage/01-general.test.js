@@ -16,7 +16,10 @@ describe('Build page in general', () => {
 	});
 
 	it('should contain info according to run params', () => {
-		cy.expectBuildPageInfo(runProjectParams);
+		cy.expectBuildPageInfo({
+			...runProjectParams,
+			selectedBuildItemIndex: 0
+		});
 	});
 
 	it('should contain info about node and initiator', () => {

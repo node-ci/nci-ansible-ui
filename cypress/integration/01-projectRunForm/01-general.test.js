@@ -1,5 +1,5 @@
 
-describe('Project run form should behave like this', () => {
+describe('Project run form in general', () => {
 	it('should be loaded by url', () => {
 		cy.visitPage('projectRunForm');
 	});

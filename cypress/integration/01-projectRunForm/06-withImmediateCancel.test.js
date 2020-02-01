@@ -10,4 +10,8 @@ describe('Project run form with immediate cancel', () => {
 	it('should redirect to build page', () => {
 		cy.expectBeOnPage('build');
 	});
+
+	it('build page should have first item selected in builds list', () => {
+		cy.expectBuildPageInfo({selectedBuildItemIndex: 0});
+	});
 });

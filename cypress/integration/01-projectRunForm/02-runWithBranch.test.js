@@ -1,4 +1,4 @@
-describe('Project run form run with branch', () => {
+describe('Project run form run in general', () => {
 	it('should be loaded by url', () => {
 		cy.visitPage('projectRunForm');
 	});
@@ -23,6 +23,9 @@ describe('Project run form run with branch', () => {
 	});
 
 	it('build page should contain info according to run params', () => {
-		cy.expectBuildPageInfo(runProjectParams);
+		cy.expectBuildPageInfo({
+			...runProjectParams,
+			selectedBuildItemIndex: 0
+		});
 	});
 });
