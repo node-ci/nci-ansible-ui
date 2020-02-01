@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -23,3 +25,21 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('fillProjectRunForm', ({
+	projectName,
+	playbookName,
+	inventories
+}) => {
+	if (projectName) {
+		cy.get('#project-name').select(projectName);
+	}
+	if (playbookName) {
+		cy.get('#playbook-name').select(playbookName);
+	}
+	if (inventories) {
+		_(inventories).each((inventory) => {
+			cy.get(`input[type=checkbox][value=${inventory}]`).check();
+		});
+	}
+});

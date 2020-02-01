@@ -20,7 +20,7 @@ describe('Project run form should behave like this', () => {
 	});
 
 	it('select project some_project', () => {
-		cy.get('#project-name').select('some_project');
+		cy.fillProjectRunForm({projectName: 'some_project'});
 	});
 
 	it('should render branch and playbook selects', () => {
@@ -35,7 +35,7 @@ describe('Project run form should behave like this', () => {
 	});
 
 	it('select playbook sample_shell_calls', () => {
-		cy.get('#playbook-name').select('sample_shell_calls');
+		cy.fillProjectRunForm({playbookName: 'sample_shell_calls'});
 	});
 
 	it('should render inventories, limit, extra var fields', () => {
@@ -50,7 +50,7 @@ describe('Project run form should behave like this', () => {
 	});
 
 	it('select sample inventory', () => {
-		cy.get('input[type=checkbox][value=sample]').check();
+		cy.fillProjectRunForm({inventories: ['sample']});
 	});
 
 	it('run button should now be enabled', () => {
