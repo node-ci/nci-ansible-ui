@@ -35,3 +35,25 @@ Cypress.Commands.add('fillProjectRunForm', ({
 		});
 	}
 });
+
+Cypress.Commands.add('expectBuildPageInfo', ({
+	projectName,
+	branchName,
+	customRevision,
+	playbookName,
+	inventories
+}) => {
+	if (projectName) {
+		cy.contains('.page-header', projectName);
+	}
+	if (branchName || customRevision) {
+		const scmTarget = branchName || customRevision;
+		cy.contains('.build-view_info', `Scm target is ${scmTarget}`);
+	}
+	if (playbookName) {
+		cy.contains(`Playbook: ${playbookName}`);
+	}
+	if (inventories) {
+		cy.contains(`Inventories: ${inventories.join(', ')}`);
+	}
+});

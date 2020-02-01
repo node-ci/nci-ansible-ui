@@ -5,23 +5,19 @@ describe('Project run form run with branch', () => {
 			.should('equal', '/projects/run');
 	});
 
-	const branchName = 'master';
+	const runProjectParams = {
+		projectName: 'some_project',
+		branchName: 'master',
+		playbookName: 'sample_shell_calls',
+		inventories: ['sample']
+	};
 
 	it('select project, branch, playbook, inventories', () => {
-		cy.fillProjectRunForm({
-			projectName: 'some_project',
-			branchName,
-			playbookName: 'sample_shell_calls',
-			inventories: ['sample']
-		});
-	});
-
-	it('run button should be enabled', () => {
-		cy.get('button:contains(Run):enabled');
+		cy.fillProjectRunForm(runProjectParams);
 	});
 
 	it('click on run button', () => {
-		cy.get('button:contains(Run)').click();
+		cy.get('button:contains(Run):not(.disabled)').click();
 	});
 
 	it('should redirect to build page', () => {
@@ -29,7 +25,7 @@ describe('Project run form run with branch', () => {
 			.should('match', new RegExp('/builds/\\d+'));
 	});
 
-	it('should contain info about target branch', () => {
-		cy.contains(`Scm target is ${branchName}`);
+	it('build page should contain info according to run params', () => {
+		cy.expectBuildPageInfo(runProjectParams);
 	});
 });

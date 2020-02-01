@@ -14,11 +14,11 @@ describe('Project run form should behave like this', () => {
 	});
 
 	it('cancel button should be enabled', () => {
-		cy.get('button:contains(Cancel):enabled');
+		cy.get('button:contains(Cancel):not(.disabled)');
 	});
 
 	it('run button should be disabled', () => {
-		cy.get('button:contains(Run):not(enabled)');
+		cy.get('button.disabled:contains(Run)');
 	});
 
 	it('select project some_project', () => {
@@ -33,7 +33,7 @@ describe('Project run form should behave like this', () => {
 	});
 
 	it('run button should still be disabled', () => {
-		cy.get('button:contains(Run):not(enabled)');
+		cy.get('button.disabled:contains(Run):not(enabled)');
 	});
 
 	it('select playbook sample_shell_calls', () => {
@@ -56,6 +56,6 @@ describe('Project run form should behave like this', () => {
 	});
 
 	it('run button should now be enabled', () => {
-		cy.get('button:contains(Run):enabled');
+		cy.get('button:contains(Run):not(.disabled)');
 	});
 });
