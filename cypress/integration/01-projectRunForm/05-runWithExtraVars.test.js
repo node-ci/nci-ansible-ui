@@ -1,8 +1,6 @@
 describe('Project run form run with extra vars', () => {
 	it('should be loaded by url', () => {
-		cy.visit('/projects/run');
-		cy.location('pathname')
-			.should('equal', '/projects/run');
+		cy.visitPage('projectRunForm');
 	});
 
 	const runProjectParams = {
@@ -22,8 +20,7 @@ describe('Project run form run with extra vars', () => {
 	});
 
 	it('should redirect to build page', () => {
-		cy.location('pathname')
-			.should('match', new RegExp('/builds/\\d+'));
+		cy.expectBeOnPage('build');
 	});
 
 	it('build page should contain info according to run params', () => {
