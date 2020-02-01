@@ -2,6 +2,8 @@
 describe('Project run form should behave like this', () => {
 	it('should be loaded by url', () => {
 		cy.visit('/projects/run');
+		cy.location('pathname')
+			.should('equal', '/projects/run');
 	});
 
 	it('should render project select and cancel, run buttons', () => {

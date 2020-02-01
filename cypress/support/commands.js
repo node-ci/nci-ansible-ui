@@ -9,30 +9,22 @@ const _ = require('underscore');
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('fillProjectRunForm', ({
 	projectName,
+	branchName,
+	customRevision,
 	playbookName,
 	inventories
 }) => {
 	if (projectName) {
 		cy.get('#project-name').select(projectName);
+	}
+	if (branchName) {
+		cy.get('#scm-branch').select(branchName);
+	} else if (customRevision) {
+		cy.get('#scm-branch').select('Custom revision');
+		cy.get('#scm-branch').siblings('input').type(customRevision);
 	}
 	if (playbookName) {
 		cy.get('#playbook-name').select(playbookName);
