@@ -1,10 +1,7 @@
-const {getServerUrl} = require('../../utils');
 
 describe('Project run form should behave like this', () => {
 	it('should be loaded by url', () => {
-		const runFormUrl = getServerUrl('/projects/run');
-
-		cy.visit(runFormUrl);
+		cy.visit('/projects/run');
 	});
 
 	it('should render project select and cancel, run buttons', () => {
