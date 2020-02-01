@@ -15,7 +15,9 @@ Cypress.Commands.add('fillProjectRunForm', ({
 	branchName,
 	customRevision,
 	playbookName,
-	inventories
+	inventories,
+	limit,
+	extraVar
 }) => {
 	if (projectName) {
 		cy.get('#project-name').select(projectName);
@@ -34,6 +36,12 @@ Cypress.Commands.add('fillProjectRunForm', ({
 			cy.get(`input[type=checkbox][value=${inventory}]`).check();
 		});
 	}
+	if (limit) {
+		cy.get('input#limit').type(limit);
+	}
+	if (extraVar) {
+		cy.get('input#extra-vars').type(extraVar);
+	}
 });
 
 Cypress.Commands.add('expectBuildPageInfo', ({
@@ -41,7 +49,9 @@ Cypress.Commands.add('expectBuildPageInfo', ({
 	branchName,
 	customRevision,
 	playbookName,
-	inventories
+	inventories,
+	limit,
+	extraVar
 }) => {
 	if (projectName) {
 		cy.contains('.page-header', projectName);
@@ -55,5 +65,11 @@ Cypress.Commands.add('expectBuildPageInfo', ({
 	}
 	if (inventories) {
 		cy.contains(`Inventories: ${inventories.join(', ')}`);
+	}
+	if (limit) {
+		cy.contains(`Limit: ${limit}`);
+	}
+	if (extraVar) {
+		cy.contains(`Extra vars: ${extraVar}`);
 	}
 });
