@@ -30,8 +30,10 @@ describe('Build page in general', () => {
 		cy.contains('Execution parameters');
 	});
 
-	it('should contain execution steps', () => {
+	it('should contain minimal execution steps', () => {
 		cy.contains('Execution steps');
+		cy.contains('* prepare executor');
+		cy.contains('* get sources');
 	});
 
 	it('should have enabled run again button', () => {
