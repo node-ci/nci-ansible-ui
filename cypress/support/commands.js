@@ -10,35 +10,29 @@ const _ = require('underscore');
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-const waitForPageLoad = (pageName) => {
-	// wait to load form elements (or so) to be ready to go
-	if (pageName === 'projectRunForm') {
-		cy.contains('label', 'Project');
-	} else if (pageName === 'build') {
-		// do nothing
-	} else {
-		throw new Error(`Unknown page name to visit: "${pageName}"`);
-	}
-};
-
 Cypress.Commands.add('visitPage', (pageName) => {
 	if (pageName === 'projectRunForm') {
 		cy.visit('/projects/run');
-		cy.location('pathname').should('equal', '/projects/run');
 	} else {
 		throw new Error(`Unknown page name to visit: "${pageName}"`);
 	}
-	waitForPageLoad(pageName);
+	cy.expectBeOnPage(pageName);
 });
 
-Cypress.Commands.add('expectBeOnPage', (pageName) => {
-	if (pageName === 'build') {
-		cy.location('pathname')
-			.should('match', new RegExp('/builds/\\d+'));
+Cypress.Commands.add('expectBeOnPage', (pageName, options = {}) => {
+	if (pageName === 'projectRunForm') {
+		cy.location('pathname').should('equal', '/projects/run');
+		cy.contains('label', 'Project');
+	} else if (pageName === 'build') {
+		const pathname = cy.location('pathname');
+		if (options.buildId) {
+			pathname.should('equal', `/builds/${options.buildId}`);
+		} else {
+			pathname.should('match', new RegExp('/builds/\\d+'));
+		}
 	} else {
 		throw new Error(`Unknown page name to be on: "${pageName}"`);
 	}
-	waitForPageLoad(pageName);
 });
 
 Cypress.Commands.add('fillProjectRunForm', ({
