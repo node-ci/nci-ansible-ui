@@ -35,6 +35,42 @@ Cypress.Commands.add('expectBeOnPage', (pageName, options = {}) => {
 	}
 });
 
+Cypress.Commands.add('getBuildIdFromCurrentUrl', () => {
+	return cy.location('pathname')
+		.then((pathname) => {
+			const parts = new RegExp('^/builds/(\\d+)').exec(pathname);
+			const buildId = parts ? Number(parts[1]) : null;
+			if (!buildId) {
+				throw new Error(`Can't get build id from url: "${pathname}"`);
+			}
+			return buildId;
+		});
+});
+
+Cypress.Commands.add('expectApiBuild', ({build, expectedParams}) => {
+	expect(build).an('object');
+	expect(build).have.any.key('project');
+	expect(build.project).an('object');
+	expect(build.project).have.any.key('name');
+	expect(build.project.name).equal(expectedParams.projectName);
+	expect(build.project).have.any.key('scm');
+	expect(build.project.scm).an('object');
+	expect(build.project.scm).have.any.key('rev');
+	expect(build.project.scm.rev).equal(expectedParams.branchName);
+	expect(build).have.any.key('params');
+	expect(build.params).an('object');
+	expect(build.params).have.any.key('playbook');
+	expect(build.params.playbook).an('object');
+	expect(build.params.playbook).have.any.key('name');
+	expect(build.params.playbook.name).equal(
+		expectedParams.playbookName
+	);
+	expect(build.params.playbook).have.any.key('inventoryNames');
+	expect(build.params.playbook.inventoryNames).eql(
+		expectedParams.inventories
+	);
+});
+
 Cypress.Commands.add('fillProjectRunForm', ({
 	projectName,
 	branchName,

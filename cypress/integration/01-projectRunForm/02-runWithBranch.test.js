@@ -22,10 +22,20 @@ describe('Project run form run in general', () => {
 		cy.expectBeOnPage('build');
 	});
 
-	it('build page should contain info according to run params', () => {
-		cy.expectBuildPageInfo({
-			...runProjectParams,
-			selectedBuildItemIndex: 0
-		});
+	it('build page should contain info according to created build', () => {
+		cy.getBuildIdFromCurrentUrl()
+			.then((buildId) => 	{
+				return cy.request(`/api/0.1/builds/${buildId}`, {json: true});
+			})
+			.should((response) => {
+				expect(response).an('object');
+				expect(response).have.any.key('body');
+				expect(response.body).an('object');
+				expect(response.body).have.any.key('build');
+				cy.expectApiBuild({
+					build: response.body.build,
+					expectedParams: runProjectParams
+				});
+			});
 	});
 });
