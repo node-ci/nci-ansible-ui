@@ -22,7 +22,13 @@ describe('Project run form run with custom revision', () => {
 		cy.expectBeOnPage('build');
 	});
 
-	it('build page should contain info according to run params', () => {
-		cy.expectBuildPageInfo(runProjectParams);
+	it('api build should contain info according to run params', () => {
+		cy.getBuildIdFromCurrentUrl()
+			.then((buildId) => {
+				cy.getAndExpectApiBuild({
+					expectedParams: runProjectParams,
+					buildId
+				});
+			});
 	});
 });

@@ -55,20 +55,51 @@ Cypress.Commands.add('expectApiBuild', ({build, expectedParams}) => {
 	expect(build.project.name).equal(expectedParams.projectName);
 	expect(build.project).have.any.key('scm');
 	expect(build.project.scm).an('object');
-	expect(build.project.scm).have.any.key('rev');
-	expect(build.project.scm.rev).equal(expectedParams.branchName);
+	const expectedRev = (
+		expectedParams.branchName || expectedParams.customRevision
+	);
+	if (expectedRev) {
+		expect(build.project.scm).have.any.key('rev');
+		expect(build.project.scm.rev).equal(expectedRev);
+	}
 	expect(build).have.any.key('params');
 	expect(build.params).an('object');
 	expect(build.params).have.any.key('playbook');
 	expect(build.params.playbook).an('object');
-	expect(build.params.playbook).have.any.key('name');
-	expect(build.params.playbook.name).equal(
-		expectedParams.playbookName
-	);
-	expect(build.params.playbook).have.any.key('inventoryNames');
-	expect(build.params.playbook.inventoryNames).eql(
-		expectedParams.inventories
-	);
+	if (expectedParams.playbookName) {
+		expect(build.params.playbook).have.any.key('name');
+		expect(build.params.playbook.name).equal(
+			expectedParams.playbookName
+		);
+	}
+	if (expectedParams.inventories) {
+		expect(build.params.playbook).have.any.key('inventoryNames');
+		expect(build.params.playbook.inventoryNames).eql(
+			expectedParams.inventories
+		);
+	}
+	if (expectedParams.limit) {
+		expect(build.params.playbook).have.any.key('limit');
+		expect(build.params.playbook.limit).equal(expectedParams.limit);
+	}
+	if (expectedParams.extraVar) {
+		expect(build.params.playbook).have.any.key('extraVars');
+		expect(build.params.playbook.extraVars).equal(expectedParams.extraVar);
+	}
+});
+
+Cypress.Commands.add('getAndExpectApiBuild', ({buildId, expectedParams}) => {
+	cy.request(`/api/0.1/builds/${buildId}`, {json: true})
+		.should((response) => {
+			expect(response).an('object');
+			expect(response).have.any.key('body');
+			expect(response.body).an('object');
+			expect(response.body).have.any.key('build');
+			cy.expectApiBuild({
+				build: response.body.build,
+				expectedParams
+			});
+		});
 });
 
 Cypress.Commands.add('fillProjectRunForm', ({
