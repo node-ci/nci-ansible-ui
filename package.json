@@ -62,7 +62,7 @@
     "moment": "2.10.6",
     "nci": "1.0.26",
     "nci-static-server": "1.2.0",
-    "nci-yaml-reader": "1.2.1",
+    "nci-yaml-reader": "1.2.2",
     "nrun": "0.1.4",
     "parallelshell": "3.0.2",
     "react": "0.14.3",
