@@ -1,35 +1,25 @@
 describe('Build page run again', () => {
-	const runProjectParams = {
+	const createBuildParams = {
 		projectName: 'some_project',
 		branchName: 'master',
 		playbookName: 'sample_shell_calls',
 		inventories: ['sample']
 	};
 
-	it('run project with specified params and wait for build page', () => {
-		cy.visitPage('projectRunForm');
-		cy.fillProjectRunForm(runProjectParams);
-		cy.get('button:contains(Run):not(.disabled)').click();
-		cy.expectBeOnPage('build');
+	let currentBuildId;
+
+	it('create build via api and go to it`s page', () => {
+		cy.createAndExpectApiBuild(createBuildParams)
+			.then((build) => {
+				currentBuildId = build.id;
+				cy.visitPage('build', {buildId: currentBuildId});
+			});
 	});
 
 	it('should contain info according to run params', () => {
 		cy.expectBuildPageInfo({
-			...runProjectParams,
+			...createBuildParams,
 			selectedBuildItemIndex: 0
-		});
-	});
-
-	let currentBuildId;
-
-	it('get current build id from url', () => {
-		cy.location('pathname').should((pathname) => {
-			const parts = new RegExp('^/builds/(\\d+)').exec(pathname);
-			const buildId = parts ? Number(parts[1]) : null;
-			if (!buildId) {
-				throw new Error(`Can't get build id from path: "${pathname}"`);
-			}
-			currentBuildId = buildId;
 		});
 	});
 
@@ -40,7 +30,7 @@ describe('Build page run again', () => {
 
 	it('should contain info according to run params', () => {
 		cy.expectBuildPageInfo({
-			...runProjectParams,
+			...createBuildParams,
 			selectedBuildItemIndex: 0
 		});
 	});
