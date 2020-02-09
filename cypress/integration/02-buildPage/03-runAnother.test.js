@@ -1,23 +1,16 @@
 describe('Build page run another', () => {
-	const runProjectParams = {
+	const createBuildParams = {
 		projectName: 'some_project',
 		branchName: 'master',
 		playbookName: 'sample_shell_calls',
 		inventories: ['sample']
 	};
 
-	it('run project with specified params and wait for build page', () => {
-		cy.visitPage('projectRunForm');
-		cy.fillProjectRunForm(runProjectParams);
-		cy.get('button:contains(Run):not(.disabled)').click();
-		cy.expectBeOnPage('build');
-	});
-
-	it('should contain info according to run params', () => {
-		cy.expectBuildPageInfo({
-			...runProjectParams,
-			selectedBuildItemIndex: 0
-		});
+	it('create build via api and go to it`s page', () => {
+		cy.createAndExpectApiBuild(createBuildParams)
+			.then((build) => {
+				cy.visitPage('build', {buildId: build.id});
+			});
 	});
 
 	it('click run another', () => {
