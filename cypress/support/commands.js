@@ -10,9 +10,11 @@ const _ = require('underscore');
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-Cypress.Commands.add('visitPage', (pageName) => {
+Cypress.Commands.add('visitPage', (pageName, options = {}) => {
 	if (pageName === 'projectRunForm') {
 		cy.visit('/projects/run');
+	} else if (pageName === 'build') {
+		cy.visit(`/builds/${options.buildId}`);
 	} else {
 		throw new Error(`Unknown page name to visit: "${pageName}"`);
 	}
@@ -47,12 +49,14 @@ Cypress.Commands.add('getBuildIdFromCurrentUrl', () => {
 		});
 });
 
-Cypress.Commands.add('expectApiBuild', ({build, expectedParams}) => {
+const expectApiBuild = ({build, expectedParams}) => {
 	expect(build).an('object');
 	expect(build).have.any.key('project');
 	expect(build.project).an('object');
-	expect(build.project).have.any.key('name');
-	expect(build.project.name).equal(expectedParams.projectName);
+	if (expectedParams.projectName) {
+		expect(build.project).have.any.key('name');
+		expect(build.project.name).equal(expectedParams.projectName);
+	}
 	expect(build.project).have.any.key('scm');
 	expect(build.project.scm).an('object');
 	const expectedRev = (
@@ -86,7 +90,7 @@ Cypress.Commands.add('expectApiBuild', ({build, expectedParams}) => {
 		expect(build.params.playbook).have.any.key('extraVars');
 		expect(build.params.playbook.extraVars).equal(expectedParams.extraVar);
 	}
-});
+};
 
 Cypress.Commands.add('getAndExpectApiBuild', ({buildId, expectedParams}) => {
 	cy.request(`/api/0.1/builds/${buildId}`, {json: true})
@@ -95,10 +99,60 @@ Cypress.Commands.add('getAndExpectApiBuild', ({buildId, expectedParams}) => {
 			expect(response).have.any.key('body');
 			expect(response.body).an('object');
 			expect(response.body).have.any.key('build');
-			cy.expectApiBuild({
-				build: response.body.build,
-				expectedParams
+			expectApiBuild({build: response.body.build, expectedParams});
+		});
+});
+
+Cypress.Commands.add('createAndExpectApiBuild', ({
+	projectName,
+	branchName,
+	customRevision,
+	playbookName,
+	inventories,
+	limit,
+	extraVar
+}) => {
+	const body = {
+		token: 'secret',
+		project: projectName,
+		buildParams: {
+			playbook: {
+				name: playbookName,
+				inventoryNames: inventories
+			}
+		}
+	};
+	if (limit) {
+		body.buildParams.playbook.limit = limit;
+	}
+	if (extraVar) {
+		body.buildParams.playbook.extraVars = extraVar;
+	}
+
+	cy.request('POST', '/api/0.1/builds', body)
+		.then((response) => {
+			expect(response).an('object');
+			expect(response).have.any.key('body');
+			expect(response.body).an('object');
+			expect(response.body).have.any.key('builds');
+			expect(response.body.builds).an('array');
+			expect(response.body.builds).have.length(1);
+
+			const build = _(response.body.builds).first();
+			expectApiBuild({
+				expectedParams: {
+					projectName,
+					branchName,
+					customRevision,
+					playbookName,
+					inventories,
+					limit,
+					extraVar
+				},
+				build
 			});
+
+			return build;
 		});
 });
 

@@ -1,5 +1,5 @@
 describe('Build page in general', () => {
-	const runProjectParams = {
+	const createBuildParams = {
 		projectName: 'some_project',
 		branchName: 'master',
 		playbookName: 'sample_shell_calls',
@@ -8,22 +8,22 @@ describe('Build page in general', () => {
 		extraVar: 'someVar=someValue'
 	};
 
-	it('run project with specified params and wait for build page', () => {
-		cy.visitPage('projectRunForm');
-		cy.fillProjectRunForm(runProjectParams);
-		cy.get('button:contains(Run):not(.disabled)').click();
-		cy.expectBeOnPage('build');
+	it('create build via api and go to it`s page', () => {
+		cy.createAndExpectApiBuild(createBuildParams)
+			.then((build) => {
+				cy.visitPage('build', {buildId: build.id});
+			});
 	});
 
 	it('should contain info according to run params', () => {
 		cy.expectBuildPageInfo({
-			...runProjectParams,
+			...createBuildParams,
 			selectedBuildItemIndex: 0
 		});
 	});
 
 	it('should contain info about node and initiator', () => {
-		cy.contains('.page-header', 'On local node, initiated by user');
+		cy.contains('.page-header', 'On local node, initiated by httpApi');
 	});
 
 	it('should contain execution parameters label', () => {
