@@ -19,7 +19,7 @@ describe('Build page show console output', () => {
 	});
 
 	it('click show console output', () => {
-		cy.get('button:contains(Show console output):not(.disabled)').click();
+		cy.get('button:contains(Show console output):visible').click();
 	});
 
 	it('should render console output and hide console output button', () => {
@@ -32,7 +32,7 @@ describe('Build page show console output', () => {
 	});
 
 	it('click hide console output', () => {
-		cy.get('button:contains(Hide console output):not(.disabled)').click();
+		cy.get('button:contains(Hide console output):visible').click();
 	});
 
 	it('should not render console output and hide console output button', () => {
