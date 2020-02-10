@@ -32,6 +32,7 @@ Cypress.Commands.add('expectBeOnPage', (pageName, options = {}) => {
 		} else {
 			pathname.should('match', new RegExp('/builds/\\d+'));
 		}
+		cy.get('.build-view_info');
 	} else {
 		throw new Error(`Unknown page name to be on: "${pageName}"`);
 	}
@@ -120,7 +121,8 @@ Cypress.Commands.add('createAndExpectApiBuild', ({
 				name: playbookName,
 				inventoryNames: inventories
 			}
-		}
+		},
+		queueQueued: true
 	};
 	if (limit) {
 		body.buildParams.playbook.limit = limit;
