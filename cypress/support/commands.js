@@ -32,7 +32,7 @@ Cypress.Commands.add('expectBeOnPage', (pageName, options = {}) => {
 		} else {
 			pathname.should('match', new RegExp('/builds/\\d+'));
 		}
-		cy.get('.build-view_info');
+		cy.get('button:contains(Show console output):visible');
 	} else {
 		throw new Error(`Unknown page name to be on: "${pageName}"`);
 	}
