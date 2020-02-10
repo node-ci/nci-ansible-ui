@@ -7,6 +7,7 @@ describe('Build page run again', () => {
 	};
 
 	let currentBuildId;
+	let newBuildId;
 
 	it('create build via api and go to it`s page', () => {
 		cy.createAndExpectApiBuild(createBuildParams)
@@ -16,22 +17,16 @@ describe('Build page run again', () => {
 			});
 	});
 
-	it('should contain info according to run params', () => {
-		cy.expectBuildPageInfo({
-			...createBuildParams,
-			selectedBuildItemIndex: 0
-		});
-	});
-
 	it('click run again and wait for redirect on page of new build', () => {
 		cy.get('button:contains(Run again):not(.disabled)').click();
-		cy.expectBeOnPage('build', {buildId: currentBuildId + 1});				
+		newBuildId = currentBuildId + 1;
+		cy.expectBeOnPage('build', {buildId: newBuildId});
 	})
 
-	it('should contain info according to run params', () => {
-		cy.expectBuildPageInfo({
-			...createBuildParams,
-			selectedBuildItemIndex: 0
+	it('new api build should contain info according to run params', () => {
+		cy.getAndExpectApiBuild({
+			expectedParams: createBuildParams,
+			buildId: newBuildId
 		});
 	});
 });
