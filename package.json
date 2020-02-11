@@ -53,7 +53,7 @@
     "bootstrap": "3.3.4",
     "browserify": "13.0.0",
     "chokidar-cli": "1.2.0",
-    "cypress": "3.8.3",
+    "cypress": "4.0.1",
     "font-awesome": "4.3.0",
     "jade": "1.11.0",
     "jshint": "2.4.4",
