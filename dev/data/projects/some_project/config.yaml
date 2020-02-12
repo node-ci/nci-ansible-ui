@@ -7,7 +7,9 @@ scm:
 #some shell steps before run playbook with inventories
 steps:
     - name: Some action before playbooks
-      cmd: echo "do something"
+      cmd: echo "do something "
+
+playbookCommand: echo "JUST ECHO COMMANDS INSTEAD OF EXCUTING THEM:"
 
 playbooks:
     - name: sample_shell_calls
