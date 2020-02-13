@@ -15,19 +15,44 @@ describe('Build page in general', () => {
 			});
 	});
 
-	it('should contain info according to run params', () => {
-		cy.expectBuildPageInfo({
-			...createBuildParams,
-			selectedBuildItemIndex: 0
-		});
+	it('should contain project name at header', () => {
+		cy.contains('.page-header', createBuildParams.projectName);
 	});
 
 	it('should contain info about node and initiator', () => {
 		cy.contains('.page-header', 'On local node, initiated by httpApi');
 	});
 
+	it('should have active first item at sidebar list', () => {
+		cy.get(`.builds_item__current.builds_item:eq(0)`);
+	});
+
+	it('should contain scm target info', () => {
+		const {branchName, customRevision} = createBuildParams;
+		if (branchName || customRevision) {
+			const scmTarget = branchName || customRevision;
+			cy.contains('.build-view_info', `Scm target is ${scmTarget}`);
+		}
+	});
+
 	it('should contain execution parameters label', () => {
 		cy.contains('Execution parameters');
+	});
+
+	it('should contain playbook name', () => {
+		cy.contains(`Playbook: ${createBuildParams.playbookName}`);
+	});
+
+	it('should contain target inventories', () => {
+		cy.contains(`Inventories: ${createBuildParams.inventories.join(', ')}`);
+	});
+
+	it('should contain limit info', () => {
+		cy.contains(`Limit: ${createBuildParams.limit}`);
+	});
+
+	it('should contain extra vars info', () => {
+		cy.contains(`Extra vars: ${createBuildParams.extraVar}`);
 	});
 
 	it('should contain minimal execution steps', () => {
