@@ -46,9 +46,4 @@ describe('Build page with success build', () => {
 			'Execution successfully completed, took'
 		);
 	});
-
-	it('should not render error', () => {
-		cy.contains('failed with error').should('not.exist');
-		cy.contains('stderr:').should('not.exist');
-	});
 });
