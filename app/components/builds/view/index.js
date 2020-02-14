@@ -41,7 +41,7 @@ var Component = React.createClass({
 	},
 
 	updateBuild: function(build) {
-		if (build) {
+		if (build && build.project) {
 			// load project config
 			if (
 				_(this.state.project.name).isEmpty() ||
@@ -88,7 +88,9 @@ var Component = React.createClass({
 
 	onRunAgain: function() {
 		var build = this.state.build;
-		ProjectActions.run(build.project.name, build.params);
+		if (build && build.project) {
+			ProjectActions.run(build.project.name, build.params);
+		}
 		// TODO: go to last build in a durable way
 		var self = this;
 		setTimeout(function() {
