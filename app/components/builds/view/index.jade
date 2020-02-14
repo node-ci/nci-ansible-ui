@@ -198,14 +198,15 @@ if this.state.build && this.state.build.project
 						-	runButtonClasses.push('disabled');
 						- }
 
-						button.btn.btn-default.btn-block(
-							title="Run again with same parameters",
-							class=runButtonClasses,
-							onClick=this.onRunAgain
-						)
-							i.fa.fa-fw.fa-repeat
-							| 
-							| Run again
+						if (this.state.build)
+							button.btn.btn-default.btn-block(
+								title="Run again with same parameters",
+								class=runButtonClasses,
+								onClick=this.onRunAgain
+							)
+								i.fa.fa-fw.fa-repeat
+								| 
+								| Run again
 
 					.col-sm-3
 						button.btn.btn-success.btn-block(
