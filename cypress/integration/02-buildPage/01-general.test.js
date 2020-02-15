@@ -8,8 +8,13 @@ describe('Build page in general', () => {
 		extraVar: 'someVar=someValue'
 	};
 
-	it('create build via api and go to it`s page', () => {
+	it('create build via api, wait for complete and go to it`s page', () => {
 		cy.createAndExpectApiBuild(createBuildParams)
+			.then((build) => {
+				return cy.waitForBuildProps(
+					{buildId: build.id, props: {completed: true}}
+				);
+			})
 			.then((build) => {
 				cy.visitPage('build', {buildId: build.id});
 			});

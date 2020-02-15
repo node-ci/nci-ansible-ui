@@ -9,11 +9,16 @@ describe('Build page run again', () => {
 	let currentBuildId;
 	let newBuildId;
 
-	it('create build via api and go to it`s page', () => {
+	it('create build via api, wait for complete and go to it`s page', () => {
 		cy.createAndExpectApiBuild(createBuildParams)
 			.then((build) => {
+				return cy.waitForBuildProps(
+					{buildId: build.id, props: {completed: true}}
+				);
+			})
+			.then((build) => {
 				currentBuildId = build.id;
-				cy.visitPage('build', {buildId: currentBuildId});
+				cy.visitPage('build', {buildId: build.id});
 			});
 	});
 
