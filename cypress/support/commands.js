@@ -158,6 +158,45 @@ Cypress.Commands.add('createAndExpectApiBuild', ({
 		});
 });
 
+Cypress.Commands.add('waitForBuildProps', ({
+	buildId,
+	props,
+	timeout = 10000,
+	delay = 500
+}) => {
+
+	const startDate = Date.now();
+
+	const isAllPropsEqual = (obj, props) => {
+		return _(props).all((value, key) => {
+			return obj[key] === value;
+		});
+	};
+
+	const getAndCheckBuild = () => {
+		return cy.request(`/api/0.1/builds/${buildId}`, {json: true})
+			.then((response) => {
+				const build = response.body && response.body.build;
+
+				if (build && isAllPropsEqual(build, props)) {
+					return build;
+				} else if (Date.now() - startDate > timeout) {
+					throw new Error(
+						'Timeout exceeded while waiting for build props'
+					);
+				} else {
+					return new Promise((resolve, reject) => {
+						setTimeout(() => {
+							getAndCheckBuild().then(resolve, reject);
+						}, delay);
+					});
+				}
+			});
+	};
+
+	getAndCheckBuild();
+});
+
 Cypress.Commands.add('fillProjectRunForm', ({
 	projectName,
 	branchName,
