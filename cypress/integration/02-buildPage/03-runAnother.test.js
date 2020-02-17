@@ -6,16 +6,13 @@ describe('Build page run another', () => {
 		inventories: ['sample']
 	};
 
-	it('create build via api, wait for complete and go to it`s page', () => {
-		cy.createAndExpectApiBuild(createBuildParams)
-			.then((build) => {
-				return cy.waitForBuildProps(
-					{buildId: build.id, props: {completed: true}}
-				);
-			})
-			.then((build) => {
-				cy.visitPage('build', {buildId: build.id});
-			});
+	before(() => {
+		cy.createAndExpectApiBuild(createBuildParams).as('build');
+	});
+
+	before(function() {
+		cy.waitForBuildProps({buildId: this.build.id, props: {completed: true}});
+		cy.visitPage('build', {buildId: this.build.id});
 	});
 
 	it('click run another', () => {

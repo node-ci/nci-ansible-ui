@@ -6,32 +6,26 @@ describe('Build page run again', () => {
 		inventories: ['sample']
 	};
 
-	let currentBuildId;
-	let newBuildId;
-
-	it('create build via api, wait for complete and go to it`s page', () => {
-		cy.createAndExpectApiBuild(createBuildParams)
-			.then((build) => {
-				return cy.waitForBuildProps(
-					{buildId: build.id, props: {completed: true}}
-				);
-			})
-			.then((build) => {
-				currentBuildId = build.id;
-				cy.visitPage('build', {buildId: build.id});
-			});
+	before(() => {
+		cy.createAndExpectApiBuild(createBuildParams).as('build');
 	});
 
-	it('click run again and wait for redirect on page of new build', () => {
+	before(function() {
+		cy.waitForBuildProps({buildId: this.build.id, props: {completed: true}});
+		cy.visitPage('build', {buildId: this.build.id});
+	});
+
+	it('click run again and wait for redirect on page of new build', function() {
 		cy.get('button:contains(Run again):not(.disabled)').click();
-		newBuildId = currentBuildId + 1;
+		const newBuildId = this.build.id + 1;
 		cy.expectBeOnPage('build', {buildId: newBuildId});
+		cy.wrap(newBuildId).as('newBuildId');
 	})
 
-	it('new api build should contain info according to run params', () => {
+	it('new api build should contain info according to run params', function() {
 		cy.getAndExpectApiBuild({
 			expectedParams: createBuildParams,
-			buildId: newBuildId
+			buildId: this.newBuildId
 		});
 	});
 });
