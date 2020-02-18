@@ -52,7 +52,7 @@ describe('Build page with success build', () => {
 		);
 	});
 
-	it('should not render error', () => {
+	it.skip('should not render error', () => {
 		cy.contains('failed with error').should('not.exist');
 		cy.contains('stderr:').should('not.exist');
 	});
