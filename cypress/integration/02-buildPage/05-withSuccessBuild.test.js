@@ -11,8 +11,10 @@ describe('Build page with success build', () => {
 	});
 
 	before(function() {
-		cy.waitForBuildProps({buildId: this.build.id, props: {completed: true}});
-		expect(this.build.error).not.ok;
+		cy.waitForBuildProps({buildId: this.build.id, props: {completed: true}})
+			.then((build) => {
+				expect(build.error).not.ok;
+			});
 		cy.visitPage('build', {buildId: this.build.id});
 	});
 
