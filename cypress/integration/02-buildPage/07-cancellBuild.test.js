@@ -27,6 +27,10 @@ describe('Build page сancell build', () => {
 		}
 	);
 
+	it('should have cancel badge at header', () => {
+		cy.contains('.page-header .label-warning', 'cancel');
+	});
+
 	it('should contain some execution steps', () => {
 		cy.contains('Execution steps');
 		cy.contains('* prepare executor');

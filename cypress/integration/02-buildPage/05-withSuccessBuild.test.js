@@ -18,6 +18,10 @@ describe('Build page with success build', () => {
 		cy.visitPage('build', {buildId: this.build.id});
 	});
 
+	it('should have done badge at header', () => {
+		cy.contains('.page-header .label-success', 'done');
+	});
+
 	it('should contain all execution steps', () => {
 		cy.contains('Execution steps');
 		cy.contains('* prepare executor');

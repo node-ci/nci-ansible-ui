@@ -18,6 +18,10 @@ describe('Build page with failed build', () => {
 		cy.visitPage('build', {buildId: this.build.id});
 	});
 
+	it('should have error badge at header', () => {
+		cy.contains('.page-header .label-danger', 'error');
+	});
+
 	it('should contain some execution steps', () => {
 		cy.contains('Execution steps');
 		cy.contains('* prepare executor');
