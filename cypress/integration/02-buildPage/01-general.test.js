@@ -24,7 +24,7 @@ describe('Build page in general', () => {
 				if (buildDuration >= 1) {
 					buildDuration = Math.round(buildDuration);
 				} else {
-					buildDuration = buildDuration.toFixed(2);
+					buildDuration = Number(buildDuration.toFixed(2));
 				}
 			});
 		cy.visitPage('build', {buildId: build.id});
