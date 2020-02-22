@@ -8,6 +8,7 @@ describe('Build page in general', () => {
 		extraVar: 'someVar=someValue'
 	};
 	let build;
+	let buildDuration;
 
 	before(() => {
 		cy.createAndExpectApiBuild(createBuildParams).then((createdBuild) => {
@@ -19,12 +20,22 @@ describe('Build page in general', () => {
 		cy.waitForBuildProps({buildId: build.id, props: {completed: true}})
 			.then((updatedBuild) => {
 				build = updatedBuild;
+				buildDuration = ((build.endDate - build.startDate) / 1000);
+				if (buildDuration >= 1) {
+					buildDuration = Math.round(buildDuration);
+				} else {
+					buildDuration = buildDuration.toFixed(2);
+				}
 			});
 		cy.visitPage('build', {buildId: build.id});
 	});
 
 	it('should contain project name at header', () => {
 		cy.contains('.page-header', createBuildParams.projectName);
+	});
+
+	it('should contain execution number at header', () => {
+		cy.contains('.page-header', `execution #${build.number}`);
 	});
 
 	it('should contain info about node and initiator', () => {
@@ -35,10 +46,14 @@ describe('Build page in general', () => {
 		cy.get('.builds_item:eq(0)').should('have.class', 'builds_item__current');
 	});
 
-	it('active sidebar item should have project name, exec number', () => {
+	it('active sidebar item should have project name, execution number', () => {
 		cy.contains('.builds_item__current', createBuildParams.projectName);
 		cy.contains('.builds_item__current a', `execution #${build.number}`)
 			.should('have.attr', 'href', `/builds/${build.id}`)
+	});
+
+	it('active sidebar item should have build duration', () => {
+		cy.contains('.builds_item__current', `took ${buildDuration} second`);
 	});
 
 	it('should contain scm target info', () => {
@@ -47,6 +62,10 @@ describe('Build page in general', () => {
 			const scmTarget = branchName || customRevision;
 			cy.contains('.build-view_info', `Scm target is ${scmTarget}`);
 		}
+	});
+
+	it('should contain build duration', () => {
+		cy.contains('.build-view_info', `took ${buildDuration} second`);
 	});
 
 	it('should contain execution parameters label', () => {
