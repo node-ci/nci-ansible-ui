@@ -7,14 +7,20 @@ describe('Build page in general', () => {
 		limit: 'some_server_one,some_server_two',
 		extraVar: 'someVar=someValue'
 	};
+	let build;
 
 	before(() => {
-		cy.createAndExpectApiBuild(createBuildParams).as('build');
+		cy.createAndExpectApiBuild(createBuildParams).then((createdBuild) => {
+			build = createdBuild;
+		});
 	});
 
-	before(function() {
-		cy.waitForBuildProps({buildId: this.build.id, props: {completed: true}});
-		cy.visitPage('build', {buildId: this.build.id});
+	before(() => {
+		cy.waitForBuildProps({buildId: build.id, props: {completed: true}})
+			.then((updatedBuild) => {
+				build = updatedBuild;
+			});
+		cy.visitPage('build', {buildId: build.id});
 	});
 
 	it('should contain project name at header', () => {
@@ -29,13 +35,10 @@ describe('Build page in general', () => {
 		cy.get('.builds_item:eq(0)').should('have.class', 'builds_item__current');
 	});
 
-	it('active sidebar item should have project name, exec number', function() {
+	it('active sidebar item should have project name, exec number', () => {
 		cy.contains('.builds_item__current', createBuildParams.projectName);
-
-		cy.getBuildIdFromCurrentUrl().then((buildId) => {
-			cy.contains('.builds_item__current a', 'execution')
-				.should('have.attr', 'href', `/builds/${buildId}`)
-		});
+		cy.contains('.builds_item__current a', `execution #${build.number}`)
+			.should('have.attr', 'href', `/builds/${build.id}`)
 	});
 
 	it('should contain scm target info', () => {
