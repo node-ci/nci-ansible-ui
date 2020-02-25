@@ -1,13 +1,18 @@
 FROM alpine:3.10.1
 
 ENV NODE_ENV=production
+ENV USER=nci
+ENV UID=2000
+ENV GID=2000
 
-RUN apk add --update openssh git nodejs npm &&\
-	useradd nci &&\
+RUN addgroup -g "$GID" "$USER" &&\
+	adduser --disabled-password --ingroup "$USER" --uid "$UID" "$USER";
+
+RUN apk add openssh git nodejs npm &&\
 	mkdir /var/nci-ansible-ui &&\
-	chown nci:nci /var/nci-ansible-ui
+	chown "$USER":"$USER" /var/nci-ansible-ui
 
-USER nci
+USER ${USER}
 
 ADD package.json /var/nci-ansible-ui/package.json
 
