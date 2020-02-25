@@ -9,12 +9,19 @@ RUN addgroup -g "$GID" "$USER" &&\
 	adduser --disabled-password --ingroup "$USER" --uid "$UID" "$USER";
 
 RUN apk add openssh git nodejs npm &&\
-	mkdir /var/nci-ansible-ui &&\
-	chown "$USER":"$USER" /var/nci-ansible-ui
+	mkdir /var/nci-ansible-ui
+
+ADD package.json /var/nci-ansible-ui/package.json
+ADD data /var/nci-ansible-ui/data
+
+RUN chown -R "$USER":"$USER" /var/nci-ansible-ui
 
 USER ${USER}
 
-ADD package.json /var/nci-ansible-ui/package.json
-
 RUN cd /var/nci-ansible-ui &&\
 	npm install --production
+
+USER root
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod u+x entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
