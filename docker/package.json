@@ -1,0 +1,26 @@
+{
+  "name": "nci-ansible-ui-docker-installation",
+  "version": "0.1.0",
+  "description": "nci-ansible-ui deployment inside docker image",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/node-ci/nci-ansible-ui.git"
+  },
+  "author": "Oleg Korobenko <oleg.korobenko@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/node-ci/nci-ansible-ui/issues"
+  },
+  "homepage": "https://github.com/node-ci/nci-ansible-ui",
+  "dependencies": {
+    "leveldown": "5.5.1",
+    "nci": "latest",
+    "nci-ansible-ui": "latest",
+    "nci-mail-notification": "latest",
+    "nci-projects-reloader": "latest",
+    "nci-rest-api-server": "latest",
+    "nci-static-server": "latest",
+    "nci-yaml-reader": "latest"
+  }
+}
+
