@@ -22,6 +22,9 @@ RUN cd /var/nci-ansible-ui &&\
 	npm install --production
 
 USER root
+
+RUN apk add ansible
+
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod u+x entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
