@@ -1,4 +1,4 @@
-FROM alpine:3.10.1
+FROM alpine:3.10.4
 
 ENV NODE_ENV=production
 ENV USER=nci
