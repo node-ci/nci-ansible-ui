@@ -11,7 +11,7 @@ RUN addgroup -g "$USER_GORUP_ID" "$USER" &&\
 RUN apk add openssh git nodejs npm ansible &&\
 	mkdir /var/nci-ansible-ui
 
-ADD package.json /var/nci-ansible-ui/package.json
+ADD package.json package-lock.json /var/nci-ansible-ui/
 ADD data /var/nci-ansible-ui/data
 
 RUN chown -R "$USER":"$USER" /var/nci-ansible-ui
@@ -19,7 +19,7 @@ RUN chown -R "$USER":"$USER" /var/nci-ansible-ui
 USER ${USER}
 
 RUN cd /var/nci-ansible-ui &&\
-	npm install --production
+	npm ci --only=prod
 
 USER root
 
