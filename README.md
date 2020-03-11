@@ -53,10 +53,11 @@ node_modules/.bin/nci
 
 ```
 
-Alternatively you can run it within docker, e.g. by running (see [image page](https://hub.docker.com/r/jc21/nci-ansible-ui/) for details):
+Alternatively you can run it within docker, e.g. by running (see
+[image page](https://hub.docker.com/r/okvd/nci-ansible-ui) for details):
 
 ```sh
-docker run -p 3000:3000 jc21/nci-ansible-ui
+docker run -it --rm -p 3000:3000 okvd/nci-ansible-ui
 ```
 
 That's all, now you can experiment with it by adding/changing projects,
