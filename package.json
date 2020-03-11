@@ -18,7 +18,9 @@
     "build-html": "jade views/index.jade --obj \"{'env': '$NODE_ENV'}\" -o static/",
     "build": "test -z $NODE_ENV && export NODE_ENV=production; nrun build-fonts && nrun build-js && nrun build-less && nrun build-html",
     "_build-docker-image": "docker build --tag okvd/nci-ansible-ui:$npm_package_version ./docker/",
-    "build-docker-image": "npm run _build-docker-image"
+    "_build-docker-alphaimage": "docker build --tag okvd/nci-ansible-ui:$npm_package_version-alphaimage ./docker/",
+    "build-docker-image": "npm run _build-docker-image",
+    "build-docker-alphaimage": "npm run _build-docker-alphaimage"
   },
   "repository": {
     "type": "git",
