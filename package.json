@@ -17,7 +17,7 @@
     "build-clean": "rm static/index.html",
     "build-html": "jade views/index.jade --obj \"{'env': '$NODE_ENV'}\" -o static/",
     "build": "test -z $NODE_ENV && export NODE_ENV=production; nrun build-fonts && nrun build-js && nrun build-less && nrun build-html",
-    "_build-docker-image": "docker build --tag okvd/nci-ansible-ui:$imageTag ./docker/",
+    "_build-docker-image": "if [ \"$imageTag\" = \"\" ]; then echo \"imageTag is not set\"; exit 1; fi; docker build --tag okvd/nci-ansible-ui:$imageTag ./docker/",
     "build-docker-image": "export imageTag=$npm_package_version && npm run _build-docker-image",
     "build-docker-alphaimage": "export imageTag=$npm_package_version-alphaimage && npm run _build-docker-image"
   },
