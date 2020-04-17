@@ -5,10 +5,7 @@ if [ "$GID" != "" ] && [ "$UID" != "" ]; then
 
 	echo "*** Running nci";
 	echo "USER: $USER, UID: $UID, GID: $GID";
-	ansible --version;
-	echo "nodejs: `node --version`";
-	bundledDependencies=`cd /var/nci-ansible-ui && npm ls --prod --depth=0`;
-	echo -e "Bundled dependencies:\n$bundledDependencies";
+	cat /var/nci-ansible-ui/dependencies-info.txt;
 	echo "***";
 
 	# user may alredy exist if running earlier created container

@@ -19,7 +19,12 @@ RUN chown -R "$USER":"$USER" /var/nci-ansible-ui
 USER ${USER}
 
 RUN cd /var/nci-ansible-ui && \
-	npm ci --only=prod
+	npm ci --only=prod && \
+
+	ansible --version >> dependencies-info.txt && \
+	echo "nodejs: `node --version`" >> dependencies-info.txt && \
+	npmPackages=`cd /var/nci-ansible-ui && npm ls --prod --depth=0 | tail -n +2` && \
+	echo -e "npm packages:\n$npmPackages" >> dependencies-info.txt;
 
 USER root
 
