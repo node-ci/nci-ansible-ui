@@ -8,7 +8,7 @@ ENV USER_GORUP_ID=2000
 RUN addgroup -g "$USER_GORUP_ID" "$USER" && \
 	adduser --disabled-password --ingroup "$USER" --uid "$USER_ID" "$USER";
 
-RUN apk add openssh git nodejs npm ansible && \
+RUN apk add openssh git rsync nodejs npm ansible && \
 	mkdir /var/nci-ansible-ui
 
 ADD package.json package-lock.json /var/nci-ansible-ui/
