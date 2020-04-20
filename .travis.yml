@@ -5,8 +5,18 @@ node_js:
     - "stable"
     - "12"
     - "10"
-    - "8"
+
+addons:
+    apt:
+        packages:
+        # required for cypress
+            - libgconf-2-4
+
+cache:
+    npm: true
+    directories:
+        - ~/.cache
 
 script:
     - npm run lint
-    # - npm test
+    - npm run dev-server-and-test-ui

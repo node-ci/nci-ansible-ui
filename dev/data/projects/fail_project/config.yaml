@@ -9,7 +9,7 @@ steps:
     - name: Some action before playbooks
       cmd: echo "do something"
 
-playbookCommand: echo "JUST ECHO COMMANDS INSTEAD OF EXCUTING THEM:"
+playbookCommand: echo "EXIT with non-zero exit code"; exit 1;
 
 playbooks:
     - name: sample_shell_calls

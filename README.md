@@ -47,7 +47,7 @@ See [image page](https://hub.docker.com/r/okvd/nci-ansible-ui) for details.
 System requirements:
 
 * unix-like operating system, not tested on windows
-* node.js >= 8
+* node.js >= 10
 * git client >= 1.9 (only for building git projects)
 * mercurial client >= 2.8 (only for building mercurial projects)
 * ansible

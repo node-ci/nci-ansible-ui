@@ -41,7 +41,7 @@ var Component = React.createClass({
 	},
 
 	updateBuild: function(build) {
-		if (build) {
+		if (build && build.project) {
 			// load project config
 			if (
 				_(this.state.project.name).isEmpty() ||
@@ -49,12 +49,17 @@ var Component = React.createClass({
 			) {
 				ProjectActions.read({name: build.project.name});
 			}
+			this.setState({build: build});
 		}
-		this.setState({build: build});
 	},
 
 	updateProject: function(project) {
-		if (project.name === this.state.build.project.name) {
+		if (
+			this.state.build &&
+			this.state.build.project &&
+			project &&
+			project.name === this.state.build.project.name
+		) {
 			this.setState({project: project});
 		}
 	},
@@ -83,8 +88,9 @@ var Component = React.createClass({
 
 	onRunAgain: function() {
 		var build = this.state.build;
-		ProjectActions.run(build.project.name, build.params);
-
+		if (build && build.project) {
+			ProjectActions.run(build.project.name, build.params);
+		}
 		// TODO: go to last build in a durable way
 		var self = this;
 		setTimeout(function() {
