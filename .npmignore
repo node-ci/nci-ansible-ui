@@ -10,3 +10,4 @@ views
 .npmrc
 .nvmrc
 dev
+docker/
