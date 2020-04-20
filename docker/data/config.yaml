@@ -1,0 +1,46 @@
+
+plugins:
+    - nci-projects-reloader
+    - nci-scheduler
+    - nci-static-server
+    - nci-rest-api-server
+    - nci-mail-notification
+    - nci-telegram-notification
+    #ui better be last plugin
+    - nci-ansible-ui
+
+nodes:
+    - type: local
+      #allow maximum 3 parallel builds
+      maxExecutorsCount: 3
+
+http:
+    host: 0.0.0.0
+    port: 3000
+    url: http://127.0.0.1:3000
+
+    static:
+        #this settings will be consumed by static server plugin 
+        locations:
+            #serve static for ui plugin
+            - url: /favicon.ico
+              root: node_modules/nci-ansible-ui/static/
+            - url: !!js/regexp ^/(js|css|fonts|images)/
+              root: node_modules/nci-ansible-ui/static/
+
+storage:
+    #use leveldown as db backend
+    backend: leveldown
+
+
+#configure account for sending notifications
+#this settings will be consumed by mail notification plugin
+# notify:
+#     mail:
+#         host: smtp.gmail.com
+#         port: 587
+#         auth:
+#             user: your_sender_login@gmail.com
+#             pass: your_sender_password
+
+
