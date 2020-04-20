@@ -49,7 +49,7 @@
   "homepage": "https://github.com/node-ci/nci-ansible-ui",
   "dependencies": {
     "data.io": "0.3.0",
-    "socket.io": "1.7.2",
+    "socket.io": "2.3.0",
     "twostep": "0.4.2",
     "underscore": "1.8.3"
   },
@@ -79,7 +79,7 @@
     "reflux": "0.2.7",
     "scmicons": "1.3.0",
     "simple-scrolltop": "1.0.1",
-    "socket.io-client": "1.7.2",
+    "socket.io-client": "2.3.0",
     "through": "2.3.8",
     "uglify-js": "2.8.29",
     "url-join": "4.0.1",
