@@ -16,7 +16,11 @@
     "build-fonts": "mkdir -p static/fonts/ && parallelshell 'cp ./node_modules/bootstrap/fonts/* ./static/fonts/' 'cp ./node_modules/font-awesome/fonts/* ./static/fonts/' 'cp ./node_modules/scmicons/fonts/* ./static/fonts/'",
     "build-clean": "rm static/index.html",
     "build-html": "jade views/index.jade --obj \"{'env': '$NODE_ENV'}\" -o static/",
-    "build": "test -z $NODE_ENV && export NODE_ENV=production; nrun build-fonts && nrun build-js && nrun build-less && nrun build-html"
+    "build": "test -z $NODE_ENV && export NODE_ENV=production; nrun build-fonts && nrun build-js && nrun build-less && nrun build-html",
+    "_build-docker-image": "if [ \"$imageTag\" = \"\" ]; then echo \"imageTag is not set\"; exit 1; fi; docker build --tag okvd/nci-ansible-ui:$imageTag ./docker/",
+    "build-docker-image": "export imageTag=$npm_package_version && npm run _build-docker-image",
+    "build-docker-image-alpha": "export imageTag=$npm_package_version-alphaimage && npm run _build-docker-image",
+    "build-docker-image-latest": "export imageTag=latest && npm run _build-docker-image"
   },
   "repository": {
     "type": "git",
