@@ -81,7 +81,6 @@
     "simple-scrolltop": "1.0.1",
     "socket.io-client": "2.3.0",
     "through": "2.3.8",
-    "uglify-js": "2.8.29",
     "url-join": "4.0.1",
     "wait-on": "4.0.0",
     "watchify": "3.6.1"
