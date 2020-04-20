@@ -3,9 +3,10 @@
 Simple web interface for run ansible playbooks.
 
 It pulls your repository with playbooks and inventories according to project
-config (it defines repository path, playbook and inventory directories inside
+config (which defines repository path, playbook and inventory directories inside
 repository, etc) and allows you to run playbooks with invetories via single
 page web interface (with live updates and pretty terminal output).
+
 
 ## Features
 
@@ -22,46 +23,57 @@ functionality by notification and other plugins
 
 ![nci-ansible-ui-execution](https://cloud.githubusercontent.com/assets/465522/21159795/e281871a-c19b-11e6-9dea-aac57440dffe.png)
 
-## System requirements
+
+## Installation
+
+
+### Docker image
+
+It's recommended setup, image for nci ansible ui contains all dependencies
+including ansible. You can try it using command:
+
+```sh
+docker run --rm -it -p 3000:3000 okvd/nci-ansible-ui
+```
+
+That's all, now you can experiment with it by adding/changing projects,
+use web interface (on http://127.0.0.1:3000 by default) to run playbooks.
+
+See [image page](https://hub.docker.com/r/okvd/nci-ansible-ui) for details.
+
+
+### Native setup
+
+System requirements:
 
 * unix-like operating system, not tested on windows
 * node.js >= 0.10
 * git client >= 1.9 (only for building git projects)
 * mercurial client >= 2.8 (only for building mercurial projects)
 * ansible
-* build tools - gcc, make, etc (for building [LevelDB](https://github.com/level/leveldown) if binary is not provided for your platform). E.g. ubuntu ```build-essential``` package provides such tools.
+* build tools - gcc, make, etc
+(for building [LevelDB](https://github.com/level/leveldown) if binary is not
+provided for your platform). E.g. ubuntu `build-essential` package provides
+such tools.
 
-## Quick setting up
-
-On the system with satisfied [requirements](#system-requirements) clone
-quick setup repo, go into it and install dependencies:
+On the system with satisfied requirements clone quick setup repository,
+go into it and install dependencies:
 
 ```sh
-
-git clone https://github.com/node-ci/nci-ansible-ui-quick-setup && \
-cd nci-ansible-ui-quick-setup && \
+git clone https://github.com/node-ci/nci-ansible-ui-quick-setup &&
+cd nci-ansible-ui-quick-setup &&
 npm install
-
 ```
 
 run server:
 
 
 ```sh
-
 node_modules/.bin/nci
-
 ```
 
-Alternatively you can run it within docker, e.g. by running (see
-[image page](https://hub.docker.com/r/okvd/nci-ansible-ui) for details):
-
-```sh
-docker run -it --rm -p 3000:3000 okvd/nci-ansible-ui
-```
-
-That's all, now you can experiment with it by adding/changing projects,
-use web interface (on http://127.0.0.1:3000 by default) for run playbooks.
+Now you can experiment with it by adding/changing projects,
+use web interface (on http://127.0.0.1:3000 by default) to run playbooks.
 
 Sample project works with
 [repository](https://github.com/node-ci/nci-ansible-ui-sample-playbook)
@@ -79,6 +91,7 @@ you should provide such access (ansible will be run by user which started nci
 server) in order to run sample project. Localhost
 also should be in your known hosts file (you can try this access manually
 to get prompt which can add it).
+
 
 ## License
 
