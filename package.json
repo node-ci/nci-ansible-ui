@@ -9,7 +9,7 @@
     "test-ui": "cypress run",
     "dev-server-and-test-ui": "nrun build && nrun dev-nci& echo \"Server pid: $!\" && wait-on --timeout 30000 http://127.0.0.1:3000 && nrun test-ui",
     "build-less": "lessc app/styles/index.less > static/css/index.css",
-    "build-js": "browserify  app/app.js -t ./transforms/jade.js | uglifyjs -mc > static/js/app.build.js",
+    "build-js": "browserify  app/app.js -t ./transforms/jade.js > static/js/app.build.js",
     "watch-less": "chokidar --initial --silent app/styles/**/*.less app/styles/index.less -c 'npm run build-less'",
     "watch-js": "watchify app/app.js -t ./transforms/jade.js -o static/js/app.build.js -dv",
     "_init-dev": "touch static/js/app.build.js && touch static/css/index.css",
