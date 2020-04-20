@@ -49,8 +49,8 @@ var Component = React.createClass({
 			) {
 				ProjectActions.read({name: build.project.name});
 			}
+			this.setState({build: build});
 		}
-		this.setState({build: build});
 	},
 
 	updateProject: function(project) {
