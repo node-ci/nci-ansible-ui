@@ -1,9 +1,11 @@
 
 plugins:
     - nci-projects-reloader
+    - nci-scheduler
     - nci-static-server
     - nci-rest-api-server
     - nci-mail-notification
+    - nci-telegram-notification
     #ui better be last plugin
     - nci-ansible-ui
 
