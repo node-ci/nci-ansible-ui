@@ -11,7 +11,7 @@
     "build-less": "lessc app/styles/index.less > static/css/index.css",
     "build-js": "browserify  app/app.js -t ./transforms/jade.js | terser -mc > static/js/app.build.js",
     "watch-less": "chokidar --initial --silent app/styles/**/*.less app/styles/index.less -c 'npm run build-less'",
-    "watch-js": "watchify app/app.js -t ./transforms/jade.js -o static/js/app.build.js -dv",
+    "watch-js": "watchify app/app.js -t ./transforms/jade.js -o static/js/app.build.js -v",
     "_init-dev": "touch static/js/app.build.js && touch static/css/index.css",
     "dev": "test -z $NODE_ENV && export NODE_ENV=development; nrun _init-dev && run-p --continue-on-error build-fonts watch-less watch-js build-html watch-dev-nci",
     "sync": "npm install && npm prune",
