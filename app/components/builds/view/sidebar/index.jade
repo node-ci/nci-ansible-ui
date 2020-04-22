@@ -6,8 +6,9 @@
 			.builds_inner
 				.row
 					.builds_header
-						div
-							span= item.project.name
+						if item.project
+							div
+								span= item.project.name
 
 						if item.status === 'queued'
 							span(title='wait reason: ' + item.waitReason) queued
@@ -19,7 +20,7 @@
 					.builds_controls
 						if item.status === 'in-progress'
 							.builds_progress
-								if item.project.avgBuildDuration
+								if item.project && item.project.avgBuildDuration
 									Progress(build=item)
 
 						if item.endDate
