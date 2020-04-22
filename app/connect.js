@@ -1,6 +1,6 @@
 'use strict';
 
-var socketio = require('socket.io-client'),
+var socketio = require('socket.io-client/dist/socket.io.js'),
 	dataio = require('data.io/data.io'),
 	io = socketio(),
 	data = dataio(io);
