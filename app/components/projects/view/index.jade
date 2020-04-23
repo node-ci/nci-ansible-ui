@@ -1,0 +1,39 @@
+div
+	ProjectHeader(project=this.state.project)
+
+	div.text-muted
+		- var lastDoneBuild = this.state.project.lastDoneBuild;
+		p Last successfully built: 
+			if lastDoneBuild
+				DateTime(value=lastDoneBuild.endDate)
+				| 
+				| (build #
+				span= lastDoneBuild.number
+				| )
+			else
+				| -
+
+		p Current successfully streak: 
+			if lastDoneBuild
+				span= this.state.project.doneBuildsStreak.buildsCount
+			else
+				| -
+
+		p Last build duration: 
+			if lastDoneBuild
+				Duration(value=(lastDoneBuild.endDate - lastDoneBuild.startDate))
+			else
+				| -
+
+		p Average build duration: 
+			if this.state.project.avgBuildDuration
+				Duration(value=this.state.project.avgBuildDuration)
+			else
+				| -
+
+	h2
+		i.fa.fa-fw.fa-history
+		span 
+		span Execution history
+
+	Builds(projectName=this.props.params.name)
