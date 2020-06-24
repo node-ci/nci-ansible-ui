@@ -1,33 +1,32 @@
-'use strict';
+const Reflux = require('reflux');
+const BuildLogActions = require('../actions/buildLog');
+const resources = require('../resources');
 
-var Reflux = require('reflux'),
-	BuildLogActions = require('../actions/buildLog'),
-	resources = require('../resources'),
-	resource = resources.builds;
+const resource = resources.builds;
 
-var Store = Reflux.createStore({
+const Store = Reflux.createStore({
 	listenables: BuildLogActions,
 	data: {
 		lines: [],
 		total: 0
 	},
 
-	getInitialState: function() {
+	getInitialState() {
 		return this.data;
 	},
 
-	onGetTail: function(params) {
-		var self = this;
-		resource.sync('getBuildLogTail', params, function(err, data) {
+	onGetTail(params) {
+		const self = this;
+		resource.sync('getBuildLogTail', params, (err, data) => {
 			if (err) throw err;
 			self.data = data;
 			self.trigger(self.data);
 		});
 	},
 
-	onGetLines: function(params) {
-		var self = this;
-		resource.sync('getBuildLogLines', params, function(err, data) {
+	onGetLines(params) {
+		const self = this;
+		resource.sync('getBuildLogLines', params, (err, data) => {
 			if (err) throw err;
 			self.data.lines = data.lines;
 			self.trigger(self.data);

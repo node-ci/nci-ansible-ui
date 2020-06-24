@@ -1,14 +1,12 @@
-'use strict';
-
-var React = require('react'),
-	_ = require('underscore'),
-	template = require('./index.jade');
+const React = require('react');
+const _ = require('underscore');
+const template = require('./index.jade');
 
 module.exports = React.createClass({
 	render: template,
-	componentDidMount: function() {
-		var self = this;
-		var updateCallback = function() {
+	componentDidMount() {
+		const self = this;
+		const updateCallback = function () {
 			if (self.props.build.status === 'in-progress') {
 				if (self.isMounted()) {
 					self.setState({
@@ -22,7 +20,7 @@ module.exports = React.createClass({
 
 		updateCallback();
 	},
-	getInitialState: function() {
+	getInitialState() {
 		return {};
 	}
 });

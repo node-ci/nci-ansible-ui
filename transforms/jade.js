@@ -1,19 +1,17 @@
-'use strict';
+const through = require('through');
+const jade = require('react-jade');
 
-var through = require('through'),
-	jade = require('react-jade');
-
-module.exports = function(fileName, options) {
+module.exports = function (fileName, options) {
 	if (!/\.jade$/i.test(fileName)) {
 		return through();
 	}
 
-	var template = '';
+	let template = '';
 	return through(
-		function(chunk) {
+		(chunk) => {
 			template += chunk.toString();
 		},
-		function() {
+		function () {
 			options.filename = fileName;
 			options.globalReact = true;
 
@@ -24,8 +22,8 @@ module.exports = function(fileName, options) {
 				return;
 			}
 
-			var moduleBody = 'var React = require("react");\n' +
-				'module.exports = ' + template;
+			const moduleBody = `${'var React = require("react");\n' +
+				'module.exports = '}${template}`;
 
 			this.queue(moduleBody);
 			this.queue(null);

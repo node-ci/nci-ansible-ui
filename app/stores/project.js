@@ -1,29 +1,28 @@
-'use strict';
+const Reflux = require('reflux');
+const ProjectActions = require('../actions/project');
+const resources = require('../resources');
 
-var Reflux = require('reflux'),
-	ProjectActions = require('../actions/project'),
-	resources = require('../resources'),
-	resource = resources.projects;
+const resource = resources.projects;
 
-var Store = Reflux.createStore({
+const Store = Reflux.createStore({
 	listenables: ProjectActions,
 	project: {},
 
-	getInitialState: function() {
+	getInitialState() {
 		return this.project;
 	},
 
-	onChange: function(data) {
+	onChange(data) {
 		this.trigger(data.project);
 	},
 
-	init: function() {
+	init() {
 		resource.subscribe('change', this.onChange);
 	},
 
-	onRead: function(params) {
-		var self = this;
-		resource.sync('read', params, function(err, project) {
+	onRead(params) {
+		const self = this;
+		resource.sync('read', params, (err, project) => {
 			if (err) throw err;
 			self.project = project;
 			self.trigger(self.project);

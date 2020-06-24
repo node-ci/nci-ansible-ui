@@ -1,11 +1,9 @@
-'use strict';
+const React = require('react');
+const Router = require('react-router');
+const template = require('./index.jade');
 
-var React = require('react'),
-	Router = require('react-router'),
-	template = require('./index.jade');
-
-var Component = React.createClass({
-	render: function() {
+const Component = React.createClass({
+	render() {
 		return template({
 			Link: Router.Link,
 			RouteHandler: Router.RouteHandler

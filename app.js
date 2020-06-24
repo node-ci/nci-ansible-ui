@@ -1,14 +1,13 @@
-'use strict';
+const _ = require('underscore');
+const fs = require('fs');
+const path = require('path');
 
-var _ = require('underscore'),
-	fs = require('fs'),
-	path = require('path'),
-	staticPath = path.join(__dirname, 'static'),
-	indexHtml = fs.readFileSync(staticPath + '/index.html');
+const staticPath = path.join(__dirname, 'static');
+const indexHtml = fs.readFileSync(`${staticPath}/index.html`);
 
-exports.register = function(originalApp) {
-	var app = _(originalApp).clone(),
-		socketio = require('socket.io')(app.httpServer);
+exports.register = function (originalApp) {
+	const app = _(originalApp).clone();
+	const socketio = require('socket.io')(app.httpServer);
 
 	app.dataio = require('./dataio')(socketio);
 
@@ -17,9 +16,8 @@ exports.register = function(originalApp) {
 
 	// serve index for all app pages, add this listener after all other
 	// listeners
-	app.httpServer.addRequestListener(function(req, res, next) {
+	app.httpServer.addRequestListener((req, res, next) => {
 		if (req.url.indexOf('/data.io.js') === -1) {
-
 			res.setHeader('content-type', 'text/html');
 			res.end(indexHtml);
 		} else {
