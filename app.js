@@ -5,7 +5,7 @@ const path = require('path');
 const staticPath = path.join(__dirname, 'static');
 const indexHtml = fs.readFileSync(`${staticPath}/index.html`);
 
-exports.register = function (originalApp) {
+exports.register = (originalApp) => {
 	const app = _(originalApp).clone();
 	const socketio = require('socket.io')(app.httpServer);
 

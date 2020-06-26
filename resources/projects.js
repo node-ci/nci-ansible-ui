@@ -2,11 +2,9 @@ const {Steppy} = require('twostep');
 const _ = require('underscore');
 const helpers = require('./helpers');
 
-const stringifyArgValue = function (value) {
-	return `"${value.replace(/"/g, '\\"')}"`;
-};
+const stringifyArgValue = (value) => `"${value.replace(/"/g, '\\"')}"`;
 
-const makeProject = function (project, buildParams) {
+const makeProject = (project, buildParams) => {
 	const newProject = _(project).clone();
 
 	const playbookName = buildParams.playbook && buildParams.playbook.name;
@@ -96,16 +94,16 @@ const makeProject = function (project, buildParams) {
 	return newProject;
 };
 
-const patchDirstributor = function (distributor) {
+const patchDirstributor = (distributor) => {
 	const originalMakeProjet = distributor._makeProject;
-	distributor._makeProject = function (project, buildParams) {
+	distributor._makeProject = function _makeProject(project, buildParams) {
 		let newProject = originalMakeProjet(project, buildParams);
 		newProject = makeProject(newProject, buildParams);
 		return newProject;
 	};
 };
 
-const extendProject = function (project) {
+const extendProject = (project) => {
 	if (project.playbooks) {
 		_(project).defaults({
 			playbookCommand: 'ANSIBLE_FORCE_COLOR=true ansible-playbook'
@@ -115,7 +113,7 @@ const extendProject = function (project) {
 	return project;
 };
 
-module.exports = function (app) {
+module.exports = (app) => {
 	const logger = app.lib.logger('projects resource');
 	const resource = app.dataio.resource('projects');
 
@@ -150,10 +148,10 @@ module.exports = function (app) {
 	});
 
 	// get project with additional fields
-	const getProject = function (name, callback) {
+	const getProject = (name, callback) => {
 		let project;
 		Steppy(
-			function () {
+			function stepOne() {
 				project = _(app.projects.get(name)).clone();
 
 				app.builds.getRecent({
@@ -164,7 +162,7 @@ module.exports = function (app) {
 
 				app.builds.getDoneStreak({projectName: project.name}, this.slot());
 			},
-			function (err, doneBuilds, doneBuildsStreak) {
+			function stepTwo(err, doneBuilds, doneBuildsStreak) {
 				project.avgBuildDuration = app.builds.getAvgBuildDuration(doneBuilds);
 				[project.lastDoneBuild] = doneBuilds;
 				project.doneBuildsStreak = doneBuildsStreak;
@@ -177,9 +175,9 @@ module.exports = function (app) {
 
 	// resource custom method which finds project by name
 	// and emits event about it change to clients
-	resource.clientEmitSyncChange = function (name) {
+	resource.clientEmitSyncChange = function clientEmitSyncChange(name) {
 		Steppy(
-			function () {
+			function stepOne() {
 				getProject(name, this.slot());
 			},
 			(err, project) => {
@@ -197,7 +195,7 @@ module.exports = function (app) {
 
 	resource.use('read', (req, res) => {
 		Steppy(
-			function () {
+			function stepOne() {
 				getProject(req.data.name, this.slot());
 			},
 			(err, project) => {

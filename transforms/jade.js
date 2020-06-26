@@ -1,7 +1,7 @@
 const through = require('through');
 const jade = require('react-jade');
 
-module.exports = function (fileName, options) {
+module.exports = (fileName, options) => {
 	if (!/\.jade$/i.test(fileName)) {
 		return through();
 	}
@@ -11,7 +11,7 @@ module.exports = function (fileName, options) {
 		(chunk) => {
 			template += chunk.toString();
 		},
-		function () {
+		function end() {
 			options.filename = fileName;
 			options.globalReact = true;
 
