@@ -35,8 +35,7 @@
 			}
 		],
 		"func-names": ["off"],
-		"no-param-reassign": ["off"],
-		"prefer-destructuring": ["off"]
+		"no-param-reassign": ["off"]
 	},
 	"env": {
 		"mocha": true,

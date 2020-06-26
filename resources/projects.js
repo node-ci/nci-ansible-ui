@@ -166,7 +166,7 @@ module.exports = function (app) {
 			},
 			function (err, doneBuilds, doneBuildsStreak) {
 				project.avgBuildDuration = app.builds.getAvgBuildDuration(doneBuilds);
-				project.lastDoneBuild = doneBuilds[0];
+				[project.lastDoneBuild] = doneBuilds;
 				project.doneBuildsStreak = doneBuildsStreak;
 
 				this.pass(project);
