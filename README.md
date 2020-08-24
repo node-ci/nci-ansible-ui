@@ -1,23 +1,23 @@
 # nci ansible ui
 
-Simple web interface for run ansible playbooks.
+Simple web interface for running Ansible playbooks.
 
 It pulls your repository with playbooks and inventories according to project
 config (which defines repository path, playbook and inventory directories inside
-repository, etc) and allows you to run playbooks with invetories via single
+repository, etc) and allows you to run playbooks with inventories via single
 page web interface (with live updates and pretty terminal output).
 
 
 ## Features
 
-* single page web application which immediately responds on any
+* single page web application which immediately responds to any
 user interaction. This app doesn't use http api, it's built using socket.io
 * online console output which is very close to terminal emulator
 * can run one playbook with different inventories (sequentially)
-* working with any mercurial, git repositories (no matter is it service like
-github, bitbucket or private server, all you need is authenticate user from
-which nci server is running without password e.g. by ssh key)
-* minimal dependencies (only nodejs, scm client and ansible are required)
+* works with any Mercurial or Git repositories (no matter if it's a service like
+Github, Bitbucket or private server, all you need is authenticate user from
+which nci server is running without password e.g. by SSH key)
+* minimal dependencies (only NodeJS, SCM client and Ansible are required)
 * built on top of [nci](https://github.com/node-ci/nci), can extend
 functionality by notification and other plugins
 
