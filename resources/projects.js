@@ -1,89 +1,83 @@
-'use strict';
+const {Steppy} = require('twostep');
+const _ = require('underscore');
+const helpers = require('./helpers');
 
-var Steppy = require('twostep').Steppy,
-	_ = require('underscore'),
-	helpers = require('./helpers');
+const stringifyArgValue = (value) => `"${value.replace(/"/g, '\\"')}"`;
 
-var stringifyArgValue = function(value) {
-	return '"' + value.replace(/"/g, '\\"') + '"';
-};
+const makeProject = (project, buildParams) => {
+	const newProject = _(project).clone();
 
-var makeProject = function(project, buildParams) {
-	var newProject = _(project).clone();
-
-	var playbookName = buildParams.playbook && buildParams.playbook.name;
+	const playbookName = buildParams.playbook && buildParams.playbook.name;
 	if (playbookName) {
-
 		if (!project.playbooks) {
 			throw new Error(
-				'No playbooks in the project ' + project.name + ' but ' +
+				`No playbooks in the project ${project.name} but ` +
 				'playbookName is specified'
 			);
 		}
 
-		var playbook = _(project.playbooks).findWhere({name: playbookName});
+		const playbook = _(project.playbooks).findWhere({name: playbookName});
 
 		if (!playbook) {
 			throw new Error(
-				'No playbook ' + playbookName + ' in ' +
-				project.name + ' project'
+				`No playbook ${playbookName} in ${
+					project.name} project`
 			);
 		}
 
-		var inventoryNames = buildParams.playbook.inventoryNames,
-			limit = buildParams.playbook.limit,
-			extraVars = buildParams.playbook.extraVars;
+		const {inventoryNames} = buildParams.playbook;
+		const {limit} = buildParams.playbook;
+		const {extraVars} = buildParams.playbook;
 
 		if (!inventoryNames || !inventoryNames.length) {
 			throw new Error(
-				'Inventory not specified for playbook ' + playbook.name +
-				' (project ' + project.name + ')'
+				`Inventory not specified for playbook ${playbook.name
+				} (project ${project.name})`
 			);
 		}
 
-		var inventories = _(inventoryNames).map(function(inventoryName) {
-			var inventory = _(playbook.inventories).findWhere({
+		const inventories = _(inventoryNames).map((inventoryName) => {
+			const inventory = _(playbook.inventories).findWhere({
 				name: inventoryName
 			});
 
 			if (!inventory) {
 				throw new Error(
-					'No Inventory ' + inventoryName + ' in ' + playbook.name +
-					' (project ' + project.name + ')'
+					`No Inventory ${inventoryName} in ${playbook.name
+					} (project ${project.name})`
 				);
-
 			}
 
 			return inventory;
 		});
 
-		var playbookSteps = _(inventories).map(function(inventory) {
-			var args = [
+		const playbookSteps = _(inventories).map((inventory) => {
+			const args = [
 				project.playbookCommand,
 				playbook.path,
-				'--inventory-file=' + inventory.path
+				`--inventory-file=${inventory.path}`
 			];
 
 			if (limit) {
-				args.push('--limit=' + limit);
+				args.push(`--limit=${limit}`);
 			}
 
 			if (extraVars) {
-				args.push('--extra-vars=' + stringifyArgValue(extraVars));
+				args.push(`--extra-vars=${stringifyArgValue(extraVars)}`);
 			}
 
-			var stepName = (
-				'run playbook ' + playbook.name + ' with ' + inventory.name +
-				' inventory'
+			const stepName = (
+				`run playbook ${playbook.name} with ${inventory.name
+				} inventory`
 			);
 
-			var yellow ='\\033[0;33m',
-				noColor='\\033[0m';
+			const yellow = '\\033[0;33m';
+			const noColor = '\\033[0m';
 
-			var echoCommand = (
-				'echo "******************";' +
-				'echo -e "********* ' + yellow + stepName.toUpperCase() +
-				noColor + ' *********";' +
+			const echoCommand = (
+				`${'echo "******************";' +
+				'echo -e "********* '}${yellow}${stepName.toUpperCase()
+				}${noColor} *********";` +
 				'echo "******************";'
 			);
 
@@ -100,16 +94,16 @@ var makeProject = function(project, buildParams) {
 	return newProject;
 };
 
-var patchDirstributor = function(distributor) {
-	var originalMakeProjet = distributor._makeProject;
-	distributor._makeProject = function(project, buildParams) {
-		var newProject = originalMakeProjet(project, buildParams);
+const patchDirstributor = (distributor) => {
+	const originalMakeProjet = distributor._makeProject;
+	distributor._makeProject = function _makeProject(project, buildParams) {
+		let newProject = originalMakeProjet(project, buildParams);
 		newProject = makeProject(newProject, buildParams);
 		return newProject;
 	};
 };
 
-var extendProject = function(project) {
+const extendProject = (project) => {
 	if (project.playbooks) {
 		_(project).defaults({
 			playbookCommand: 'ANSIBLE_FORCE_COLOR=true ansible-playbook'
@@ -119,31 +113,31 @@ var extendProject = function(project) {
 	return project;
 };
 
-module.exports = function(app) {
-	var logger = app.lib.logger('projects resource'),
-		resource = app.dataio.resource('projects');
+module.exports = (app) => {
+	const logger = app.lib.logger('projects resource');
+	const resource = app.dataio.resource('projects');
 
 	patchDirstributor(app.builds.distributor);
 
-	app.projects.on('projectLoaded', function(project) {
+	app.projects.on('projectLoaded', (project) => {
 		extendProject(project);
 	});
 
-	resource.use('createBuildDataResource', function(req, res) {
+	resource.use('createBuildDataResource', (req, res) => {
 		helpers.createBuildDataResource(app, req.data.buildId);
 		res.send();
 	});
 
-	resource.use('readAll', function(req, res) {
-		var filteredProjects = app.projects.getAll(),
-			nameQuery = req.data && req.data.nameQuery;
+	resource.use('readAll', (req, res) => {
+		let filteredProjects = app.projects.getAll();
+		const nameQuery = req.data && req.data.nameQuery;
 
-		filteredProjects = app.projects.filter(function(project) {
+		filteredProjects = app.projects.filter((project) => {
 			return !project.archived;
 		});
 
 		if (nameQuery) {
-			filteredProjects = _(filteredProjects).filter(function(project) {
+			filteredProjects = _(filteredProjects).filter((project) => {
 				return project.name.indexOf(nameQuery) !== -1;
 			});
 		}
@@ -154,10 +148,10 @@ module.exports = function(app) {
 	});
 
 	// get project with additional fields
-	var getProject = function(name, callback) {
-		var project;
+	const getProject = (name, callback) => {
+		let project;
 		Steppy(
-			function() {
+			function stepOne() {
 				project = _(app.projects.get(name)).clone();
 
 				app.builds.getRecent({
@@ -168,9 +162,9 @@ module.exports = function(app) {
 
 				app.builds.getDoneStreak({projectName: project.name}, this.slot());
 			},
-			function(err, doneBuilds, doneBuildsStreak) {
+			function stepTwo(err, doneBuilds, doneBuildsStreak) {
 				project.avgBuildDuration = app.builds.getAvgBuildDuration(doneBuilds);
-				project.lastDoneBuild = doneBuilds[0];
+				[project.lastDoneBuild] = doneBuilds;
 				project.doneBuildsStreak = doneBuildsStreak;
 
 				this.pass(project);
@@ -181,15 +175,16 @@ module.exports = function(app) {
 
 	// resource custom method which finds project by name
 	// and emits event about it change to clients
-	resource.clientEmitSyncChange = function(name) {
+	resource.clientEmitSyncChange = function clientEmitSyncChange(name) {
 		Steppy(
-			function() {
+			function stepOne() {
 				getProject(name, this.slot());
 			},
-			function(err, project) {
-				resource.clientEmitSync('change', {project: project});
+			(err, project) => {
+				resource.clientEmitSync('change', {project});
 			},
-			function(err) {
+			(err) => {
+				// eslint-disable-next-line no-console
 				console.error(
 					'Error during sync project change occurred:',
 					err.stack || err
@@ -198,20 +193,20 @@ module.exports = function(app) {
 		);
 	};
 
-	resource.use('read', function(req, res) {
+	resource.use('read', (req, res) => {
 		Steppy(
-			function() {
+			function stepOne() {
 				getProject(req.data.name, this.slot());
 			},
-			function(err, project) {
+			(err, project) => {
 				res.send(project);
 			}
 		);
 	});
 
-	resource.use('run', function(req, res) {
-		var projectName = req.data.projectName,
-			buildParams = req.data.buildParams;
+	resource.use('run', (req, res) => {
+		const {projectName} = req.data;
+		const {buildParams} = req.data;
 
 		logger.log(
 			'Run the project: "%s" with params: %j',
@@ -220,10 +215,10 @@ module.exports = function(app) {
 		);
 
 		app.builds.create({
-			projectName: projectName,
+			projectName,
 			initiator: {type: 'user'},
 			queueQueued: true,
-			buildParams: buildParams
+			buildParams
 		});
 
 		res.send();

@@ -1,21 +1,20 @@
-'use strict';
+const _ = require('underscore');
+const Reflux = require('reflux');
+const BuildActions = require('../actions/build');
+const resources = require('../resources');
 
-var _ = require('underscore'),
-	Reflux = require('reflux'),
-	BuildActions = require('../actions/build'),
-	resources = require('../resources'),
-	resource = resources.builds;
+const resource = resources.builds;
 
-var Store = Reflux.createStore({
+const Store = Reflux.createStore({
 	listenables: BuildActions,
 	builds: [],
 
-	getInitialState: function() {
+	getInitialState() {
 		return this.builds;
 	},
 
-	onChanged: function(data) {
-		var oldBuild = _(this.builds).findWhere({id: data.buildId});
+	onChanged(data) {
+		const oldBuild = _(this.builds).findWhere({id: data.buildId});
 		if (oldBuild) {
 			_(oldBuild).extend(data.changes);
 		} else {
@@ -27,7 +26,7 @@ var Store = Reflux.createStore({
 		this.trigger(this.builds);
 	},
 
-	onCancelled: function(data) {
+	onCancelled(data) {
 		// WORKAROUND: client that trigger `onCancel` gets one `onCancelled`
 		// call other clients get 2 calls (second with empty data)
 		if (!data) {
@@ -35,7 +34,7 @@ var Store = Reflux.createStore({
 		}
 
 		if (data.buildStatus === 'queued') {
-			var index = _(this.builds).findIndex({id: data.buildId});
+			const index = _(this.builds).findIndex({id: data.buildId});
 			if (index !== -1) {
 				this.builds.splice(index, 1);
 			}
@@ -44,26 +43,25 @@ var Store = Reflux.createStore({
 		}
 	},
 
-	init: function() {
+	init() {
 		resource.subscribe('change', this.onChanged);
 		resource.subscribe('cancel', this.onCancelled);
 	},
 
-	onReadAll: function(params) {
-		var self = this;
-		resource.sync('readAll', params, function(err, builds) {
+	onReadAll(params) {
+		const self = this;
+		resource.sync('readAll', params, (err, builds) => {
 			if (err) throw err;
 			self.builds = builds;
 			self.trigger(self.builds);
 		});
 	},
 
-	onCancel: function(buildId) {
-		resource.sync('cancel', {buildId: buildId}, function(err) {
+	onCancel(buildId) {
+		resource.sync('cancel', {buildId}, (err) => {
 			if (err) throw err;
 		});
 	}
 });
 
 module.exports = Store;
-

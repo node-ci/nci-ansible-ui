@@ -1,12 +1,10 @@
-'use strict';
+const React = require('react');
+const moment = require('moment');
+const template = require('./index.jade');
 
-var React = require('react'),
-	template = require('./index.jade'),
-	moment = require('moment');
-
-var Component = React.createClass({
+const Component = React.createClass({
 	render: template.locals({
-		moment: moment
+		moment
 	})
 });
 

@@ -1,29 +1,27 @@
-'use strict';
+const _ = require('underscore');
+const React = require('react');
+const Reflux = require('reflux');
+const ansiUp = require('ansi_up');
+const scrollTop = require('simple-scrolltop');
+const buildStore = require('../../stores/build');
+const terminalStore = require('../../stores/terminal');
+const utils = require('../../utils');
+const template = require('./index.jade');
 
-var _ = require('underscore'),
-	React = require('react'),
-	Reflux = require('reflux'),
-	buildStore = require('../../stores/build'),
-	terminalStore = require('../../stores/terminal'),
-	ansiUp = require('ansi_up'),
-	utils = require('../../utils'),
-	template = require('./index.jade'),
-	scrollTop = require('simple-scrolltop');
-
-var Component = React.createClass({
+const Component = React.createClass({
 	mixins: [Reflux.ListenerMixin],
 
 	shouldScrollBottom: true,
 	data: [],
 	linesCount: 0,
 
-	componentDidMount: function() {
+	componentDidMount() {
 		this.listenTo(terminalStore, this.updateItems);
 		this.initialScrollPosition = 120;
 		if (this.props.showPreloader) {
 			this.setPreloaderDisplay(true);
 
-			this.listenTo(buildStore, function(build) {
+			this.listenTo(buildStore, function (build) {
 				if (build.completed) {
 					this.setPreloaderDisplay(false);
 				}
@@ -32,73 +30,72 @@ var Component = React.createClass({
 
 		window.onscroll = this.onScroll;
 	},
-	setPreloaderDisplay: function(show) {
-		var preloader = document.getElementsByClassName('js-terminal-preloader')[0];
+	setPreloaderDisplay(show) {
+		const preloader = document.getElementsByClassName('js-terminal-preloader')[0];
 		if (show) {
 			preloader.style.display = 'block';
 		} else {
 			preloader.style.display = 'none';
 		}
 	},
-	componentWillUnmount: function() {
+	componentWillUnmount() {
 		window.onscroll = null;
 	},
-	prepareRow: function(row) {
+	prepareRow(row) {
 		return ansiUp.ansi_to_html(utils.escapeHtml(row.replace('\r', '')));
 	},
-	prepareOutput: function(output) {
-		var self = this;
-		return output.map(function(row) {
+	prepareOutput(output) {
+		const self = this;
+		return output.map((row) => {
 			return self.prepareRow(row);
 		});
 	},
-	getTerminal: function() {
+	getTerminal() {
 		return document.getElementsByClassName('terminal')[0];
 	},
-	onScroll: function() {
-		var node = this.getTerminal();
+	onScroll() {
+		const node = this.getTerminal();
 
 		this.shouldScrollBottom = window.innerHeight + scrollTop() >=
 			node.offsetHeight + this.initialScrollPosition;
 	},
-	ensureScrollPosition: function() {
+	ensureScrollPosition() {
 		if (this.shouldScrollBottom) {
-			var node = this.getTerminal();
+			const node = this.getTerminal();
 
 			scrollTop(this.initialScrollPosition + node.offsetHeight);
 		}
 	},
-	makeCodeLineContent: function(line) {
-		return '<span class="code-line_counter">' + '</span>' +
-			'<div class="code-line_body">' + this.prepareRow(line) + '</div>';
+	makeCodeLineContent(line) {
+		return `${'<span class="code-line_counter"></span>' +
+			'<div class="code-line_body">'}${this.prepareRow(line)}</div>`;
 	},
-	makeCodeLine: function(line, index) {
-		return '<div class="code-line" data-number="' + index + '">' +
-			this.makeCodeLineContent(line) + '</div>';
+	makeCodeLine(line, index) {
+		return `<div class="code-line" data-number="${index}">${
+			this.makeCodeLineContent(line)}</div>`;
 	},
-	renderBuffer: _.throttle(function() {
-		var data = this.data,
-			currentLinesCount = data.length,
-			terminal = document.getElementsByClassName('terminal_code')[0],
-			rows = terminal.childNodes;
+	renderBuffer: _.throttle(function () {
+		const {data} = this;
+		const currentLinesCount = data.length;
+		const terminal = document.getElementsByClassName('terminal_code')[0];
+		const rows = terminal.childNodes;
 
 		if (rows.length) {
 			// replace our last node
-			var index = this.linesCount - 1;
+			const index = this.linesCount - 1;
 			rows[index].innerHTML = this.makeCodeLineContent(data[index]);
 		}
 
-		var self = this;
+		const self = this;
 		terminal.insertAdjacentHTML('beforeend',
-			_(data.slice(this.linesCount)).map(function(line, index) {
+			_(data.slice(this.linesCount)).map((line, index) => {
 				return self.makeCodeLine(line, self.linesCount + index);
-			}).join('')
-		);
+			}).join(''));
 
 		this.linesCount = currentLinesCount;
 		this.ensureScrollPosition();
 	}, 100),
-	updateItems: function(build) {
+	updateItems(build) {
 		// listen just our console update
 		if (build.buildId === this.props.build) {
 			this.data = build.data;
@@ -108,7 +105,7 @@ var Component = React.createClass({
 			this.setPreloaderDisplay(false);
 		}
 	},
-	shouldComponentUpdate: function() {
+	shouldComponentUpdate() {
 		return false;
 	},
 	render: template

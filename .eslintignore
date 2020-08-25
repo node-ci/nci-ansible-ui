@@ -3,4 +3,3 @@ views/index.js
 static/js/app.build.js
 cypress/
 docker/
-
