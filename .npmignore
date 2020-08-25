@@ -14,3 +14,4 @@ cypress.json
 docker/
 .eslintignore
 .eslintrc
+.swcrc

@@ -9,7 +9,7 @@
     "test-ui": "cypress run",
     "dev-server-and-test-ui": "nrun build && nrun dev-nci& echo \"Server pid: $!\" && wait-on --timeout 30000 http://127.0.0.1:3000 && nrun test-ui",
     "build-less": "lessc app/styles/index.less > static/css/index.css",
-    "build-js": "browserify  app/app.js -t ./transforms/jade.js | terser -mc > static/js/app.build.js",
+    "build-js": "browserify  app/app.js -t ./transforms/jade.js -t swcify | terser -mc > static/js/app.build.js",
     "watch-less": "chokidar --initial --silent app/styles/**/*.less app/styles/index.less -c 'npm run build-less'",
     "watch-js": "watchify app/app.js -t ./transforms/jade.js -o static/js/app.build.js -v",
     "_init-dev": "touch static/js/app.build.js && touch static/css/index.css",
@@ -54,6 +54,7 @@
     "underscore": "1.8.3"
   },
   "devDependencies": {
+    "@swc/core": "1.2.21",
     "ansi_up": "1.3.0",
     "bootstrap": "3.4.1",
     "browserify": "16.5.1",
@@ -82,6 +83,7 @@
     "scmicons": "1.3.0",
     "simple-scrolltop": "1.0.1",
     "socket.io-client": "2.3.0",
+    "swcify": "1.0.1",
     "terser": "4.6.11",
     "through": "2.3.8",
     "url-join": "4.0.1",
