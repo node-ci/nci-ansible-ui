@@ -1,23 +1,28 @@
 import './App.css';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+function Home() {
+	return <span>Home sweet home</span>;
+}
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div>
+			<div className="container-fluid">
+				<div className="page-wrapper">
+					<Router>
+						<Switch>
+							<Route path="/projects/run">
+							</Route>
+							<Route path="/">
+								<Home />
+							</Route>
+						</Switch>
+					</Router>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default App;
