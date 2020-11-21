@@ -15,3 +15,4 @@ docker/
 .eslintignore
 .eslintrc
 .swcrc
+client
