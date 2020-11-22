@@ -21,7 +21,7 @@ function App() {
 							<Route path="/projects/run">
 								<RunForm projects={projects} />
 							</Route>
-							<Route path="/">
+							<Route exact path="/">
 								<Home />
 							</Route>
 						</Switch>

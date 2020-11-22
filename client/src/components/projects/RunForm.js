@@ -1,4 +1,5 @@
 import {useState, Fragment} from 'react';
+import {useHistory} from 'react-router-dom';
 import {observer} from 'mobx-react';
 import _ from 'underscore';
 
@@ -13,6 +14,8 @@ const RunForm = observer(({projects}) => {
 
 	let project, playbook, checkedInventoriesCount, isValidForm, buttonClass,
 		projectScmRev;
+
+	const history = useHistory();
 
 	const onProjectNameChange = (event) => {
 		setProjectName(event.target.value);
@@ -55,7 +58,7 @@ const RunForm = observer(({projects}) => {
 	};
 	const onLimitChange = (event) => setLimit(event.target.value);
 	const onExtraVarsChange = (event) => setExtraVars(event.target.value);
-	const onCancel = () => _.noop;
+	const onCancel = () => history.push('/');
 	const onRunProject = () => {
 		const buildParams = {};
 
