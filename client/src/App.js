@@ -10,9 +10,6 @@ const projects = [{
 	scm: {rev: 'master'},
 	playbooks: [{name: 'shell_calls', inventories: [{name: 'test'}, {name: 'test2'}]}]
 }];
-const projectName = 'demo';
-const playbookName = 'shell_calls';
-const inventoryNames = ['test'];
 
 function App() {
 	return (
@@ -22,7 +19,7 @@ function App() {
 					<Router>
 						<Switch>
 							<Route path="/projects/run">
-								<RunForm projects={projects} projectName={projectName} playbookName={playbookName} inventoryNames={inventoryNames} />
+								<RunForm projects={projects} />
 							</Route>
 							<Route path="/">
 								<Home />
