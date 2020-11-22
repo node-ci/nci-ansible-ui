@@ -3,6 +3,17 @@ import './App.css';
 import Home from './Home.js';
 import RunForm from './components/projects/RunForm.js'
 
+const projects = [{
+	name: 'nci'
+}, {
+	name: 'demo',
+	scm: {rev: 'master'},
+	playbooks: [{name: 'shell_calls', inventories: [{name: 'test'}, {name: 'test2'}]}]
+}];
+const projectName = 'demo';
+const playbookName = 'shell_calls';
+const inventoryNames = ['test'];
+
 function App() {
 	return (
 		<div>
@@ -11,7 +22,7 @@ function App() {
 					<Router>
 						<Switch>
 							<Route path="/projects/run">
-								<RunForm />
+								<RunForm projects={projects} projectName={projectName} playbookName={playbookName} inventoryNames={inventoryNames} />
 							</Route>
 							<Route path="/">
 								<Home />
