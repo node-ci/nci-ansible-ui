@@ -1,9 +1,7 @@
-import './App.css';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-
-function Home() {
-	return <span>Home sweet home</span>;
-}
+import './App.css';
+import Home from './Home.js';
+import RunForm from './components/projects/RunForm.js'
 
 function App() {
 	return (
@@ -13,6 +11,7 @@ function App() {
 					<Router>
 						<Switch>
 							<Route path="/projects/run">
+								<RunForm />
 							</Route>
 							<Route path="/">
 								<Home />
