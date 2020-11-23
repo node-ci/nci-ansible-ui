@@ -12,8 +12,7 @@ const RunForm = observer(({projects}) => {
 	const [limit, setLimit] = useState('');
 	const [extraVars, setExtraVars] = useState('');
 
-	let project, playbook, checkedInventoriesCount, isValidForm, buttonClass,
-		projectScmRev;
+	let project, playbook, checkedInventoriesCount, isValidForm, projectScmRev;
 
 	const history = useHistory();
 
@@ -192,8 +191,7 @@ const RunForm = observer(({projects}) => {
 							inventoryNames && inventoryNames.length)
 						), null
 					)}
-					{(buttonClass = isValidForm ? '' : 'disabled', null)}
-					<button onClick={onRunProject} className={"btn btn-md btn-success btn-block " + buttonClass}>
+					<button onClick={onRunProject} className="btn btn-md btn-success btn-block" disabled={!isValidForm}>
 						<i className="fa fa-fw fa-play" />{" "}
 						<span>Run</span>
 					</button>
