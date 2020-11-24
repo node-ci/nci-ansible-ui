@@ -2,6 +2,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
 import Home from './Home.js';
 import RunForm from './components/projects/RunForm.js'
+import {socket} from './connect';
 
 const projects = [{
 	name: 'nci'
@@ -10,6 +11,10 @@ const projects = [{
 	scm: {rev: 'master'},
 	playbooks: [{name: 'shell_calls', inventories: [{name: 'test'}, {name: 'test2'}]}]
 }];
+
+socket.on('connect', () => {
+  console.log('socket.io is connected!');
+});
 
 function App() {
 	return (
