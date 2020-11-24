@@ -49,5 +49,25 @@ class BuildsModel {
 	}
 }
 
+class BuildModel {
+	item = null
+
+	constructor() {
+		makeAutoObservable(this);
+	}
+
+	_setItem(item) {
+		this.item = item;
+	}
+
+	fetch(params) {
+		buildsResource.sync('read', params, (err, build) => {
+			if (err) throw err;
+			this._setItem(build);
+		});
+	}
+}
+
 export const projects = new ProjectsModel();
 export const builds = new BuildsModel();
+export const build = new BuildModel();
