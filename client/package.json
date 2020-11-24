@@ -20,7 +20,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
+    "start": "npm run buildLegacyStyles && PORT=4000 react-scripts start",
     "_buildLegacyFonts": "mkdir -p src/legacyStyles/dist/fonts && cp ./node_modules/bootstrap/fonts/* ./src/legacyStyles/dist/fonts/ && cp ./node_modules/font-awesome/fonts/* ./src/legacyStyles/dist/fonts/ && cp ./node_modules/scmicons/fonts/* ./src/legacyStyles/dist/fonts/",
     "buildLegacyStyles": "mkdir -p src/legacyStyles/dist/css && npm run _buildLegacyFonts && lessc src/legacyStyles/index.less > src/legacyStyles/dist/css/index.css",
     "build": "npm run buildLegacyStyles && react-scripts build",
