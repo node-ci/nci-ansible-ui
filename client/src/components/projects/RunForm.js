@@ -1,9 +1,15 @@
-import {useState, Fragment} from 'react';
+import {useState, useEffect, Fragment} from 'react';
 import {useHistory} from 'react-router-dom';
 import {observer} from 'mobx-react';
 import _ from 'underscore';
 
-const RunForm = observer(({projects}) => {
+const RunForm = observer(({projectsModel}) => {
+	useEffect(() => {
+		console.log('>>> load projects')
+		projectsModel.fetchItems();
+	}, [projectsModel]);
+	const projects = projectsModel.items;
+
 	const [projectName, setProjectName] = useState('');
 	const [scmBranch, setScmBranch] = useState('');
 	const [scmRev, setScmRev] = useState('');

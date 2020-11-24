@@ -3,14 +3,7 @@ import './App.css';
 import Home from './Home.js';
 import RunForm from './components/projects/RunForm.js'
 import {socket} from './connect';
-
-const projects = [{
-	name: 'nci'
-}, {
-	name: 'demo',
-	scm: {rev: 'master'},
-	playbooks: [{name: 'shell_calls', inventories: [{name: 'test'}, {name: 'test2'}]}]
-}];
+import {projects} from './models';
 
 socket.on('connect', () => {
   console.log('socket.io is connected!');
@@ -24,7 +17,7 @@ function App() {
 					<Router>
 						<Switch>
 							<Route exact path="/projects/run">
-								<RunForm projects={projects} />
+								<RunForm projectsModel={projects} />
 							</Route>
 							<Route exact path="/">
 								<Home />
