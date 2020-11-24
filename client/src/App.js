@@ -3,7 +3,7 @@ import './App.css';
 import Home from './Home.js';
 import RunForm from './components/projects/RunForm.js'
 import {socket} from './connect';
-import {projects} from './models';
+import {projects, builds} from './models';
 
 socket.on('connect', () => {
   console.log('socket.io is connected!');
@@ -20,7 +20,7 @@ function App() {
 								<RunForm projectsModel={projects} />
 							</Route>
 							<Route exact path="/">
-								<Home />
+								<Home buildsModel={builds} />
 							</Route>
 						</Switch>
 					</Router>

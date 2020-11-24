@@ -20,6 +20,34 @@ class ProjectsModel {
 			this._setItems(projects);
 		});
 	}
+
+	run(projectName, buildParams) {
+		projectsResource.sync('run', {projectName, buildParams}, (err) => {
+			if (err) throw err;
+		});
+	}
+}
+
+const buildsResource = data.resource('builds');
+
+class BuildsModel {
+	items = null
+
+	constructor() {
+		makeAutoObservable(this);
+	}
+
+	_setItems(items) {
+		this.items = items;
+	}
+
+	fetchItems(params) {
+		buildsResource.sync('readAll', params, (err, builds) => {
+			if (err) throw err;
+			this._setItems(builds);
+		});
+	}
 }
 
 export const projects = new ProjectsModel();
+export const builds = new BuildsModel();

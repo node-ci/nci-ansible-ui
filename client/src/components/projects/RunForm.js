@@ -85,6 +85,12 @@ const RunForm = observer(({projectsModel}) => {
 			project.name,
 			JSON.stringify(buildParams)
 		);
+
+		projectsModel.run(project.name, buildParams);
+		// TODO: go to the last build in a durable way
+		setTimeout(() => {
+			history.push('/');
+		}, 500);
 	};
 
 	return (
