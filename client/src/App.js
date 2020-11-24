@@ -18,7 +18,7 @@ function App() {
 				<div className="page-wrapper">
 					<Router>
 						<Switch>
-							<Route path="/projects/run">
+							<Route exact path="/projects/run">
 								<RunForm projects={projects} />
 							</Route>
 							<Route exact path="/">
