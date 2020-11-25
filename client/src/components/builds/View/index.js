@@ -1,7 +1,7 @@
 import {useEffect, Fragment} from 'react';
 import {observer} from 'mobx-react';
 import {useParams, Link} from 'react-router-dom';
-import './View.css';
+import './index.css';
 
 const BuildsView = observer(({buildModel, projectModel}) => {
 	const {buildId} = useParams();

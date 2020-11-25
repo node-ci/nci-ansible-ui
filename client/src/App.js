@@ -2,7 +2,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
 import Home from './Home.js';
 import RunForm from './components/projects/RunForm.js'
-import BuildsView from './components/builds/View.js'
+import BuildsView from './components/builds/View/index.js'
 import {socket} from './connect';
 import {projects, project, builds, build} from './models';
 
