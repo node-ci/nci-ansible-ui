@@ -28,6 +28,25 @@ class ProjectsModel {
 	}
 }
 
+class ProjectModel {
+	item = null
+
+	constructor() {
+		makeAutoObservable(this);
+	}
+
+	_setItem(item) {
+		this.item = item;
+	}
+
+	fetch(params) {
+		projectsResource.sync('read', params, (err, project) => {
+			if (err) throw err;
+			this._setItem(project);
+		});
+	}
+}
+
 const buildsResource = data.resource('builds');
 
 class BuildsModel {
@@ -69,5 +88,6 @@ class BuildModel {
 }
 
 export const projects = new ProjectsModel();
+export const project = new ProjectModel();
 export const builds = new BuildsModel();
 export const build = new BuildModel();

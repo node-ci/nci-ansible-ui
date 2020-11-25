@@ -7,7 +7,6 @@ const Home = observer(({buildsModel}) => {
 		console.log('>>> fetch builds')
 		buildsModel.fetchItems({limit: 1});
 	}, [buildsModel]);
-
 	if (buildsModel.items) {
 		const build = buildsModel.items[0];
 		const url = build ? `/builds/${build.id}` : '/projects/run';

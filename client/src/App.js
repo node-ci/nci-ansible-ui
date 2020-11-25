@@ -4,7 +4,7 @@ import Home from './Home.js';
 import RunForm from './components/projects/RunForm.js'
 import BuildsView from './components/builds/View.js'
 import {socket} from './connect';
-import {projects, builds, build} from './models';
+import {projects, project, builds, build} from './models';
 
 socket.on('connect', () => {
   console.log('socket.io is connected!');
@@ -21,7 +21,7 @@ function App() {
 								<RunForm projectsModel={projects} />
 							</Route>
 							<Route exact path="/builds/:buildId">
-								<BuildsView buildModel={build} />
+								<BuildsView buildModel={build} projectModel={project} />
 							</Route>
 							<Route exact path="/">
 								<Home buildsModel={builds} />
