@@ -1,10 +1,11 @@
 import {useEffect, Fragment} from 'react';
 import {observer} from 'mobx-react';
-import {useParams, Link} from 'react-router-dom';
+import {useParams, useHistory, Link} from 'react-router-dom';
 import './index.css';
 
-const BuildsView = observer(({buildModel, projectModel}) => {
+const BuildsView = observer(({buildModel, projectModel, projectsModel}) => {
 	const {buildId} = useParams();
+	const history = useHistory();
 
 	useEffect(() => {
 		console.log('>>> fetch build ', buildId)
@@ -21,6 +22,18 @@ const BuildsView = observer(({buildModel, projectModel}) => {
 	const project = projectModel.item;
 	if (!project) return null;
 
+	const onRunAgain = () => {
+		if (build && build.project) {
+			projectsModel.run(build.project.name, build.params);
+		}
+		// TODO: go to last build in a durable way
+		setTimeout(() => {
+			history.push('/');
+		}, 500);
+	};
+	const onRunProject = () => {
+		history.push('/projects/run');
+	};
 
 	let _canceledBy, _node, _env, _initiator;
 
@@ -45,7 +58,7 @@ const BuildsView = observer(({buildModel, projectModel}) => {
 						{build.status === 'canceled' ?
 							<Fragment>
 								{(_canceledBy = build.canceledBy, null)}
-								<span title="canceled by #{canceledBy.type}" className="label label-warning">canceled</span>
+								<span title={`"canceled by #${_canceledBy.type}`} className="label label-warning">canceled</span>
 							</Fragment>
 							: null}
 					</div>
@@ -86,8 +99,19 @@ const BuildsView = observer(({buildModel, projectModel}) => {
 								: null}
 						</div>
 					</Fragment>
-
 				</h1>
+
+				<Fragment>
+					<p/>
+					<div className="row">
+						<div className="col-sm-3">
+							<button title="Run again with same parameters" onClick={onRunAgain} className="btn btn-default btn-block"><i className="fa fa-fw fa-repeat" disabled={project.archived} />{" "}{"\n"}Run again</button>
+						</div>
+						<div className="col-sm-3">
+							<button title="Run another project/playbook" onClick={onRunProject} className="btn btn-success btn-block"><i className="fa fa-fw fa-play" />{" "}{"\n"}Run another</button>
+							</div>
+					</div>
+				</Fragment>
 			</div>
 		</div>
 	);

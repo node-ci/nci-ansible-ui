@@ -21,7 +21,7 @@ function App() {
 								<RunForm projectsModel={projects} />
 							</Route>
 							<Route exact path="/builds/:buildId">
-								<BuildsView buildModel={build} projectModel={project} />
+								<BuildsView buildModel={build} projectModel={project} projectsModel={projects} />
 							</Route>
 							<Route exact path="/">
 								<Home buildsModel={builds} />
