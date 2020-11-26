@@ -61,6 +61,7 @@ class BuildsModel {
 	}
 
 	fetchItems(params) {
+		this.items = null;
 		buildsResource.sync('readAll', params, (err, builds) => {
 			if (err) throw err;
 			this._setItems(builds);
