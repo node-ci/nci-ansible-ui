@@ -7,7 +7,8 @@ const RunForm = observer(({projectsModel}) => {
 	useEffect(() => {
 		console.log('>>> load projects')
 		projectsModel.fetchItems();
-	}, [projectsModel]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 	const projects = projectsModel.items;
 
 	const [projectName, setProjectName] = useState('');

@@ -4,7 +4,7 @@ import {makeAutoObservable} from 'mobx';
 const projectsResource = data.resource('projects');
 
 class ProjectsModel {
-	items = []
+	items = null
 
 	constructor() {
 		makeAutoObservable(this);
@@ -15,6 +15,7 @@ class ProjectsModel {
 	}
 
 	fetchItems(params) {
+		this.items = null;
 		projectsResource.sync('readAll', params, (err, projects) => {
 			if (err) throw err;
 			this._setItems(projects);
@@ -40,6 +41,7 @@ class ProjectModel {
 	}
 
 	fetch(params) {
+		this.item = null;
 		projectsResource.sync('read', params, (err, project) => {
 			if (err) throw err;
 			this._setItem(project);
@@ -81,6 +83,7 @@ class BuildModel {
 	}
 
 	fetch(params) {
+		this.item = null;
 		buildsResource.sync('read', params, (err, build) => {
 			if (err) throw err;
 			this._setItem(build);

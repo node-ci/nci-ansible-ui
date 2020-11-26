@@ -5,17 +5,14 @@ import {observer} from 'mobx-react';
 const Home = observer(({buildsModel}) => {
 	const [loadingBuilds, setLoadingBuilds] = useState(false);
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => {
-		console.log('>>> condition2 = ', loadingBuilds)
 		if (!loadingBuilds) {
 			console.log('>>> fetch builds...')
 			setLoadingBuilds(true);
 			buildsModel.fetchItems({limit: 1});
 		}
-	});
-
-	console.log('>>> condition = ', loadingBuilds, buildsModel.items?.length)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	if (loadingBuilds && buildsModel.items) {
 		const build = buildsModel.items[0];
