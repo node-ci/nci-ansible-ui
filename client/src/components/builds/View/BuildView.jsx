@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 import _ from 'underscore';
 import DateTime from '../../common/DateTime';
 import Duration from '../../common/Duration';
+import ReviosionItem from '../../common/RevisionItem';
 
 const BuildView = observer(({build}) => {
 	const scm = build.scm;
@@ -53,7 +54,7 @@ const BuildView = observer(({build}) => {
 								"changes:" :
 								<Fragment>no changes, current revision is
 							 
-								"<span revision={rev} />" by{" "}
+								"<ReviosionItem revision={rev} />" by{" "}
 								{rev.author}</Fragment>
 							: build.status === 'in-progress' ?
 								"pulling scm changes..." :
