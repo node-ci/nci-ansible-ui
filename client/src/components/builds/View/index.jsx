@@ -1,7 +1,8 @@
 import {useEffect, Fragment} from 'react';
 import {observer} from 'mobx-react';
 import {useParams, useHistory} from 'react-router-dom';
-import Header from './header.jsx';
+import Header from './Header.jsx';
+import BuildView from './BuildView.jsx';
 import './index.css';
 
 const BuildsView = observer(({buildModel, projectModel, projectsModel}) => {
@@ -41,6 +42,7 @@ const BuildsView = observer(({buildModel, projectModel, projectsModel}) => {
 			<div className="col-sm-3 hidden-xs" />
 			<div className="col-sm-9">
 				<Header build={build} project={project} />
+				<BuildView build={build} />
 				<Fragment>
 					<p/>
 					<div className="row">

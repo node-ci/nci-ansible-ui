@@ -2,7 +2,7 @@ import {Fragment} from 'react';
 import {observer} from 'mobx-react';
 import {Link} from 'react-router-dom';
 
-const BuildsViewHeader = observer(({build, project}) => {
+const Header = observer(({build, project}) => {
 	let _canceledBy, _node, _env, _initiator;
 
 	return (
@@ -68,4 +68,4 @@ const BuildsViewHeader = observer(({build, project}) => {
 	);
 });
 
-export default BuildsViewHeader;
+export default Header;

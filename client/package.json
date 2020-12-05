@@ -12,6 +12,7 @@
     "less": "^3.12.2",
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
+    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
