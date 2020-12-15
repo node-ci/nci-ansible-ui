@@ -9,7 +9,8 @@ steps:
     - name: Some action before playbooks
       cmd: echo "do something"
 
-playbookCommand: echo "EXIT with non-zero exit code"; exit 1;
+playbookCommand: >
+  >&2 echo "\033[0;31mEXIT\033[0m with non-zero exit code"; exit 1;
 
 playbooks:
     - name: sample_shell_calls
