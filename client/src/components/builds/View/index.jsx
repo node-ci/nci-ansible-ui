@@ -12,7 +12,8 @@ const BuildsView = observer(({buildModel, projectModel, projectsModel}) => {
 	useEffect(() => {
 		console.log('>>> fetch build ', buildId)
 		buildModel.fetch({id: buildId});
-	}, [buildModel, buildId]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const build = buildModel.item;
 	if (!build) return null;
