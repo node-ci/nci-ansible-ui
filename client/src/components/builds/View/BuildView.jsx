@@ -4,6 +4,7 @@ import _ from 'underscore';
 import DateTime from '../../common/DateTime';
 import Duration from '../../common/Duration';
 import ReviosionItem from '../../common/RevisionItem';
+import RevisionList from '../../common/RevisionList';
 
 const BuildView = observer(({build}) => {
 	const scm = build.scm;
@@ -63,9 +64,7 @@ const BuildView = observer(({build}) => {
 					</p>
 				</div>
 			</div>
-			{changes && changes.length ?
-				<span revisions={changes} />
-				: null
+			{changes && changes.length ? <RevisionList revisions={changes} /> : null
 			}
 		</div>
 	);
