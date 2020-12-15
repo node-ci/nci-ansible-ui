@@ -12,6 +12,7 @@
     "less": "^3.12.2",
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
+    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
@@ -23,6 +24,7 @@
   },
   "scripts": {
     "start": "npm run buildLegacyStyles && PORT=4000 react-scripts start",
+    "dev": "npm start",
     "_buildLegacyFonts": "mkdir -p src/legacyStyles/dist/fonts && cp ./node_modules/bootstrap/fonts/* ./src/legacyStyles/dist/fonts/ && cp ./node_modules/font-awesome/fonts/* ./src/legacyStyles/dist/fonts/ && cp ./node_modules/scmicons/fonts/* ./src/legacyStyles/dist/fonts/",
     "buildLegacyStyles": "mkdir -p src/legacyStyles/dist/css && npm run _buildLegacyFonts && lessc src/legacyStyles/index.less > src/legacyStyles/dist/css/index.css",
     "build": "npm run buildLegacyStyles && react-scripts build",

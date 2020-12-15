@@ -1,5 +1,6 @@
 import {data} from './connect';
 import {makeAutoObservable} from 'mobx';
+import _ from 'underscore';
 
 const projectsResource = data.resource('projects');
 
@@ -76,6 +77,13 @@ class BuildModel {
 
 	constructor() {
 		makeAutoObservable(this);
+		buildsResource.subscribe('change', (data) => this._onItemChange(data));
+	}
+
+	_onItemChange(data) {
+		if (this.item && (data.buildId === this.item.id)) {
+			_(this.item).extend(data.changes);
+		}
 	}
 
 	_setItem(item) {

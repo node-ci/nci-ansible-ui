@@ -1,8 +1,8 @@
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
-import Home from './Home.js';
-import RunForm from './components/projects/RunForm.js'
-import BuildsView from './components/builds/View/index.js'
+import Home from './Home.jsx';
+import RunForm from './components/projects/RunForm.jsx'
+import BuildsView from './components/builds/View/index.jsx'
 import {socket} from './connect';
 import {projects, project, builds, build} from './models';
 
