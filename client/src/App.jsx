@@ -3,12 +3,21 @@ import './App.css';
 import Home from './Home.jsx';
 import RunForm from './components/projects/RunForm.jsx'
 import BuildsView from './components/builds/View/index.jsx'
-import {socket} from './connect';
-import {projects, project, builds, build} from './models';
+import connect from './connect';
+import {
+	BuildsModel, BuildModel, ProjectsModel, ProjectModel
+} from './models/index.js';
+
+const {socket, data} = connect();
 
 socket.on('connect', () => {
   console.log('socket.io is connected!');
 });
+
+const buildsModel = new BuildsModel({data});
+const buildModel = new BuildModel({data});
+const projectsModel = new ProjectsModel({data});
+const projectModel = new ProjectModel({data});
 
 function App() {
 	return (
@@ -18,13 +27,13 @@ function App() {
 					<Router>
 						<Switch>
 							<Route exact path="/projects/run">
-								<RunForm projectsModel={projects} />
+								<RunForm projectsModel={projectsModel} />
 							</Route>
 							<Route exact path="/builds/:buildId">
-								<BuildsView buildModel={build} projectModel={project} projectsModel={projects} />
+								<BuildsView buildModel={buildModel} projectModel={projectModel} projectsModel={projectsModel} />
 							</Route>
 							<Route exact path="/">
-								<Home buildsModel={builds} />
+								<Home buildsModel={buildsModel} />
 							</Route>
 						</Switch>
 					</Router>
