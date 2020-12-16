@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import './App.css';
 import Home from './Home.jsx';
 import RunForm from './components/projects/RunForm.jsx'
@@ -24,19 +24,19 @@ function App() {
 		<div>
 			<div className="container-fluid">
 				<div className="page-wrapper">
-					<Router>
+					<BrowserRouter>
 						<Switch>
 							<Route exact path="/projects/run">
 								<RunForm projectsModel={projectsModel} />
 							</Route>
 							<Route exact path="/builds/:buildId">
-								<BuildsView buildModel={buildModel} projectModel={projectModel} projectsModel={projectsModel} />
+								<BuildsView buildsModel={buildsModel} buildModel={buildModel} projectModel={projectModel} projectsModel={projectsModel} />
 							</Route>
 							<Route exact path="/">
 								<Home buildsModel={buildsModel} />
 							</Route>
 						</Switch>
-					</Router>
+					</BrowserRouter>
 				</div>
 			</div>
 		</div>
