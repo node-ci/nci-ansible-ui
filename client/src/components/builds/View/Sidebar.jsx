@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 import {Link} from 'react-router-dom';
 import DateTime from '../../common/DateTime';
 import Duration from '../../common/Duration';
+import BuildProgressBar from '../../common/BuildProgressBar';
 
 const Sidebar = observer(({items, currentBuildId, onCancelBuild}) => {
 	const makeOnCancelBuild = (buildId) => {
@@ -42,7 +43,7 @@ const Sidebar = observer(({items, currentBuildId, onCancelBuild}) => {
 									{item.status === 'in-progress' ?
 										<div className="builds_progress">
 											{item.project && item.project.avgBuildDuration ?
-												<span build={item} />
+												<BuildProgressBar build={item} />
 												: null}
 										</div> : null
 									}
