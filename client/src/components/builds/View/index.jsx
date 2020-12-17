@@ -5,6 +5,7 @@ import Sidebar from './Sidebar.jsx';
 import Header from './Header.jsx';
 import BuildInfo from './BuildInfo.jsx';
 import BuildParams from './BuildParams';
+import Terminal from './Terminal';
 import './index.css';
 
 const BuildsView = observer(({
@@ -43,9 +44,6 @@ const BuildsView = observer(({
 	};
 	const onToggleConsole = () => {
 		setShowConsole(!showConsole);
-		buildModel.getTerminalData((data) => {
-			console.log('>>> terminal data = ', data)
-		});
 	};
 
 	const build = buildModel.item;
@@ -70,6 +68,7 @@ const BuildsView = observer(({
 				<Header build={build} project={project} />
 				<BuildInfo build={build} />
 				<BuildParams build={build} project={project} showConsole={showConsole} onToggleConsole={onToggleConsole} onRunAgain={onRunAgain} onRunProject={onRunProject} />
+				<Terminal buildModel={buildModel} showConsole={showConsole} onToggleConsole={onToggleConsole} />
 			</div>
 		</div>
 	);
