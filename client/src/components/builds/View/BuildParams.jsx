@@ -1,25 +1,9 @@
-import {useState, Fragment} from 'react';
+import {Fragment} from 'react';
 import {observer} from 'mobx-react';
-import {useHistory} from 'react-router-dom';
 
-const Header = observer(({build, project, projectsModel}) => {
-	const history = useHistory();
-	const [showConsole, setShowConsole] = useState(false);
-
-	const onRunAgain = () => {
-		if (build && build.project) {
-			projectsModel.run(build.project.name, build.params);
-		}
-		// TODO: go to last build in a durable way
-		setTimeout(() => {
-			history.push('/');
-		}, 500);
-	};
-	const onRunProject = () => {
-		history.push('/projects/run');
-	};
-	const toggleConsole = () => setShowConsole(!showConsole);
-
+const Header = observer(({
+	build, project, showConsole, onToggleConsole, onRunAgain, onRunProject
+}) => {
 	const playbook = build.params.playbook;
 	const stepTimings = build.stepTimings ? [...build.stepTimings] : [];
 	const {currentStep} = build;
@@ -91,7 +75,7 @@ const Header = observer(({build, project, projectsModel}) => {
 					{!showConsole ?
 						<div className="row">
 							<div className="col-sm-6">
-								<button onClick={toggleConsole} className="btn btn-default btn-block">
+								<button onClick={onToggleConsole} className="btn btn-default btn-block">
 									<i className="fa fa-fw fa-terminal" />{" "}Show console output
 								</button>
 							</div>
@@ -109,7 +93,7 @@ const Header = observer(({build, project, projectsModel}) => {
 						<Fragment>
 							<p/>
 							<div className="text-center">
-								<button onClick={toggleConsole} className="btn btn-default">
+								<button onClick={onToggleConsole} className="btn btn-default">
 									<i className="fa fa-fw fa-terminal" />{" "}Show console output
 								</button>
 							</div>

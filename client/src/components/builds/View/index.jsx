@@ -1,10 +1,10 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
-import {useParams} from 'react-router-dom';
+import {useParams, useHistory} from 'react-router-dom';
 import Sidebar from './Sidebar.jsx';
 import Header from './Header.jsx';
-import BuildView from './BuildView.jsx';
-import BuildParamsView from './BuildParamsView';
+import BuildInfo from './BuildInfo.jsx';
+import BuildParams from './BuildParams';
 import './index.css';
 
 const BuildsView = observer(({
@@ -13,8 +13,12 @@ const BuildsView = observer(({
 	const params = useParams();
 	const buildId = Number(params.buildId);
 
+	const history = useHistory();
+	const [showConsole, setShowConsole] = useState(false);
+
 	useEffect(() => {
 		console.log('>>> fetch build ', buildId)
+		setShowConsole(false);
 		buildModel.fetch({id: buildId});
 		buildsModel.fetchItems();
 	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -22,6 +26,26 @@ const BuildsView = observer(({
 
 	const onCancelBuild = (event, {buildId}) => {
 		buildsModel.cancelBuild(buildId);
+	};
+
+
+	const onRunAgain = () => {
+		if (build && build.project) {
+			projectsModel.run(build.project.name, build.params);
+		}
+		// TODO: go to last build in a durable way
+		setTimeout(() => {
+			history.push('/');
+		}, 500);
+	};
+	const onRunProject = () => {
+		history.push('/projects/run');
+	};
+	const onToggleConsole = () => {
+		setShowConsole(!showConsole);
+		buildModel.getTerminalData((data) => {
+			console.log('>>> terminal data = ', data)
+		});
 	};
 
 	const build = buildModel.item;
@@ -44,8 +68,8 @@ const BuildsView = observer(({
 			</div>
 			<div className="col-sm-9">
 				<Header build={build} project={project} />
-				<BuildView build={build} />
-				<BuildParamsView build={build} project={project} projectsModel={projectsModel} />
+				<BuildInfo build={build} />
+				<BuildParams build={build} project={project} showConsole={showConsole} onToggleConsole={onToggleConsole} onRunAgain={onRunAgain} onRunProject={onRunProject} />
 			</div>
 		</div>
 	);
