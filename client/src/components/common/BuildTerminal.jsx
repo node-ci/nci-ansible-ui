@@ -24,10 +24,12 @@ const BuildTerminal = observer(({
 
 	const onScroll = () => {
 		const node = getTerminal();
-		shouldScrollBottom = (
-			window.innerHeight + scrollTop() >=
-			node.offsetHeight + initialScrollPosition
-		);
+		if (node) {
+			shouldScrollBottom = (
+				window.innerHeight + scrollTop() >=
+				node.offsetHeight + initialScrollPosition
+			);
+		}
 	};
 
 	const prepareRow = (row) => ansi_to_html(escapeHtml(row.replace('\r', '')));

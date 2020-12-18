@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {useParams, useHistory} from 'react-router-dom';
+import scrollTop from 'simple-scrolltop';
 import Sidebar from './Sidebar.jsx';
 import Header from './Header.jsx';
 import BuildInfo from './BuildInfo.jsx';
@@ -43,7 +44,10 @@ const BuildsView = observer(({
 		history.push('/projects/run');
 	};
 	const onToggleConsole = () => {
-		setShowConsole(!showConsole);
+		const consoleState = !showConsole;
+		setShowConsole(consoleState);
+		// scroll to the page top after hiding the console
+		if (!consoleState) scrollTop(0);
 	};
 
 	const build = buildModel.item;
