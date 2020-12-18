@@ -4,6 +4,7 @@ import {observer} from 'mobx-react';
 import scrollTop from 'simple-scrolltop';
 import {ansi_to_html} from 'ansi_up';
 import {escapeHtml} from '../../utils';
+import './BuildTerminal.css';
 
 // could be only one such a terminal in a view port
 const BuildTerminal = observer(({
