@@ -1,6 +1,7 @@
 import _ from 'underscore';
 import {useEffect} from 'react';
 import {observer} from 'mobx-react';
+import {autorun} from 'mobx';
 import scrollTop from 'simple-scrolltop';
 import {ansi_to_html} from 'ansi_up';
 import {escapeHtml} from '../../utils';
@@ -17,7 +18,7 @@ const BuildTerminal = observer(({
 		const preloader = (
 			document.getElementsByClassName('js-terminal-preloader')[0]
 		);
-		preloader.style.display = show ? 'block' : 'none';
+		if (preloader) preloader.style.display = show ? 'block' : 'none';
 	};
 
 	const getTerminal = () => document.getElementsByClassName('terminal')[0];
@@ -85,7 +86,9 @@ const BuildTerminal = observer(({
 	useEffect(() => {
 		if (showPreloader) {
 			setPreloaderDisplay(true);
-			// TODO: need to somehow hide preloader on build completion
+			autorun(() => {
+				if (buildModel.item?.completed) setPreloaderDisplay(false);
+			});
 		}
 
 		window.onscroll = onScroll;
