@@ -19,13 +19,15 @@ export default class BuildsModel {
 	}
 
 	_onItemChange(data) {
-		const oldBuild = _(this.items).findWhere({id: data.buildId});
-		if (oldBuild) {
-			_(oldBuild).extend(data.changes);
-		} else {
-			this.items.unshift(
-				_({id: data.buildId}).extend(data.changes)
-			);
+		if (this.items) {
+			const oldBuild = _(this.items).findWhere({id: data.buildId});
+			if (oldBuild) {
+				_(oldBuild).extend(data.changes);
+			} else {
+				this.items.unshift(
+					_({id: data.buildId}).extend(data.changes)
+				);
+			}
 		}
 	}
 
