@@ -1,6 +1,7 @@
 import {Fragment} from 'react';
 import {observer} from 'mobx-react';
 import {Link} from 'react-router-dom';
+import ScmIcon from '../../common/ScmIcon';
 
 const Header = observer(({build, project}) => {
 	let _canceledBy, _node, _env, _initiator;
@@ -29,7 +30,7 @@ const Header = observer(({build, project}) => {
 			</div>
 			{project.archived ?
 				<i title="Project is archived" className="fa fa-fw fa-archive" />
-				: <div scm={build.project.scm.type} />}
+				: <ScmIcon scm={build.project.scm.type} />}
 			<span>{build.project.name}</span>
 			{" "}
 			<span>execution #</span>
