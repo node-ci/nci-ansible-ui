@@ -13,6 +13,7 @@ const BuildTerminal = observer(({
 }) => {
 	const initialScrollPosition = 120;
 	let shouldScrollBottom = true;
+	let mounted;
 
 	const setPreloaderDisplay = (show) => {
 		const preloader = (
@@ -79,11 +80,14 @@ const BuildTerminal = observer(({
 	}, 100);
 
 	const renderTerminalData = ({data, buildCompleted}) => {
+		if (!mounted) return null;
 		renderBuffer(data);
 		if (showPreloader && buildCompleted) setPreloaderDisplay(false);
 	};
 
 	useEffect(() => {
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		mounted = true;
 		if (showPreloader) {
 			setPreloaderDisplay(true);
 			autorun(() => {
@@ -96,6 +100,7 @@ const BuildTerminal = observer(({
 		buildModel.getTerminalData(renderTerminalData);
 
 		return () => {
+			mounted = false;
 			window.onscroll = null;
 		};
 	// eslint-disable-next-line react-hooks/exhaustive-deps
