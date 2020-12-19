@@ -1,12 +1,11 @@
 import {Fragment} from 'react';
 import {observer} from 'mobx-react';
-import {Link} from 'react-router-dom';
 import BuildTerminal from '../../common/BuildTerminal';
-import DateTime from '../../common/DateTime';
 import Duration from '../../common/Duration';
 
 const Terminal = observer(({buildModel, showConsole, onToggleConsole}) => {
 	const build = buildModel.item;
+	if (!build) return null;
 
 	return (
 		<div className="build-view_terminal">
