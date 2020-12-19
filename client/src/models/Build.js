@@ -1,11 +1,15 @@
 import _ from 'underscore';
-import {makeAutoObservable} from 'mobx';
+import {makeObservable, observable, action} from 'mobx';
 
 export default class BuildModel {
 	item = null
 
 	constructor({data}) {
-		makeAutoObservable(this);
+		makeObservable(this, {
+			item: observable,
+			_setItem: action,
+			_onItemChange: action
+		});
 		this.data = data;
 		this.buildsResource = this.data.resource('builds');
 		this.buildsResource.subscribe(
@@ -26,7 +30,7 @@ export default class BuildModel {
 	}
 
 	fetch(params) {
-		this.item = null;
+		this._setItem(null);
 		this.buildsResource.sync('read', params, (err, build) => {
 			if (err) throw err;
 			this._setItem(build);

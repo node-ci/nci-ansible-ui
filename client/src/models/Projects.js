@@ -1,10 +1,13 @@
-import {makeAutoObservable} from 'mobx';
+import {makeObservable, observable, action} from 'mobx';
 
 export default class ProjectsModel {
 	items = null
 
 	constructor({data}) {
-		makeAutoObservable(this);
+		makeObservable(this, {
+			items: observable,
+			_setItems: action
+		});
 		this.data = data;
 		this.projectsResource = this.data.resource('projects');
 	}
@@ -14,7 +17,7 @@ export default class ProjectsModel {
 	}
 
 	fetchItems(params) {
-		this.items = null;
+		this._setItems(null);
 		this.projectsResource.sync('readAll', params, (err, projects) => {
 			if (err) throw err;
 			this._setItems(projects);
