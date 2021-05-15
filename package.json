@@ -51,7 +51,7 @@
     "data.io": "0.3.0",
     "socket.io": "2.3.0",
     "twostep": "0.4.2",
-    "underscore": "1.8.3"
+    "underscore": "1.13.1"
   },
   "devDependencies": {
     "@swc/core": "1.2.38",
