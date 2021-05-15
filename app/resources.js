@@ -1,10 +1,9 @@
-'use strict';
+const connect = require('./connect');
 
-var connect = require('./connect'),
-	projects = connect.data.resource('projects'),
-	builds = connect.data.resource('builds');
+const projects = connect.data.resource('projects');
+const builds = connect.data.resource('builds');
 
 module.exports = {
-	projects: projects,
-	builds: builds
+	projects,
+	builds
 };

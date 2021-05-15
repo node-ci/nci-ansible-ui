@@ -1,22 +1,20 @@
-'use strict';
+const Reflux = require('reflux');
+const ProjectActions = require('../actions/project');
+const resource = require('../resources').projects;
 
-var Reflux = require('reflux'),
-	ProjectActions = require('../actions/project'),
-	resource = require('../resources').projects;
-
-var Store = Reflux.createStore({
+const Store = Reflux.createStore({
 	listenables: ProjectActions,
-	onRun: function(projectName, buildParams) {
+	onRun(projectName, buildParams) {
 		resource.sync('run', {
-			projectName: projectName,
-			buildParams: buildParams
-		}, function(err) {
+			projectName,
+			buildParams
+		}, (err) => {
 			if (err) throw err;
 		});
 	},
-	onReadAll: function(params) {
-		var self = this;
-		resource.sync('readAll', params, function(err, projects) {
+	onReadAll(params) {
+		const self = this;
+		resource.sync('readAll', params, (err, projects) => {
 			if (err) throw err;
 			self.trigger(projects);
 		});

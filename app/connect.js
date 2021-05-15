@@ -1,26 +1,25 @@
-'use strict';
+const socketio = require('socket.io-client/dist/socket.io.min.js');
+const dataio = require('data.io/data.io');
 
-var socketio = require('socket.io-client'),
-	dataio = require('data.io/data.io'),
-	io = socketio(),
-	data = dataio(io);
+const io = socketio();
+const data = dataio(io);
 
 /*
  * Extend Resource
  */
-var resource = data.resource('__someResource__'),
-	resourcePrototype = Object.getPrototypeOf(resource);
+const resource = data.resource('__someResource__');
+const resourcePrototype = Object.getPrototypeOf(resource);
 
-resourcePrototype.disconnect = function() {
+resourcePrototype.disconnect = function () {
 	this.socket.disconnect();
 	this.socket.removeAllListeners();
 };
 
-resourcePrototype.connect = function() {
+resourcePrototype.connect = function () {
 	this.socket.connect();
 };
 
-resourcePrototype.reconnect = function() {
+resourcePrototype.reconnect = function () {
 	this.disconnect();
 	this.connect();
 };

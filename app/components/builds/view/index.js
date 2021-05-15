@@ -1,38 +1,36 @@
-'use strict';
+const _ = require('underscore');
+const React = require('react');
+const Router = require('react-router');
+const Reflux = require('reflux');
+const ansiUp = require('ansi_up');
+const scrollTop = require('simple-scrolltop');
+const BuildActions = require('../../../actions/build');
+const ProjectActions = require('../../../actions/project');
+const buildStore = require('../../../stores/build');
+const projectStore = require('../../../stores/project');
+const Terminal = require('../../terminal');
+const BuildSidebar = require('./sidebar');
+const CommonComponents = require('../../common');
+const RevisionsItem = require('../../revisions/item');
+const RevisionsList = require('../../revisions/list');
+const template = require('./index.jade');
 
-var _ = require('underscore'),
-	React = require('react'),
-	Router = require('react-router'),
-	Reflux = require('reflux'),
-	BuildActions = require('../../../actions/build'),
-	ProjectActions = require('../../../actions/project'),
-	buildStore = require('../../../stores/build'),
-	projectStore = require('../../../stores/project'),
-	Terminal = require('../../terminal'),
-	BuildSidebar = require('./sidebar'),
-	CommonComponents = require('../../common'),
-	RevisionsItem = require('../../revisions/item'),
-	RevisionsList = require('../../revisions/list'),
-	template = require('./index.jade'),
-	ansiUp = require('ansi_up'),
-	scrollTop = require('simple-scrolltop');
-
-var Component = React.createClass({
+const Component = React.createClass({
 	mixins: [Reflux.ListenerMixin, Router.Navigation],
 	statics: {
-		willTransitionTo: function(transition, params) {
+		willTransitionTo(transition, params) {
 			BuildActions.read(Number(params.id));
 			// load builds for sidebar
 			BuildActions.readAll();
 		}
 	},
 
-	componentDidMount: function() {
+	componentDidMount() {
 		this.listenTo(buildStore, this.updateBuild);
 		this.listenTo(projectStore, this.updateProject);
 	},
 
-	componentWillReceiveProps: function(nextProps) {
+	componentWillReceiveProps(nextProps) {
 		// reset console status when go from build page to another build
 		// page (did mount and mount not called in this case)
 		if (Number(nextProps.params.id) !== this.state.build.id) {
@@ -40,8 +38,8 @@ var Component = React.createClass({
 		}
 	},
 
-	updateBuild: function(build) {
-		if (build) {
+	updateBuild(build) {
+		if (build && build.project) {
 			// load project config
 			if (
 				_(this.state.project.name).isEmpty() ||
@@ -49,17 +47,22 @@ var Component = React.createClass({
 			) {
 				ProjectActions.read({name: build.project.name});
 			}
-		}
-		this.setState({build: build});
-	},
-
-	updateProject: function(project) {
-		if (project.name === this.state.build.project.name) {
-			this.setState({project: project});
+			this.setState({build});
 		}
 	},
 
-	getInitialState: function() {
+	updateProject(project) {
+		if (
+			this.state.build &&
+			this.state.build.project &&
+			project &&
+			project.name === this.state.build.project.name
+		) {
+			this.setState({project});
+		}
+	},
+
+	getInitialState() {
 		return {
 			build: null,
 			project: {},
@@ -67,8 +70,8 @@ var Component = React.createClass({
 		};
 	},
 
-	toggleConsole: function() {
-		var consoleState = !this.state.showConsole;
+	toggleConsole() {
+		const consoleState = !this.state.showConsole;
 		if (consoleState) {
 			BuildActions.readTerminalOutput(this.state.build);
 		}
@@ -81,29 +84,30 @@ var Component = React.createClass({
 		}
 	},
 
-	onRunAgain: function() {
-		var build = this.state.build;
-		ProjectActions.run(build.project.name, build.params);
-
+	onRunAgain() {
+		const {build} = this.state;
+		if (build && build.project) {
+			ProjectActions.run(build.project.name, build.params);
+		}
 		// TODO: go to last build in a durable way
-		var self = this;
-		setTimeout(function() {
+		const self = this;
+		setTimeout(() => {
 			self.transitionTo('root');
 		}, 500);
 	},
 
-	onRunProject: function() {
+	onRunProject() {
 		this.transitionTo('projectRunForm');
 	},
 
 	render: template.locals(_({
-		Terminal: Terminal,
-		RevisionsItem: RevisionsItem,
-		RevisionsList: RevisionsList,
+		Terminal,
+		RevisionsItem,
+		RevisionsList,
 		Link: Router.Link,
-		BuildSidebar: BuildSidebar,
-		_: _,
-		ansiUp: ansiUp
+		BuildSidebar,
+		_,
+		ansiUp
 	}).extend(CommonComponents))
 });
 

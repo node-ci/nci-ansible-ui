@@ -1,13 +1,11 @@
-'use strict';
+const DateTime = require('./dateTime');
+const Duration = require('./duration');
+const Progress = require('./progress');
+const Scm = require('./scm');
 
-var DateTime = require('./dateTime'),
-	Duration = require('./duration'),
-	Progress = require('./progress'),
-	Scm = require('./scm');
-
-module.exports =  {
-	DateTime: DateTime,
-	Scm: Scm,
-	Duration: Duration,
-	Progress: Progress
+module.exports = {
+	DateTime,
+	Scm,
+	Duration,
+	Progress
 };

@@ -15,7 +15,7 @@ mixin statusBadge(build)
 		- var canceledBy = this.state.build.canceledBy;
 		span.label.label-warning(title="canceled by #{canceledBy.type}") canceled
 
-if this.state.build
+if this.state.build && this.state.build.project
 	.row
 		.col-sm-3.hidden-xs
 			BuildSidebar(projectName=this.state.build.project.name, currentBuild=this.state.build)
@@ -62,17 +62,18 @@ if this.state.build
 						| 
 
 					- var initiator = this.state.build.initiator;
-					if initiator.type === 'build'
-						Link(to="project", params={name: initiator.project.name})
-							span= initiator.project.name
-						| 
-						| during the 
-						| 
-						Link(to="build", params={id: initiator.id})
-							span execution #
-							span= initiator.number
-					else
-						span= initiator.type
+					if initiator
+						if initiator.type === 'build' && initiator.project
+							Link(to="project", params={name: initiator.project.name})
+								span= initiator.project.name
+							| 
+							| during the 
+							| 
+							Link(to="build", params={id: initiator.id})
+								span execution #
+								span= initiator.number
+						else
+							span= initiator.type
 
 			.build-view_info
 				.row
@@ -197,14 +198,15 @@ if this.state.build
 						-	runButtonClasses.push('disabled');
 						- }
 
-						button.btn.btn-default.btn-block(
-							title="Run again with same parameters",
-							class=runButtonClasses,
-							onClick=this.onRunAgain
-						)
-							i.fa.fa-fw.fa-repeat
-							| 
-							| Run again
+						if (this.state.build)
+							button.btn.btn-default.btn-block(
+								title="Run again with same parameters",
+								class=runButtonClasses,
+								onClick=this.onRunAgain
+							)
+								i.fa.fa-fw.fa-repeat
+								| 
+								| Run again
 
 					.col-sm-3
 						button.btn.btn-success.btn-block(

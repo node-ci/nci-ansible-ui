@@ -5,7 +5,13 @@ static/css
 app
 transforms
 views
-.jshintrc
 *.tgz
 .npmrc
+.nvmrc
+dev
+cypress
+cypress.json
 docker/
+.eslintignore
+.eslintrc
+.swcrc

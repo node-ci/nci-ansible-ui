@@ -1,12 +1,10 @@
-'use strict';
-
-var React = require('react'),
-	Reflux = require('reflux'),
-	Router = require('react-router'),
-	ProjectActions = require('../../../actions/project'),
-	projectsStore = require('../../../stores/projects'),
-	template = require('./index.jade'),
-	_ = require('underscore');
+const React = require('react');
+const Reflux = require('reflux');
+const Router = require('react-router');
+const _ = require('underscore');
+const ProjectActions = require('../../../actions/project');
+const projectsStore = require('../../../stores/projects');
+const template = require('./index.jade');
 
 require('../../../stores/projects');
 
@@ -16,11 +14,11 @@ module.exports = React.createClass({
 		Router.Navigation
 	],
 	statics: {
-		willTransitionTo: function() {
+		willTransitionTo() {
 			ProjectActions.readAll();
 		}
 	},
-	onProjectNameChange: function(event) {
+	onProjectNameChange(event) {
 		this.setState({
 			projectName: event.target.value,
 			scmRev: '',
@@ -30,13 +28,13 @@ module.exports = React.createClass({
 			extraVars: ''
 		});
 	},
-	onScmBranchChange: function(event) {
+	onScmBranchChange(event) {
 		this.setState({scmBranch: event.target.value});
 	},
-	onScmRevChange: function(event) {
+	onScmRevChange(event) {
 		this.setState({scmRev: event.target.value});
 	},
-	onPlaybookNameChange: function(event) {
+	onPlaybookNameChange(event) {
 		this.setState({
 			playbookName: event.target.value,
 			inventoryNames: [],
@@ -44,46 +42,46 @@ module.exports = React.createClass({
 			extraVars: ''
 		});
 	},
-	onInventoryNamesChange: function(event) {
-		var input = event.target,
-			inventoryName = input.value;
+	onInventoryNamesChange(event) {
+		const input = event.target;
+		const inventoryName = input.value;
 
-		var inventoryNames = this.state.inventoryNames || [];
+		const inventoryNames = this.state.inventoryNames || [];
 
 		if (input.checked) {
 			inventoryNames.push(inventoryName);
 		} else {
-			var index = inventoryNames.indexOf(inventoryName);
+			const index = inventoryNames.indexOf(inventoryName);
 			if (index !== -1) {
 				inventoryNames.splice(index, 1);
 			}
 		}
 
-		this.setState({inventoryNames: inventoryNames});
+		this.setState({inventoryNames});
 	},
-	onUnselectAllInventoryNames: function() {
+	onUnselectAllInventoryNames() {
 		this.setState({inventoryNames: []});
 	},
-	onSelectAllInventoryNames: function() {
-		var project = _(this.state.projects).findWhere({
+	onSelectAllInventoryNames() {
+		const project = _(this.state.projects).findWhere({
 			name: this.state.projectName
 		});
-		var playbook = _(project.playbooks).findWhere({
+		const playbook = _(project.playbooks).findWhere({
 			name: this.state.playbookName
 		});
 		this.setState({inventoryNames: _(playbook.inventories).pluck('name')});
 	},
-	onLimitChange: function(event) {
+	onLimitChange(event) {
 		this.setState({limit: event.target.value});
 	},
-	onExtraVarsChange: function(event) {
+	onExtraVarsChange(event) {
 		this.setState({extraVars: event.target.value});
 	},
-	onCancel: function() {
+	onCancel() {
 		this.transitionTo('root');
 	},
-	onRunProject: function() {
-		var buildParams = {};
+	onRunProject() {
+		const buildParams = {};
 
 		if (this.state.playbookName) {
 			buildParams.playbook = {
@@ -100,13 +98,13 @@ module.exports = React.createClass({
 			}
 		}
 
-		var project = _(this.state.projects).findWhere({
+		const project = _(this.state.projects).findWhere({
 			name: this.state.projectName
 		});
 
-		var scmBranch = this.state.scmBranch,
-			scmRev = scmBranch === '-1' ? this.state.scmRev : scmBranch,
-			projectScmRev = project.scm ? project.scm.rev : '';
+		const {scmBranch} = this.state;
+		const scmRev = scmBranch === '-1' ? this.state.scmRev : scmBranch;
+		const projectScmRev = project.scm ? project.scm.rev : '';
 
 		if (scmRev && scmRev !== projectScmRev) {
 			buildParams.scmRev = scmRev;
@@ -115,12 +113,12 @@ module.exports = React.createClass({
 		ProjectActions.run(project.name, buildParams);
 
 		// TODO: go to last build in a durable way
-		var self = this;
-		setTimeout(function() {
+		const self = this;
+		setTimeout(() => {
 			self.transitionTo('root');
 		}, 500);
 	},
 	render: template.locals({
-		_: _
+		_
 	})
 });

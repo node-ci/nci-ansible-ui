@@ -15,7 +15,7 @@
   "dependencies": {
     "leveldown": "5.5.1",
     "nci": "1.0.26",
-    "nci-ansible-ui": "1.1.2",
+    "nci-ansible-ui": "2.0.0-alpha.2",
     "nci-mail-notification": "1.1.2",
     "nci-projects-reloader": "2.0.0",
     "nci-rest-api-server": "2.0.0",

@@ -1,0 +1,1 @@
+exports.getServerUrl = require('./getServerUrl');
