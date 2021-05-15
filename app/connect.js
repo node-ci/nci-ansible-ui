@@ -1,4 +1,4 @@
-const socketio = require('socket.io-client/dist/socket.io.slim.js');
+const socketio = require('socket.io-client/dist/socket.io.min.js');
 const dataio = require('data.io/data.io');
 
 const io = socketio();
