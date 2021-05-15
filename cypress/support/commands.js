@@ -1,4 +1,4 @@
-const _ = require('underscore');
+const { _ } = Cypress;
 
 // ***********************************************
 // This example commands.js shows you how to
@@ -168,7 +168,7 @@ Cypress.Commands.add('waitForBuildProps', ({
 	const startDate = Date.now();
 
 	const isAllPropsEqual = (obj, props) => {
-		return _(props).all((value, key) => {
+		return _(props).every((value, key) => {
 			return obj[key] === value;
 		});
 	};
