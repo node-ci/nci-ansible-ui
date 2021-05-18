@@ -24,6 +24,11 @@ functionality by notification and other plugins
 ![nci-ansible-ui-execution](https://cloud.githubusercontent.com/assets/465522/21159795/e281871a-c19b-11e6-9dea-aac57440dffe.png)
 
 
+## Changelog
+
+All notable changes to this project documented in [CHANGELOG.md](CHANGELOG.md).
+
+
 ## Installation
 
 
