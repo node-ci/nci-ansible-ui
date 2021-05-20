@@ -1,6 +1,5 @@
-node_modules
-views/index.js
-static/js/app.build.js
+node_modules/
 cypress/
 docker/
 client/
+client-build/
