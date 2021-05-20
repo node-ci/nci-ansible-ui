@@ -15,7 +15,7 @@ describe('Project run form in general', () => {
 		cy.get('button:contains(Cancel):not(.disabled)');
 	});
 
-	it('run button should be disabled', () => {
+	it.skip('run button should be disabled', () => {
 		cy.get('button.disabled:contains(Run)');
 	});
 
@@ -30,7 +30,7 @@ describe('Project run form in general', () => {
 		cy.contains('#playbook-name', '- select playbook -');
 	});
 
-	it('run button should still be disabled', () => {
+	it.skip('run button should still be disabled', () => {
 		cy.get('button.disabled:contains(Run):not(enabled)');
 	});
 

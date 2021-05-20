@@ -1,8 +1,5 @@
-node_modules
-static/css/**/*.css
-static/fonts
-static/js/*.js
-static/index.html
-views/index.js
+node_modules/
 dev/data/projects/**/workspace
-cypress/videos
+cypress/videos/
+client-build/
+

@@ -20,8 +20,8 @@ http:
         locations:
             #serve static for ui plugin
             - url: /favicon.ico
-              root: ../static/
-            - url: !!js/regexp ^/(js|css|fonts|images)/
-              root: ../static/
+              root: ../client-build/
+            - url: !!js/regexp ^/(static|images)/
+              root: ../client-build/
 storage:
     backend: memdown

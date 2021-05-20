@@ -2,8 +2,18 @@ const _ = require('underscore');
 const fs = require('fs');
 const path = require('path');
 
-const staticPath = path.join(__dirname, 'static');
-const indexHtml = fs.readFileSync(`${staticPath}/index.html`);
+const env = process.env.NODE_ENV;
+let indexHtml;
+
+if (env === 'development') {
+	indexHtml = (
+		'Run a CRA (Create React App) dev server, take a look at' +
+		'"client/README.md".'
+	);
+} else {
+	const staticPath = path.join(__dirname, 'client-build');
+	indexHtml = fs.readFileSync(`${staticPath}/index.html`);
+}
 
 exports.register = (originalApp) => {
 	const app = _(originalApp).clone();
