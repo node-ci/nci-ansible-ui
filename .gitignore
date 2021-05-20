@@ -6,3 +6,5 @@ static/index.html
 views/index.js
 dev/data/projects/**/workspace
 cypress/videos
+client-build/
+
